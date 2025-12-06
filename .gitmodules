@@ -1,0 +1,4 @@
+[submodule "plugin-creator"]
+	path = plugin-creator
+	url = https://github.com/inventree/plugin-creator.git
+	branch = main

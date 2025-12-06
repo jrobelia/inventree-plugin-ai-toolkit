@@ -1,0 +1,39 @@
+{
+  "servers": {
+    "staging": {
+      "plugin_dir": "/opt/inventree/plugins",
+      "url": "https://staging.inventree.openaeros.com",
+      "api_key": "your-staging-api-key-here",
+      "ssh": {
+        "host": "staging.server.com",
+        "user": "inventree",
+        "port": 22,
+        "password": "",
+        "key_file": ""
+      },
+      "notes": "Test server - deploy here first for testing"
+    },
+    "production": {
+      "plugin_dir": "/opt/inventree/plugins",
+      "url": "https://inventree.openaeros.com",
+      "api_key": "your-production-api-key-here",
+      "ssh": {
+        "host": "prod.server.com",
+        "user": "inventree",
+        "port": 22,
+        "password": "",
+        "key_file": ""
+      },
+      "notes": "Live production server - deploy with caution"
+    }
+  },
+  "defaults": {
+    "author_name": "Jon Robelia",
+    "author_email": "jonr@openaeros.com",
+    "license": "MIT",
+    "project_url": "https://github.com/jrobelia/inventree-plugin-toolkit"
+  },
+  "paths": {
+    "plugin_creator": "plugin-creator"
+  }
+}

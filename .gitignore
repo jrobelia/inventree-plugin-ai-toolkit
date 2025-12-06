@@ -1,0 +1,44 @@
+# Plugin toolkit .gitignore
+
+# Server configuration (may contain sensitive paths)
+config/servers.json
+
+# Environment files (may contain API keys)
+.env
+config/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Node / Frontend
+node_modules/
+*.tsbuildinfo
+
+# VS Code
+.vscode/settings.json
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+
+# Individual plugin folders are tracked, but their build artifacts are not
+plugins/**/dist/
+plugins/**/build/
+plugins/**/node_modules/
+plugins/**/*.egg-info/
+plugins/**/static/
