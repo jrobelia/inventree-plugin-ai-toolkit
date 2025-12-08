@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"name": "Toolkit",
+			"path": "."
+		},
+		{
+			"name": "FlatBOMGenerator Plugin",
+			"path": "plugins/FlatBOMGenerator"
+		}
+	],
+	"settings": {
+		"github.copilot.enable": {
+			"*": true,
+			"plaintext": true,
+			"markdown": true,
+			"python": true,
+			"typescript": true,
+			"javascript": true,
+			"powershell": true
+		},
+		"github.copilot.chat.localeOverride": "en",
+		"files.associations": {
+			"*.ps1": "powershell",
+			"*.md": "markdown"
+		},
+		"powershell.codeFormatting.preset": "OTBS",
+		"terminal.integrated.defaultProfile.windows": "PowerShell",
+		"search.exclude": {
+			"**/node_modules": true,
+			"**/dist": true,
+			"**/*.egg-info": true,
+			"**/build": true,
+			"**/.vite": true
+		},
+		"files.exclude": {
+			"**/__pycache__": true,
+			"**/*.pyc": true
+		}
+	}
+}

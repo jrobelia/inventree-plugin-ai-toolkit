@@ -27,7 +27,6 @@ dist-dev/
 
 # VS Code
 .vscode/settings.json
-*.code-workspace
 
 # IDE files
 .idea/
