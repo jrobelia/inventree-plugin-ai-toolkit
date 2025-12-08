@@ -1,0 +1,2 @@
+# This file keeps the plugins/ folder in git while ignoring all plugin contents
+# Each plugin should be its own git repository

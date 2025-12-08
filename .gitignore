@@ -16,13 +16,21 @@ __pycache__/
 dist/
 build/
 *.egg
+*.whl
+*.tar.gz
 
 # Node / Frontend
 node_modules/
 *.tsbuildinfo
+.vite/
+dist-dev/
 
 # VS Code
 .vscode/settings.json
+*.code-workspace
+
+# IDE files
+.idea/
 
 # Logs
 *.log
@@ -36,9 +44,19 @@ Thumbs.db
 *.bak
 *.backup
 
-# Individual plugin folders are tracked, but their build artifacts are not
-plugins/**/dist/
-plugins/**/build/
-plugins/**/node_modules/
-plugins/**/*.egg-info/
-plugins/**/static/
+# Testing artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation artifacts
+*.md.bak
+docs/_build/
+
+# Reference folder (git submodules tracked via .gitmodules)
+reference/
+
+# Plugins have their own git repositories - ignore all plugin contents
+# Keep the plugins/ folder structure but ignore everything inside
+plugins/*
+!plugins/.gitkeep

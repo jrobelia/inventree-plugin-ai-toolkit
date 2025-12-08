@@ -2,3 +2,7 @@
 	path = plugin-creator
 	url = https://github.com/inventree/plugin-creator.git
 	branch = main
+[submodule "reference/inventree-source"]
+	path = reference/inventree-source
+	url = https://github.com/inventree/InvenTree.git
+	branch = stable
