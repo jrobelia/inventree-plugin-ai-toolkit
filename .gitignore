@@ -59,3 +59,7 @@ reference/
 # Keep the plugins/ folder structure but ignore everything inside
 plugins/*
 !plugins/.gitkeep
+
+# Ignore plugin directories (users manage their own plugins)
+plugins/*
+!plugins/README.md
