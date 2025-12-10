@@ -272,6 +272,162 @@ This user is **competent and capable** - they just come from a different domain.
 
 ---
 
-**Last Updated:** December 5, 2025
+## Documentation Maintenance
+
+### When Code Changes Are Made
+
+AI agents should proactively maintain documentation accuracy:
+
+#### 1. After Feature Implementation
+
+When you implement a new feature or modify existing functionality:
+
+- [ ] Check if `README.md` needs updating (user-facing documentation)
+- [ ] Check if `COPILOT-GUIDE.md` needs updating (developer documentation)
+- [ ] Update `TEST-PLAN.md` with new test cases
+- [ ] Note documentation changes in deployment/commit messages
+
+#### 2. Documentation Review Trigger Events
+
+These changes typically require documentation updates:
+
+**UI Changes:**
+- Column names, headers, or labels
+- New controls or interactive elements
+- Changed data formats or display
+- Pagination or sorting behavior
+- Statistics panel changes
+
+**API Changes:**
+- New fields in request/response
+- Changed endpoint URLs
+- New query parameters
+- Response structure modifications
+
+**Behavior Changes:**
+- Settings that affect functionality
+- Algorithm or calculation updates
+- Performance characteristics
+- Error handling improvements
+
+**Data Model Changes:**
+- New interfaces or types
+- Field additions/removals
+- State management changes
+
+#### 3. Documentation Update Checklist
+
+When updating plugin documentation:
+
+**README.md Updates:**
+- [ ] Feature list reflects current capabilities
+- [ ] Usage instructions match current UI
+- [ ] Table columns and descriptions are accurate
+- [ ] API endpoint documentation is current
+- [ ] Examples and code snippets work
+- [ ] Screenshots show current interface (or note if outdated)
+
+**COPILOT-GUIDE.md Updates:**
+- [ ] TypeScript interfaces match current code
+- [ ] Component structure reflects actual implementation
+- [ ] State variables list is accurate
+- [ ] Common modification patterns are up-to-date
+- [ ] API response schemas match backend
+- [ ] Testing checklist includes new features
+
+**TEST-PLAN.md Updates:**
+- [ ] New features have test cases defined
+- [ ] UI verification checklist includes new elements
+- [ ] Manual testing procedures are current
+- [ ] Known limitations are documented
+
+#### 4. Documentation Workflow
+
+**Standard Process:**
+1. Make code changes
+2. Test changes work correctly
+3. Review affected documentation files
+4. Update documentation inline with code changes
+5. Note "Documentation updated" in commit/deployment
+
+**For Large Changes:**
+1. Create documentation update task list
+2. Mark sections as ✅ Updated or 📋 Needs Update
+3. Systematically work through each file
+4. Have user review critical user-facing docs
+
+#### 5. Documentation Debt Prevention
+
+**Avoid These Anti-Patterns:**
+- ❌ "I'll update docs later" (they won't get updated)
+- ❌ Updating code without checking docs
+- ❌ Assuming documentation is "good enough"
+- ❌ Only updating README but not COPILOT-GUIDE
+
+**Follow These Best Practices:**
+- ✅ Update docs in same session as code changes
+- ✅ Check ALL documentation files, not just README
+- ✅ Mark outdated sections for later review if time-constrained
+- ✅ Keep TEST-PLAN.md synchronized with features
+
+#### 6. Proactive Documentation Review
+
+Periodically suggest documentation reviews:
+
+**Suggest After:**
+- 5+ feature additions without doc review
+- Major refactoring or restructuring
+- Before production deployment
+- Quarterly (for mature plugins)
+
+**Review Prompt:**
+```
+"We've made several changes to the plugin. Would you like me to review 
+all documentation files and create a list of sections that need updating?"
+```
+
+#### 7. Documentation Version Control
+
+**In Documentation Files:**
+- Add "Last Verified:" date to major sections
+- Note when screenshots were taken
+- Mark deprecated features clearly
+- Link to specific code versions when relevant
+
+**Example:**
+```markdown
+## Table Columns
+
+**Last Verified:** 2025-12-10 (v1.0.0)
+
+| Column | Description |
+|--------|-------------|
+| Component | Full part name with thumbnail |
+...
+```
+
+#### 8. User-Facing vs. Developer Documentation
+
+**README.md (User-Facing):**
+- Focus on features and how to use them
+- Less technical detail
+- More screenshots and examples
+- Installation and setup instructions
+
+**COPILOT-GUIDE.md (Developer-Facing):**
+- Code structure and architecture
+- TypeScript interfaces and types
+- Common modification patterns
+- Technical implementation details
+
+**TEST-PLAN.md (QA/Developer):**
+- Test cases and scenarios
+- Manual verification checklists
+- Performance benchmarks
+- Known issues and limitations
+
+---
+
+**Last Updated:** December 10, 2025
 **Toolkit Version:** 1.0
 **User Skill Level:** Mechanical Engineer, Intermediate Python, Beginner Frontend
