@@ -1,5 +1,9 @@
 # InvenTree Custom States Guide
 
+**Audience:** Users and AI Agents | **Category:** InvenTree Knowledge Base | **Purpose:** Understanding and implementing InvenTree custom states | **Last Updated:** 2025-12-10
+
+---
+
 ## Overview
 
 InvenTree supports custom states for several models (Stock Items, Build Orders, Purchase Orders, Sales Orders, Return Orders). **Custom states are NOT created through plugins** - they are database entries added through the Admin Center.

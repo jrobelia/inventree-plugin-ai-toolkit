@@ -1,12 +1,17 @@
-# InvenTree Plugin Development - Guided Creation Prompts
+# InvenTree Plugin Creation Prompts
 
-This file contains prompts designed to help GitHub Copilot guide you through creating InvenTree plugins intelligently.
+**Audience:** AI Agents | **Category:** Workflow Guides | **Purpose:** Ready-to-use prompts for creating InvenTree plugins | **Last Updated:** 2025-12-10
 
 ---
 
-## 🚀 CREATE NEW PLUGIN - Intelligent Guided Workflow
+**For project architecture and patterns**, see `PROJECT-CONTEXT.md`.  
+**For communication guidelines**, see `AGENT-BEHAVIOR.md`.
 
-**Primary Prompt: Start here for new plugins**
+---
+
+## 🚀 Primary Plugin Creation Workflow
+
+### Start Here: Intelligent Guided Creation
 
 ```
 I want to create a new InvenTree plugin. Please guide me through an intelligent creation process:
@@ -40,16 +45,20 @@ I want to create a new InvenTree plugin. Please guide me through an intelligent 
 Let's start - ask me about my plugin's purpose.
 ```
 
-**What makes this better:**
+**Why use this approach:**
 - Copilot understands context before recommending mixins
-- You don't need to know InvenTree internals upfront
-- Recommendations are based on actual requirements
+- No need to know InvenTree internals upfront
+- Recommendations based on actual requirements
 - Avoids including unnecessary mixins
 
-**IMPORTANT:** The plugin-creator tool is fully interactive and does NOT support piped input or answer files. After gathering requirements, provide all answers in a clean, copy-paste friendly format that the user can use while answering the prompts.
+---
 
-**ANSWER FORMAT REQUIREMENT:**
-Always format the answers in a SINGLE code block with this exact structure:
+## 📋 Answer Format for Plugin Creator
+
+**IMPORTANT:** Plugin-creator is fully interactive and does NOT support piped input.
+
+Provide answers in this format for user to reference:
+
 ```
 Enter plugin name: <answer>
 Enter plugin description: <answer>
@@ -77,16 +86,14 @@ Enable Git integration? <y/n>
 DevOps support (CI/CD)? <None/GitHub Actions/GitLab CI/CD>
 ```
 
-This ensures consistency and makes it easy for the user to reference while running the interactive prompts.
-
 ---
 
-## 📝 COMPLETE QUESTION REFERENCE
+## 📝 Plugin Creator Questions Reference
 
-**All questions that plugin-creator will ask (in order):**
+All questions plugin-creator will ask (in order):
 
 1. **Enter plugin name:** Human-readable name (e.g., "Flat BOM Viewer")
-2. **Enter plugin description:** Brief description of what the plugin does
+2. **Enter plugin description:** Brief description of functionality
 3. **Author name:** Your name
 4. **Author email:** Your email (optional, can be blank)
 5. **Project URL:** Repository URL (optional, can be blank)
@@ -104,68 +111,28 @@ This ensures consistency and makes it easy for the user to reference while runni
    - `UserInterfaceMixin` - Frontend UI components
    - `ValidationMixin` - Custom validation rules
 
-8. **[Only if UserInterfaceMixin selected] Select frontend features:** (spacebar to toggle)
+8. **[Only if UserInterfaceMixin] Select frontend features:** (spacebar to toggle)
    - Custom dashboard items
    - Custom panel items
    - Custom settings display
 
-9. **[Only if UserInterfaceMixin selected] Enable translation support?** y/n
-   - Choose 'n' unless you need multi-language support
+9. **[Only if UserInterfaceMixin] Enable translation support?** y/n
 
-10. **Enable Git integration?** y/n
-    - Choose 'y' (recommended for version control)
+10. **Enable Git integration?** y/n (recommended: y)
 
-11. **[Only if Git enabled] DevOps support (CI/CD)?** (arrow keys to select, enter to confirm)
-    - **None** - No automated testing/deployment (recommended for beginners)
-    - **GitHub Actions** - Automated tests run on GitHub when you push code
-    - **GitLab CI/CD** - Automated tests run on GitLab when you push code
-    
-    **Recommendation:** Choose 'None' unless you're publishing to GitHub/GitLab and want automated testing
+11. **[Only if Git enabled] DevOps support (CI/CD)?** (arrow keys, enter to confirm)
+    - **None** - No CI/CD (recommended for beginners)
+    - **GitHub Actions** - Automated tests on GitHub
+    - **GitLab CI/CD** - Automated tests on GitLab
 
-**Important Notes:**
-- Use **spacebar** to toggle checkbox selections, **enter** to confirm
-- Use **arrow keys** for single-choice selections (like license, DevOps)
-- Plugin name becomes the class name (spaces removed)
-- Plugin slug is auto-generated (lowercase with hyphens)
-- Frontend features only appear if UserInterfaceMixin is selected
-- DevOps question only appears if Git integration is enabled
+**Navigation:**
+- **Spacebar** - Toggle checkboxes
+- **Arrow keys** - Navigate single-choice selections
+- **Enter** - Confirm selection
 
 ---
 
-## 🧠 MIXIN INTELLIGENCE - Get Smart Recommendations
-
-**When you know what you want to do, but not which mixins:**
-
-```
-My InvenTree plugin needs to:
-- [Describe requirement 1]
-- [Describe requirement 2]  
-- [Describe requirement 3]
-
-For each requirement:
-1. Tell me which mixin(s) to use
-2. Explain what the mixin does
-3. Show key methods I'll implement
-4. Warn about any gotchas or dependencies
-5. Provide a simple code example
-
-Then give me a final recommendation of all mixins I should enable.
-```
-
-**Example use cases:**
-
-```
-My InvenTree plugin needs to:
-- Send an email when a sales order ships
-- Add a custom field validation for part numbers
-- Display a custom dashboard showing low stock alerts
-
-[Copilot will recommend EventMixin, ValidationMixin, ScheduleMixin, etc.]
-```
-
----
-
-## 📋 SCENARIO-BASED PLUGIN CREATION
+## 🧠 Scenario-Based Creation Prompts
 
 ### Event-Driven Plugins
 
@@ -213,7 +180,7 @@ I need a plugin that runs background tasks to:
 
 Help me implement ScheduleMixin with:
 - Task definition
-- Scheduling configuration  
+- Scheduling configuration
 - Error handling for failures
 - Progress logging
 ```
@@ -228,7 +195,7 @@ I need to add custom REST API endpoints to InvenTree that:
 Data source: [InvenTree models, external API, calculated, etc.]
 
 Help me:
-1. Set up APIMixin and UrlsMixin
+1. Set up UrlsMixin
 2. Create Django Rest Framework views
 3. Define serializers
 4. Handle authentication
@@ -251,11 +218,7 @@ Help me implement SettingsMixin with:
 - How to access settings in code
 ```
 
----
-
-## 🎨 FRONTEND-ENABLED PLUGINS
-
-**When your plugin needs React UI components:**
+### Frontend-Enabled Plugins
 
 ```
 I need an InvenTree plugin with frontend components that:
@@ -278,7 +241,51 @@ Help me:
 
 ---
 
-## 🔍 UNDERSTAND BEFORE BUILDING
+## 🔧 Enhancement Prompts
+
+### Add Functionality to Existing Plugin
+
+```
+I have an existing InvenTree plugin that currently:
+[Describe current functionality]
+
+I want to add:
+[Describe new feature]
+
+Current mixins used: [list current mixins]
+
+Help me:
+1. Do I need additional mixins?
+2. What code should I add?
+3. Any conflicts with existing code?
+4. How to test the new feature?
+
+[Paste relevant current code sections]
+```
+
+### Optimize Plugin Performance
+
+```
+My InvenTree plugin has performance issues:
+
+PROBLEM: [slow queries, high memory, timeouts, etc.]
+
+PLUGIN FUNCTIONALITY: [what it does]
+
+CURRENT CODE:
+[paste relevant code]
+
+Help me:
+1. Identify bottlenecks
+2. Optimize database queries
+3. Add caching if appropriate
+4. Improve algorithm efficiency
+5. Measure improvements
+```
+
+---
+
+## 🔍 Understanding Prompts
 
 ### Explore InvenTree Capabilities
 
@@ -324,51 +331,7 @@ Explain:
 
 ---
 
-## 🔧 ENHANCE EXISTING PLUGIN
-
-### Add Functionality
-
-```
-I have an existing InvenTree plugin that currently:
-[Describe current functionality]
-
-I want to add:
-[Describe new feature]
-
-Current mixins used: [list current mixins]
-
-Help me:
-1. Do I need additional mixins?
-2. What code should I add?
-3. Any conflicts with existing code?
-4. How to test the new feature?
-
-[Paste relevant current code sections]
-```
-
-### Optimize Performance
-
-```
-My InvenTree plugin has performance issues:
-
-PROBLEM: [slow queries, high memory, timeouts, etc.]
-
-PLUGIN FUNCTIONALITY: [what it does]
-
-CURRENT CODE:
-[paste relevant code]
-
-Help me:
-1. Identify bottlenecks
-2. Optimize database queries
-3. Add caching if appropriate
-4. Improve algorithm efficiency
-5. Measure improvements
-```
-
----
-
-## 🐛 DEBUG & TROUBLESHOOT
+## 🐛 Debugging Prompts
 
 ### Plugin Not Working
 
@@ -399,9 +362,23 @@ PLUGIN STRUCTURE:
 Help me fix the plugin registration and imports.
 ```
 
+### Frontend Build Errors
+
+```
+My InvenTree plugin frontend build is failing with:
+[PASTE npm run build OUTPUT]
+
+Plugin structure:
+- Uses Mantine UI components
+- Has Panel.tsx and Dashboard.tsx
+- package.json lists these dependencies: [LIST KEY DEPENDENCIES]
+
+What's wrong and how do I fix it?
+```
+
 ---
 
-## ✅ PRE-DEPLOYMENT CHECKLIST
+## ✅ Pre-Deployment Review
 
 ```
 Review my InvenTree plugin before deployment:
@@ -410,7 +387,7 @@ PLUGIN PURPOSE: [describe]
 
 CHECK FOR:
 - Security vulnerabilities
-- Performance issues  
+- Performance issues
 - InvenTree best practices
 - Proper error handling
 - Missing documentation
@@ -425,7 +402,7 @@ Provide specific feedback and recommendations.
 
 ---
 
-## 💡 QUICK HELPERS
+## 💡 Quick Reference Prompts
 
 ### Get Examples
 ```
@@ -439,38 +416,12 @@ InvenTree error: [paste error message]
 What does this mean and how do I fix it?
 ```
 
-### API Documentation
-```
-Show me InvenTree API documentation for [model/endpoint]
-```
-
 ### Best Practices
 ```
 What are InvenTree plugin development best practices for [topic]?
 ```
 
----
-
-## 🎯 WORKFLOW EXAMPLE
-
-**Typical session flow:**
-
-1. **Start:** Use the main "CREATE NEW PLUGIN" prompt
-2. **Discuss:** Answer Copilot's questions about requirements
-3. **Review:** Copilot recommends architecture and mixins
-4. **Confirm:** Approve the recommendations
-5. **Generate:** Copilot creates the answers file and command
-6. **Create:** Execute plugin-creator with the answers
-7. **Develop:** Use specific scenario prompts for implementation
-8. **Test:** Use debugging prompts if issues arise
-9. **Deploy:** Use pre-deployment checklist
-
----
-
-## 📚 LEARNING RESOURCES
-
-**Ask Copilot to explain concepts:**
-
+### Explain Concepts
 ```
 Explain InvenTree [concept] with examples:
 - Plugin lifecycle and hooks
@@ -478,9 +429,51 @@ Explain InvenTree [concept] with examples:
 - Status code architecture
 - API authentication
 - Frontend integration
-- Custom states vs status codes
 ```
 
 ---
 
-**Note:** These prompts are designed to make Copilot act as an InvenTree plugin development expert who asks clarifying questions and provides intelligent recommendations based on your actual requirements, not just template answers.
+## 🎯 Typical Workflow
+
+1. **Start:** Use main "Intelligent Guided Creation" prompt
+2. **Discuss:** Answer Copilot's questions about requirements
+3. **Review:** Copilot recommends architecture and mixins
+4. **Confirm:** Approve recommendations
+5. **Generate:** Copilot provides formatted answers
+6. **Create:** Run `.\scripts\New-Plugin.ps1` and paste answers
+7. **Develop:** Use scenario prompts for implementation
+8. **Test:** Use debugging prompts if issues arise
+9. **Deploy:** Use pre-deployment checklist
+
+---
+
+## 🧪 Mixin Quick Reference
+
+When Copilot asks which mixins you need, use this as a guide:
+
+| Use Case | Recommended Mixin(s) |
+|----------|---------------------|
+| Plugin needs configuration | `SettingsMixin` |
+| Add custom API endpoints | `UrlsMixin` |
+| Custom UI panels/widgets | `UserInterfaceMixin` |
+| React to InvenTree events | `EventMixin` |
+| Background scheduled tasks | `ScheduleMixin` |
+| Custom database models | `AppMixin` |
+| Validate data before save | `ValidationMixin` |
+| Custom reports | `ReportMixin` |
+| Custom labels | `LabelMixin` |
+| Currency conversion | `CurrencyExchangeMixin` |
+| Custom locate functionality | `LocateMixin` |
+| Add navigation menu items | `NavigationMixin` |
+
+**Most Common Combinations:**
+- **Simple plugin**: `SettingsMixin`
+- **API plugin**: `SettingsMixin` + `UrlsMixin`
+- **UI plugin**: `SettingsMixin` + `UserInterfaceMixin`
+- **Full-stack plugin**: `SettingsMixin` + `UrlsMixin` + `UserInterfaceMixin`
+- **Event handler**: `EventMixin` + `SettingsMixin`
+
+---
+
+**Last Updated**: December 10, 2025
+**Compatible with**: InvenTree 0.16.x+

@@ -1,5 +1,9 @@
 # InvenTree Plugin Testing Framework - Research Summary
 
+**Audience:** Users and AI Agents | **Category:** InvenTree Knowledge Base | **Purpose:** Django testing framework research and patterns for InvenTree plugins | **Last Updated:** 2025-12-10
+
+---
+
 ## Overview
 
 This document summarizes findings from investigating InvenTree's Django-based testing framework for plugins.

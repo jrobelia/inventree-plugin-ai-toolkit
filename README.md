@@ -1,5 +1,9 @@
 # InvenTree Plugin Development Toolkit
 
+**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2025-12-10
+
+---
+
 A simple, easy-to-use toolkit for creating and deploying InvenTree plugins with GitHub Copilot integration.
 
 ## 🚀 Quick Start
@@ -118,18 +122,19 @@ This lets you see changes instantly in your browser without rebuilding!
 
 ## 📖 Documentation
 
-### Quick References
-- **copilot/copilot-guided-creation.md** - Intelligent prompts for creating plugins with Copilot
-  - Use `@workspace` or `#file:copilot-guided-creation.md` in Copilot Chat
-  - Copilot will ask questions and recommend the right mixins for your needs
-- **docs/copilot-prompts.md** - Copy/paste prompts for specific development tasks
+### AI Agent Guidance
+- **copilot/AGENT-BEHAVIOR.md** - How agents should communicate with you and generate code
+- **copilot/PROJECT-CONTEXT.md** - Project architecture, folder structure, and patterns
+- **copilot/plugin-creation-prompts.md** - Ready-to-use prompts for creating plugins
+- **.github/copilot-instructions.md** - Auto-discovered entry point for GitHub Copilot
 
-### Detailed Guides
-- **copilot/COPILOT-GUIDE.md** - Complete reference for using GitHub Copilot with your plugins
-- **docs/WORKFLOWS.md** - Step-by-step guides for common tasks
-- **docs/QUICK-REFERENCE.md** - Command cheat sheet
-- **docs/AI-AGENT-BRIEFING.md** - Context for AI assistants working on this toolkit
-- **docs/CUSTOM-STATES-GUIDE.md** - Understanding InvenTree custom states
+### Toolkit Documentation
+- **docs/toolkit/WORKFLOWS.md** - Step-by-step guides for common tasks
+- **docs/toolkit/QUICK-REFERENCE.md** - Command cheat sheet
+
+### InvenTree Knowledge Base
+- **docs/inventree/CUSTOM-STATES.md** - Understanding InvenTree custom states
+- **docs/inventree/TESTING-FRAMEWORK.md** - Django testing patterns for plugins
 
 ### Using Copilot Guided Creation
 

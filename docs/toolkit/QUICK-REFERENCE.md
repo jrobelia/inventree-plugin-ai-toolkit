@@ -1,5 +1,9 @@
 # Quick Reference Card
 
+**Audience:** Users and AI Agents | **Category:** Command Reference | **Purpose:** Quick lookup for toolkit commands and patterns | **Last Updated:** 2025-12-10
+
+---
+
 Keep this handy while developing InvenTree plugins!
 
 ---
@@ -176,9 +180,9 @@ I'm getting this error: [ERROR]. Help me fix it.
 ## 📞 Getting Help
 
 1. **Read error messages** - they usually tell you what's wrong
-2. **Check WORKFLOWS.md** - step-by-step guides
-3. **Check copilot/COPILOT-GUIDE.md** - detailed reference
-4. **Ask Copilot** - use prompts from docs/copilot-prompts.md
+2. **Check toolkit/WORKFLOWS.md** - step-by-step guides
+3. **Check copilot/PROJECT-CONTEXT.md** - technical architecture and patterns
+4. **Ask Copilot** - reference copilot/plugin-creation-prompts.md for guided creation
 5. **InvenTree Docs** - https://docs.inventree.org/
 
 ---

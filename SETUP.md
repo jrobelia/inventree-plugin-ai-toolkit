@@ -1,5 +1,9 @@
 # InvenTree Plugin Toolkit - Setup Guide
 
+**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2025-12-10
+
+---
+
 This toolkit helps you create, develop, and deploy InvenTree plugins efficiently.
 
 ---
@@ -207,8 +211,8 @@ cd ..
 ## 📚 Next Steps
 
 Once setup is complete:
-1. Read [WORKFLOWS.md](docs/WORKFLOWS.md) for development workflows
-2. Check [QUICK-REFERENCE.md](docs/QUICK-REFERENCE.md) for quick commands
+1. Read [WORKFLOWS.md](docs/toolkit/WORKFLOWS.md) for development workflows
+2. Check [QUICK-REFERENCE.md](docs/toolkit/QUICK-REFERENCE.md) for quick commands
 3. Use [copilot/copilot-guided-creation.md](copilot/copilot-guided-creation.md) with GitHub Copilot
 
 Happy plugin development! 🚀
