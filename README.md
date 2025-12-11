@@ -32,8 +32,7 @@ inventree-plugin-ai-toolkit/
 │   └── plugin-creation-prompts.md       # Ready-to-use creation workflows
 ├── docs/
 │   ├── toolkit/                         # Toolkit usage guides
-│   │   ├── WORKFLOWS.md                 # Step-by-step task guides
-│   │   └── QUICK-REFERENCE.md           # Command cheat sheet
+│   │   └── WORKFLOWS.md                 # Step-by-step task guides
 │   └── inventree/                       # InvenTree knowledge base
 │       ├── CUSTOM-STATES.md             # Custom states guide
 │       └── TESTING-FRAMEWORK.md         # Django testing patterns
@@ -45,6 +44,7 @@ inventree-plugin-ai-toolkit/
 │   ├── Deploy-Plugin.ps1                # Build & Deploy to server
 │   └── Test-Plugin.ps1                  # Run plugin unit tests
 ├── plugin-creator/                       # Git submodule (don't modify)
+├── QUICK-REFERENCE.md                    # Command cheat sheet (moved to root for easy access)
 └── README.md                             # ← You are here
 ```
 
@@ -149,8 +149,8 @@ See `docs/toolkit/WORKFLOWS.md` for details.
 - **.github/copilot-instructions.md** - Auto-discovered entry point for GitHub Copilot
 
 ### Toolkit Documentation
+- **QUICK-REFERENCE.md** - Command cheat sheet (at toolkit root for easy access)
 - **docs/toolkit/WORKFLOWS.md** - Step-by-step guides for common tasks
-- **docs/toolkit/QUICK-REFERENCE.md** - Command cheat sheet
 
 ### InvenTree Knowledge Base
 - **docs/inventree/CUSTOM-STATES.md** - Understanding InvenTree custom states

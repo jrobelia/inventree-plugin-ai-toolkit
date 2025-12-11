@@ -2,20 +2,72 @@
 
 **Audience:** Users and AI Agents | **Category:** Command Reference | **Purpose:** Quick lookup for toolkit commands and patterns | **Last Updated:** 2025-12-11
 
+**Location:** Toolkit root (moved from `docs/toolkit/` for easy access)
+
 ---
 
 Keep this handy while developing InvenTree plugins!
 
 ---
 
-## 🚀 Common Commands
+## 🚀 Copy-Paste Commands
+
+**All commands assume you're starting from the toolkit root:**
+```
+c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit\
+```
+
+### Build, Commit, Deploy (Full Workflow)
+```powershell
+cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
+.\scripts\Build-Plugin.ps1 -Plugin "FlatBOMGenerator"
+cd plugins\FlatBOMGenerator
+git add -A
+git commit -m "your commit message here"
+git push origin main
+cd ..\..
+.\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
+```
+
+### Build Only
+```powershell
+cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
+.\scripts\Build-Plugin.ps1 -Plugin "FlatBOMGenerator"
+```
+
+### Commit Plugin Changes Only
+```powershell
+cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit\plugins\FlatBOMGenerator"
+git add -A
+git commit -m "your message"
+git push origin main
+```
+
+### Deploy Only
+```powershell
+cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
+.\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
+```
+
+### Build + Deploy (Skip Commit)
+```powershell
+cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
+.\scripts\Build-Plugin.ps1 -Plugin "FlatBOMGenerator"
+.\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
+```
+
+**Why cd to toolkit root?** Scripts look for `plugins/` folder and `config/servers.json` as relative paths.
+
+---
+
+## 🛠️ Common Toolkit Commands
 
 ```powershell
 # Create new plugin
 .\scripts\New-Plugin.ps1
 
 # Build plugin
-.\scripts\Build-Plugin.ps1 -Plugin "plugin-name"  # Optional - Deploy auto-builds
+.\scripts\Build-Plugin.ps1 -Plugin "plugin-name"
 
 # Deploy to staging
 .\scripts\Deploy-Plugin.ps1 -Plugin "plugin-name" -Server staging
@@ -25,9 +77,6 @@ Keep this handy while developing InvenTree plugins!
 
 # Build and deploy in one go
 .\scripts\Deploy-Plugin.ps1 -Plugin "plugin-name" -Server staging -Build
-
-# Start frontend dev server
-# No longer needed - frontend builds automatically with Build-Plugin.ps1
 ```
 
 ---
