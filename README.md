@@ -222,4 +222,3 @@ See **copilot/plugin-creation-prompts.md** for ready-to-use prompts and **docs/t
 - [InvenTree Plugin Documentation](https://docs.inventree.org/en/latest/plugins/)
 - [InvenTree API Documentation](https://docs.inventree.org/en/latest/api/api/)
 - [Plugin Creator Repository](https://github.com/inventree/plugin-creator)
-# Test
