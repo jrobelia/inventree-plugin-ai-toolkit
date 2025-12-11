@@ -127,6 +127,38 @@ pre-commit run --all-files
 - Follows Python PEP 8 and modern TypeScript best practices
 - No manual formatting needed
 
+### Recommended Development Workflow
+
+**For plugins with frontends**, follow this workflow to ensure GitHub installations work:
+
+```powershell
+# 1. Make code changes to Python or TypeScript files
+
+# 2. Build plugin (compiles frontend to static/ folder)
+.\scripts\Build-Plugin.ps1 -Plugin "YourPlugin"
+
+# 3. Commit everything including built static/ assets
+git add .
+git commit -m "Your changes"  # Pre-commit hooks run automatically
+
+# 4. Push to GitHub (so git-based installations work)
+git push
+
+# 5. Deploy to server for testing
+.\scripts\Deploy-Plugin.ps1 -Plugin "YourPlugin" -Server staging
+```
+
+**Why commit `static/` folder?**
+- Users installing via `pip install git+https://github.com/...` need the built frontend
+- The build happens on your machine, not theirs
+- Without it, the plugin frontend won't work from GitHub installations
+
+**Important:** If your plugin has a `<plugin_name>/.gitignore` file that blocks `static/`, remove it:
+```powershell
+Remove-Item <plugin_name>/.gitignore -Force
+git add <plugin_name>/static/
+```
+
 ---
 
 ## ✏️ Workflow 2: Add a New Setting to Your Plugin
