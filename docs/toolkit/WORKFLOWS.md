@@ -1,6 +1,6 @@
 # Common Workflows for InvenTree Plugin Development
 
-**Audience:** Users and AI Agents | **Category:** How-To Guides | **Purpose:** Step-by-step workflows for common plugin development tasks | **Last Updated:** 2025-12-11
+**Audience:** Users and AI Agents | **Category:** How-To Guides | **Purpose:** Step-by-step workflows for common plugin development tasks | **Last Updated:** 2025-12-12
 
 ---
 
