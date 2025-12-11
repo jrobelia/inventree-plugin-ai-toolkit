@@ -33,13 +33,13 @@
 
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [string]$Plugin,
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [switch]$SkipFrontend,
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [switch]$Clean
 )
 
@@ -47,7 +47,7 @@ param(
 function Write-Info { Write-Host $args -ForegroundColor Cyan }
 function Write-Success { Write-Host $args -ForegroundColor Green }
 function Write-Error { Write-Host $args -ForegroundColor Red }
-function Write-Step { Write-Host "`n??? $args" -ForegroundColor Yellow }
+function Write-Step { Write-Host "`n>>> $args" -ForegroundColor Yellow }
 
 # Get paths
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -113,7 +113,7 @@ try {
         npm run build
         
         if ($LASTEXITCODE -eq 0) {
-            Write-Success "??? Frontend built successfully"
+            Write-Success "[OK] Frontend built successfully"
         } else {
             Write-Error "Frontend build failed"
             exit 1
@@ -121,7 +121,7 @@ try {
         
         Pop-Location
     } elseif ($HasFrontend -and $SkipFrontend) {
-        Write-Warning "??? Skipping frontend build (as requested)"
+        Write-Warning "[WARN] Skipping frontend build (as requested)"
     }
     
     # Build Python package
@@ -131,13 +131,13 @@ try {
     python -m build
     
     if ($LASTEXITCODE -eq 0) {
-        Write-Success "??? Python package built successfully"
+        Write-Success "[OK] Python package built successfully"
         
         # Show what was built
         Write-Host ""
         Write-Info "Build artifacts:"
         Get-ChildItem "dist" | ForEach-Object {
-            Write-Host "  ???? $($_.Name)" -ForegroundColor Green
+            Write-Host "  [PACKAGE] $($_.Name)" -ForegroundColor Green
         }
         Write-Host ""
         

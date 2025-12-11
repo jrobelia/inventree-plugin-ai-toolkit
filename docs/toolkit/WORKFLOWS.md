@@ -377,7 +377,8 @@ def get_ui_panels(self, request, context: dict, **kwargs):
 
 2. **Start your plugin dev server:**
    ```powershell
-   .\scripts\Dev-Frontend.ps1 -Plugin "your-plugin"
+   # Frontend auto-rebuilds during deployment
+   # Edit code, then run Build-Plugin.ps1 to see changes
    ```
    This runs on `http://localhost:5174`
 

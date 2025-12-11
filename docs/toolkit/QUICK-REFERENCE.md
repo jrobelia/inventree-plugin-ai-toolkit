@@ -27,7 +27,7 @@ Keep this handy while developing InvenTree plugins!
 .\scripts\Deploy-Plugin.ps1 -Plugin "plugin-name" -Server staging -Build
 
 # Start frontend dev server
-.\scripts\Dev-Frontend.ps1 -Plugin "plugin-name"
+# No longer needed - frontend builds automatically with Build-Plugin.ps1
 ```
 
 ---

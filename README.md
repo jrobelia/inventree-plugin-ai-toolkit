@@ -43,8 +43,7 @@ inventree-plugin-ai-toolkit/
 │   ├── New-Plugin.ps1                   # Create a new plugin
 │   ├── Build-Plugin.ps1                 # Build plugin (Python + Frontend)
 │   ├── Deploy-Plugin.ps1                # Build & Deploy to server
-│   ├── Test-Plugin.ps1                  # Run plugin unit tests
-│   └── Dev-Frontend.ps1                 # Live frontend development
+│   └── Test-Plugin.ps1                  # Run plugin unit tests
 ├── plugin-creator/                       # Git submodule (don't modify)
 └── README.md                             # ← You are here
 ```
@@ -107,16 +106,6 @@ inventree-plugin-ai-toolkit/
 ```
 
 ## 🛠️ Common Workflows
-
-### Working on Frontend UI
-If your plugin has custom panels or UI elements:
-
-```powershell
-# Start live development server
-.\scripts\Dev-Frontend.ps1 -Plugin "your-plugin-name"
-```
-
-This lets you see changes instantly in your browser without rebuilding!
 
 ### Making Changes to Existing Plugin
 
