@@ -1,6 +1,6 @@
 # Quick Reference Card
 
-**Audience:** Users and AI Agents | **Category:** Command Reference | **Purpose:** Quick lookup for toolkit commands and patterns | **Last Updated:** 2025-12-10
+**Audience:** Users and AI Agents | **Category:** Command Reference | **Purpose:** Quick lookup for toolkit commands and patterns | **Last Updated:** 2025-12-11
 
 ---
 
@@ -133,6 +133,35 @@ if part.assembly:  # Check properties
 ```
 
 Browse all icons: https://tabler-icons.io/
+
+---
+
+## ✨ Code Quality Tools
+
+**Auto-formatted when scaffolding new plugins:**
+
+```powershell
+# One-time setup per plugin
+cd plugins/YourPlugin
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files  # Initial formatting
+
+# Runs automatically on every commit
+git commit  # Ruff + Biome auto-format code
+
+# Manual checks (optional)
+pre-commit run --all-files          # All code
+cd frontend; npm run lint           # Frontend only
+cd frontend; npm run lint:fix       # Frontend auto-fix
+```
+
+**Tools included:**
+- **Ruff** - Python linter/formatter (PEP 8)
+- **Biome** - TypeScript/React linter/formatter
+- **Pre-commit** - Runs checks before each commit
 
 ---
 

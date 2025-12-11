@@ -1,6 +1,6 @@
 # InvenTree Plugin Development Toolkit
 
-**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2025-12-10
+**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2025-12-11
 
 ---
 
@@ -87,6 +87,31 @@ inventree-plugin-ai-toolkit/
 - Recommends mixins intelligently, not just yes/no questions
 - Explains WHY each feature is needed
 - Provides code examples and architecture guidance
+
+### 2a. Set Up Code Quality Tools (Recommended)
+
+Every plugin is scaffolded with Biome (TypeScript linter) and pre-commit hooks (automatic code formatting). To activate:
+
+```powershell
+cd plugins\YourPlugin
+
+# Create virtual environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# Install and activate pre-commit
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files  # Initial formatting
+```
+
+**What this does:**
+- **Ruff** formats Python code (PEP 8 style)
+- **Biome** formats TypeScript/React code
+- Runs automatically on every `git commit`
+- Catches common errors before deployment
+
+See `docs/toolkit/WORKFLOWS.md` for details.
 
 ### 3. Build Your Plugin
 

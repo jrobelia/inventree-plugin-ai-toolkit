@@ -1,6 +1,6 @@
 # Common Workflows for InvenTree Plugin Development
 
-**Audience:** Users and AI Agents | **Category:** How-To Guides | **Purpose:** Step-by-step workflows for common plugin development tasks | **Last Updated:** 2025-12-10
+**Audience:** Users and AI Agents | **Category:** How-To Guides | **Purpose:** Step-by-step workflows for common plugin development tasks | **Last Updated:** 2025-12-11
 
 ---
 
@@ -76,6 +76,56 @@ Use this if you already know exactly which mixins you need.
    See `copilot/copilot-guided-creation.md` for complete question reference.
 
 3. **The plugin is created in:** `plugins/YourPluginName/`
+
+### Post-Creation Setup: Code Quality Tools
+
+**Every new plugin is scaffolded with:**
+- **Biome** (`biome.json`) - Frontend linter/formatter for TypeScript/React
+- **Pre-commit config** (`.pre-commit-config.yaml`) - Automatic code quality checks
+- **Ruff** (via pre-commit) - Python linter/formatter
+
+**To activate these tools:**
+
+1. **Create virtual environment** (first time only):
+   ```powershell
+   cd plugins/YourPluginName
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+2. **Install pre-commit** (first time only):
+   ```powershell
+   pip install pre-commit
+   pre-commit install
+   ```
+
+3. **Run initial formatting** (first time only):
+   ```powershell
+   pre-commit run --all-files
+   ```
+   This auto-formats all Python and TypeScript files to match best practices.
+
+**From now on**, every time you commit:
+- Ruff automatically formats and lints Python code
+- Biome automatically formats and lints TypeScript/React code
+- Commits are blocked if unfixable issues are found
+
+**Manual checks** (optional):
+```powershell
+# Check frontend code
+cd frontend
+npm run lint        # Check for issues
+npm run lint:fix    # Auto-fix issues
+
+# Check all code
+pre-commit run --all-files
+```
+
+**Why this matters:**
+- Consistent code style across all plugins
+- Catches common errors before they reach the server
+- Follows Python PEP 8 and modern TypeScript best practices
+- No manual formatting needed
 
 ---
 

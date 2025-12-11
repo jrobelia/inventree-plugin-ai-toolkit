@@ -1,6 +1,6 @@
 # Project Context - InvenTree Plugin Toolkit
 
-**Audience:** AI Agents | **Category:** Technical Architecture | **Purpose:** Project architecture, folder structure, tech stack, and InvenTree patterns | **Last Updated:** 2025-12-10
+**Audience:** AI Agents | **Category:** Technical Architecture | **Purpose:** Project architecture, folder structure, tech stack, and InvenTree patterns | **Last Updated:** 2025-12-11
 
 ---
 
@@ -128,6 +128,7 @@ plugins/my-plugin/                  # Active development plugin
 │   └── workflows/
 │       └── ci.yaml                # GitHub Actions workflow
 ├── .gitignore                     # Git ignore patterns
+├── .pre-commit-config.yaml        # Pre-commit hooks (Ruff + Biome)
 ├── biome.json                     # Biome linter/formatter config
 ├── LICENSE                        # Plugin license
 ├── MANIFEST.in                    # Python package manifest
@@ -196,6 +197,46 @@ plugins/my-plugin/                  # Active development plugin
 - **Linter/Formatter (JS/TS)**: Biome (fast alternative to ESLint/Prettier)
 - **Build Tool**: Vite for frontend bundling
 - **Test Runner**: Python unittest or Django TestCase
+- **Pre-commit Hooks**: Automated code quality checks (scaffolded but requires setup)
+
+### Code Quality Workflow
+
+**Every plugin is scaffolded with:**
+- `biome.json` - Biome configuration for TypeScript/React linting
+- `.pre-commit-config.yaml` - Pre-commit hook configuration for Ruff and Biome
+
+**To activate (one-time per plugin):**
+```powershell
+cd plugins/YourPlugin
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files  # Initial formatting
+```
+
+**After activation:**
+- Every `git commit` automatically runs Ruff (Python) and Biome (TypeScript)
+- Code is auto-formatted to PEP 8 and modern TypeScript standards
+- Commits are blocked if unfixable issues are found
+- No manual formatting needed
+
+**Manual checks (optional):**
+```powershell
+# Frontend only
+cd frontend
+npm run lint        # Check for issues
+npm run lint:fix    # Auto-fix issues
+
+# All code
+pre-commit run --all-files
+```
+
+**Why this matters:**
+- Consistent code style across all plugins
+- Catches errors before deployment
+- Reduces code review friction
+- Enforces best practices automatically
 
 ### Deployment
 - **Method**: Manual copy to server plugin directories
