@@ -22,7 +22,7 @@
 .PARAMETER ServerUrl
     The InvenTree server URL to test against (default: uses staging from servers.json)
 
-.PARAMETER Verbose
+.PARAMETER ShowDetails
     Show detailed test output
 
 .EXAMPLE
@@ -34,7 +34,7 @@
     Runs a specific test class
 
 .EXAMPLE
-    .\scripts\Test-Plugin.ps1 -Plugin "FlatBOMGenerator" -Verbose
+    .\scripts\Test-Plugin.ps1 -Plugin "FlatBOMGenerator" -ShowDetails
     Runs tests with detailed output
 #>
 
@@ -49,7 +49,7 @@ param(
   [string]$ServerUrl,
     
   [Parameter(Mandatory = $false)]
-  [switch]$Verbose
+  [switch]$ShowDetails
 )
 
 # Script configuration
@@ -61,22 +61,22 @@ $pluginDir = Join-Path $toolkitRoot "plugins\$Plugin"
 # Color output functions
 function Write-Status {
   param([string]$Message)
-  Write-Host "🔵 $Message" -ForegroundColor Cyan
+  Write-Host "[INFO] $Message" -ForegroundColor Cyan
 }
 
 function Write-Success {
   param([string]$Message)
-  Write-Host "✅ $Message" -ForegroundColor Green
+  Write-Host "[OK] $Message" -ForegroundColor Green
 }
 
 function Write-Failure {
   param([string]$Message)
-  Write-Host "❌ $Message" -ForegroundColor Red
+  Write-Host "[ERROR] $Message" -ForegroundColor Red
 }
 
 function Write-Warning {
   param([string]$Message)
-  Write-Host "⚠️  $Message" -ForegroundColor Yellow
+  Write-Host "[WARN] $Message" -ForegroundColor Yellow
 }
 
 # Validate plugin directory exists
@@ -114,8 +114,18 @@ if ($ServerUrl) {
 }
 
 # Discover test files in plugin directory
-$packageName = $Plugin.Replace("Generator", "").ToLower() -replace '_generator$', ''
-$packageName = ($Plugin -creplace '(?<!^)([A-Z])', '_$1').ToLower() -replace '_generator$', '_generator'
+# Find the actual package directory (snake_case Python package)
+$packageDirs = Get-ChildItem -Path $pluginDir -Directory | Where-Object { 
+  $_.Name -notmatch '^(frontend|dist|build|\.)|_egg-info$' -and 
+  (Test-Path (Join-Path $_.FullName "__init__.py"))
+}
+
+if ($packageDirs.Count -eq 0) {
+  Write-Failure "No Python package found in plugin directory (looking for directory with __init__.py)"
+  exit 1
+}
+
+$packageName = $packageDirs[0].Name
 $testsDir = Join-Path $pluginDir "$packageName\tests"
 
 Write-Status "Looking for tests in: $testsDir"
@@ -178,7 +188,7 @@ try {
         Write-Status "Running: $module"
         $testCommand = "invoke dev.test -r $module"
                 
-        if ($Verbose) {
+        if ($ShowDetails) {
           & invoke dev.test -r $module
         } else {
           & invoke dev.test -r $module 2>&1 | Out-String
@@ -202,7 +212,7 @@ try {
       }
     }
         
-    if ($Verbose) {
+    if ($ShowDetails) {
       & invoke dev.test -r $TestPath
     } else {
       & invoke dev.test -r $TestPath 2>&1
@@ -219,6 +229,7 @@ try {
     # Fallback to Python unittest runner (for standalone testing)
     Write-Warning "InvenTree invoke command not available"
     Write-Host "Falling back to Python unittest runner..."
+    Write-Host "Note: This only works for pure Python tests (no Django models)"
     Write-Host ""
         
     $pythonCmd = Get-Command "python" -ErrorAction SilentlyContinue
@@ -227,13 +238,23 @@ try {
       exit 1
     }
         
-    # Run Python unittest discovery
+    # Add plugin directory to PYTHONPATH so imports work
+    $env:PYTHONPATH = $pluginDir
+        
+    # Run Python unittest discovery from plugin root
     Push-Location $pluginDir
     try {
       if ($TestPath) {
         & python -m unittest $TestPath -v
       } else {
-        & python -m unittest discover -s "$packageName\tests" -p "test_*.py" -v
+        # Use absolute path to tests directory
+        $testsPath = Join-Path $packageName "tests"
+        if (Test-Path $testsPath) {
+          & python -m unittest discover -s $testsPath -p "test_*.py" -v
+        } else {
+          Write-Failure "Tests directory not found: $testsPath"
+          exit 1
+        }
       }
             
       if ($LASTEXITCODE -eq 0) {
