@@ -20,7 +20,9 @@ The build and deploy scripts (`Build-Plugin.ps1`, `Deploy-Plugin.ps1`) only oper
 2. **Copy patterns** - Use as templates for your own plugins
 3. **Ask AI** - Point Copilot to these examples when asking questions
 
-## Adding Reference Plugins
+## Adding Reference Material
+
+### Reference Plugins
 
 Simply copy or move complete plugin folders into this directory:
 
@@ -34,9 +36,46 @@ reference/
     └── ...
 ```
 
+### InvenTree Source Code
+
+Clone the InvenTree source code for reference when developing plugins:
+
+```powershell
+cd reference
+git clone https://github.com/inventree/InvenTree.git inventree-source
+```
+
+**Why include InvenTree source?**
+- See how built-in features are implemented
+- Reference Django models and API endpoints
+- Understand InvenTree's architecture and patterns
+- Study frontend components and UI patterns
+- Check plugin base classes and mixins
+
+**Recommended folders to study:**
+- `InvenTree/plugin/` - Plugin framework base classes
+- `InvenTree/part/` - Part model and related code
+- `InvenTree/order/` - Order management implementation
+- `InvenTree/stock/` - Stock tracking system
+- `src/frontend/` - React frontend source code
+
+### Other Reference Software
+
+You can also add other useful reference material:
+
+```
+reference/
+├── inventree-source/         # InvenTree core codebase
+├── example-plugins/          # Third-party plugin examples
+├── django-patterns/          # Django code patterns
+└── react-components/         # React component examples
+```
+
 ## For AI Agents
 
-When users ask about plugin features or patterns, check this folder for working examples that demonstrate:
+When users ask about plugin features or patterns, check this folder for working examples and reference code:
+
+**Example Plugins** - Demonstrate:
 - Custom panels
 - Dashboard widgets
 - API endpoints
@@ -44,3 +83,16 @@ When users ask about plugin features or patterns, check this folder for working 
 - Database models
 - Scheduled tasks
 - And more...
+
+**InvenTree Source** - Reference for:
+- Plugin base classes and mixins
+- InvenTree models (Part, Stock, Order, etc.)
+- API endpoint patterns
+- Frontend component architecture
+- Django patterns and best practices
+
+**How to reference:**
+```
+#file:reference/inventree-source/InvenTree/plugin/base/ui/mixins.py
+Show me how UserInterfaceMixin works
+```

@@ -211,9 +211,18 @@ cd ..
 ## 📚 Next Steps
 
 Once setup is complete:
-1. Read [WORKFLOWS.md](docs/toolkit/WORKFLOWS.md) for development workflows
-2. Check [QUICK-REFERENCE.md](docs/toolkit/QUICK-REFERENCE.md) for quick commands
-3. Use [copilot/copilot-guided-creation.md](copilot/copilot-guided-creation.md) with GitHub Copilot
+
+1. **Learn the toolkit workflows**
+   - Read [WORKFLOWS.md](docs/toolkit/WORKFLOWS.md) for step-by-step development guides
+   - Check [QUICK-REFERENCE.md](docs/toolkit/QUICK-REFERENCE.md) for command quick reference
+
+2. **Use GitHub Copilot for guided plugin creation**
+   - Copilot automatically discovers `.github/copilot-instructions.md`
+   - Use prompts from [plugin-creation-prompts.md](copilot/plugin-creation-prompts.md)
+   - Example: `@workspace Create a new InvenTree plugin using the guided creation workflow`
+
+3. **Explore InvenTree knowledge base**
+   - [CUSTOM-STATES.md](docs/inventree/CUSTOM-STATES.md) - Understanding custom states
+   - [TESTING-FRAMEWORK.md](docs/inventree/TESTING-FRAMEWORK.md) - Django testing patterns
 
 Happy plugin development! 🚀
- 

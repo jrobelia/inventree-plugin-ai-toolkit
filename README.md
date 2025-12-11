@@ -22,26 +22,30 @@ A simple, easy-to-use toolkit for creating and deploying InvenTree plugins with 
 
 ```
 inventree-plugin-ai-toolkit/
+├── .github/
+│   └── copilot-instructions.md          # Auto-discovered by GitHub Copilot
 ├── config/
 │   └── servers.json                      # Your server configurations (gitignored)
-├── docs/                                 # Documentation
-│   ├── WORKFLOWS.md                     # Step-by-step task guides
-│   ├── QUICK-REFERENCE.md               # Command cheat sheet
-│   └── copilot-prompts.md               # Copilot usage examples
+├── copilot/                              # AI agent guidance
+│   ├── AGENT-BEHAVIOR.md                # Communication style and code generation rules
+│   ├── PROJECT-CONTEXT.md               # Architecture, tech stack, patterns
+│   └── plugin-creation-prompts.md       # Ready-to-use creation workflows
+├── docs/
+│   ├── toolkit/                         # Toolkit usage guides
+│   │   ├── WORKFLOWS.md                 # Step-by-step task guides
+│   │   └── QUICK-REFERENCE.md           # Command cheat sheet
+│   └── inventree/                       # InvenTree knowledge base
+│       ├── CUSTOM-STATES.md             # Custom states guide
+│       └── TESTING-FRAMEWORK.md         # Django testing patterns
 ├── plugins/                              # Your plugin projects go here
-│   ├── plugin1/                         # Each plugin in its own folder
-│   └── plugin2/
+│   └── YourPlugin/                      # Each plugin in its own folder
 ├── scripts/                              # PowerShell automation scripts
 │   ├── New-Plugin.ps1                   # Create a new plugin
-│   ├── Build-Plugin.ps1                 # Build plugin (optional - Deploy auto-builds)
+│   ├── Build-Plugin.ps1                 # Build plugin (Python + Frontend)
 │   ├── Deploy-Plugin.ps1                # Build & Deploy to server
+│   ├── Test-Plugin.ps1                  # Run plugin unit tests
 │   └── Dev-Frontend.ps1                 # Live frontend development
-├── copilot/                              # GitHub Copilot resources
-│   ├── copilot-guided-creation.md       # Intelligent plugin creation prompts
-│   ├── COPILOT-GUIDE.md                 # Complete Copilot reference
-│   └── AI-AGENT-BRIEFING.md             # AI assistant context
 ├── plugin-creator/                       # Git submodule (don't modify)
-├── .gitmodules                           # Submodule configuration
 └── README.md                             # ← You are here
 ```
 
@@ -61,14 +65,16 @@ inventree-plugin-ai-toolkit/
 
 **Recommended: Use GitHub Copilot (Intelligent Guidance)**
 
-1. Open `copilot/copilot-guided-creation.md`
-2. Copy the "CREATE NEW PLUGIN" prompt
-3. Paste into GitHub Copilot Chat (`Ctrl+I` or Chat panel)
-4. Copilot will:
+1. Open GitHub Copilot Chat in VS Code
+2. Reference the creation prompts:
+   ```
+   @workspace I want to create a new InvenTree plugin. Follow the guided creation process in copilot/plugin-creation-prompts.md
+   ```
+3. Copilot will:
    - Ask what your plugin should do
    - Recommend the right mixins based on your needs
-   - Generate the plugin-creator command
-   - Create the plugin structure
+   - Generate the plugin structure
+   - Provide implementation guidance
 
 **Alternative: Direct Command**
 
@@ -136,18 +142,25 @@ This lets you see changes instantly in your browser without rebuilding!
 - **docs/inventree/CUSTOM-STATES.md** - Understanding InvenTree custom states
 - **docs/inventree/TESTING-FRAMEWORK.md** - Django testing patterns for plugins
 
-### Using Copilot Guided Creation
+### Using GitHub Copilot
 
-To make Copilot use the guided creation template:
+Copilot automatically discovers `.github/copilot-instructions.md` for context. You can also:
 
+**Create a plugin:**
 ```
-@workspace I want to create a new InvenTree plugin. Follow the guided creation process in copilot/copilot-guided-creation.md
+@workspace Create a new InvenTree plugin using copilot/plugin-creation-prompts.md
 ```
 
-Or use file mention:
-
+**Get help with development:**
 ```
-#file:copilot-guided-creation.md Use the CREATE NEW PLUGIN workflow to help me build a plugin
+How do I add a custom panel to the Part page?
+Show me how to create a plugin setting
+Help me debug this error: [paste error]
+```
+
+**Reference specific guides:**
+```
+#file:docs/toolkit/WORKFLOWS.md Show me how to deploy a plugin
 ```
 
 ## 📦 Plugin Deployment Methods
@@ -183,7 +196,7 @@ Open Copilot Chat in VS Code and try:
 - "Show me how to create a plugin setting"
 - "Help me debug this frontend error: [paste error]"
 
-See **copilot/COPILOT-GUIDE.md** for more prompt examples.
+See **copilot/plugin-creation-prompts.md** for ready-to-use prompts and **docs/toolkit/WORKFLOWS.md** for step-by-step guides.
 
 ## ⚙️ Configuration
 
@@ -220,4 +233,3 @@ See **copilot/COPILOT-GUIDE.md** for more prompt examples.
 - [InvenTree Plugin Documentation](https://docs.inventree.org/en/latest/plugins/)
 - [InvenTree API Documentation](https://docs.inventree.org/en/latest/api/api/)
 - [Plugin Creator Repository](https://github.com/inventree/plugin-creator)
-# Test comment
