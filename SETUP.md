@@ -216,3 +216,4 @@ Once setup is complete:
 3. Use [copilot/copilot-guided-creation.md](copilot/copilot-guided-creation.md) with GitHub Copilot
 
 Happy plugin development! 🚀
+ 
