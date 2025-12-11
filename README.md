@@ -220,3 +220,4 @@ See **copilot/COPILOT-GUIDE.md** for more prompt examples.
 - [InvenTree Plugin Documentation](https://docs.inventree.org/en/latest/plugins/)
 - [InvenTree API Documentation](https://docs.inventree.org/en/latest/api/api/)
 - [Plugin Creator Repository](https://github.com/inventree/plugin-creator)
+# Test comment
