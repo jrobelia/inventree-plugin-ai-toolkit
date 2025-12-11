@@ -165,7 +165,22 @@ try {
     Write-Host "Using InvenTree invoke test runner..."
         
     if ($TestPath) {
-      $testCommand = "invoke dev.test -r $TestPath"
+      # Run specific test path
+      Write-Status "Running: $TestPath"
+      
+      if ($ShowDetails) {
+        & invoke dev.test -r $TestPath
+      } else {
+        & invoke dev.test -r $TestPath 2>&1
+      }
+        
+      if ($LASTEXITCODE -eq 0) {
+        Write-Success "Tests passed!"
+        exit 0
+      } else {
+        Write-Failure "Tests failed"
+        exit 1
+      }
     } else {
       # Discover all test modules in plugin
       $testModules = Get-ChildItem -Path $testsDir -Filter "test_*.py" | ForEach-Object {
@@ -186,7 +201,6 @@ try {
       $allPassed = $true
       foreach ($module in $testModules) {
         Write-Status "Running: $module"
-        $testCommand = "invoke dev.test -r $module"
                 
         if ($ShowDetails) {
           & invoke dev.test -r $module
@@ -210,19 +224,6 @@ try {
         Write-Failure "Some tests failed"
         exit 1
       }
-    }
-        
-    if ($ShowDetails) {
-      & invoke dev.test -r $TestPath
-    } else {
-      & invoke dev.test -r $TestPath 2>&1
-    }
-        
-    if ($LASTEXITCODE -eq 0) {
-      Write-Success "Tests passed!"
-    } else {
-      Write-Failure "Tests failed"
-      exit 1
     }
         
   } else {
