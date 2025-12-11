@@ -772,6 +772,8 @@ When the git hook shows a reminder, review the listed files and update:
 
 ---
 
-**Last Updated**: December 10, 2025
+---
+
+**Last Updated**: December 10, 2025  
 **Toolkit Version**: 1.0
 **InvenTree Compatibility**: 0.16.x+
