@@ -88,8 +88,36 @@ try {
     
     # Build frontend if it exists
     if ($HasFrontend -and -not $SkipFrontend) {
+        # Run pre-commit hooks (formatters) if available so that build uses final sources
+        Write-Step "Running pre-commit hooks (formatters) if available"
+
+        # Prefer plugin-local .venv Python to run pre-commit (doesn't require activation)
+        $venvPythonPath = Join-Path $PluginPath ".venv\Scripts\python.exe"
+        if (Test-Path $venvPythonPath) {
+            Write-Info ("Running pre-commit via plugin .venv: {0} -m pre_commit run --all-files" -f $venvPythonPath)
+            & $venvPythonPath -m pre_commit run --all-files
+            $pcExit = $LASTEXITCODE
+        } else {
+            # Fallback to globally-installed pre-commit if available
+            $precommit = Get-Command pre-commit -ErrorAction SilentlyContinue
+            if ($null -ne $precommit) {
+                Write-Info 'Running: pre-commit run --all-files'
+                pre-commit run --all-files
+                $pcExit = $LASTEXITCODE
+            } else {
+                Write-Info 'pre-commit not found (neither plugin .venv nor global). To enable, activate plugin .venv and install pre-commit (see docs).'
+                $pcExit = 0
+            }
+        }
+
+        if ($pcExit -ne 0) {
+            Write-Warning "pre-commit reported issues or modified files. Files may have been formatted - the build will proceed with the formatted sources."
+        } else {
+            Write-Info 'pre-commit completed without changes.'
+        }
+
         Write-Step "Building frontend code..."
-        
+
         Push-Location "frontend"
         
         # Check if node_modules exists
