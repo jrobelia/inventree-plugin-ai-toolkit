@@ -722,9 +722,11 @@ A post-commit hook automatically reminds developers to update documentation when
 **How It Works:**
 1. After each commit, `.git/hooks/post-commit` runs
 2. PowerShell script `.git/hooks/post-commit.ps1` analyzes changed files
-3. If toolkit files changed (scripts/, config/, docs/, copilot/), displays reminder
-4. Reminder shows specific documentation files that may need updates
-5. Hook ONLY triggers for toolkit changes, NOT plugin development
+3. If toolkit files changed (scripts/, config/, docs/, copilot/), displays reminder with:
+   - Commit hash and message (for context and copy-paste to AI agents)
+   - Specific files that changed in each area
+   - Relevant documentation files that may need updates
+4. Hook ONLY triggers for toolkit changes, NOT plugin development
 
 **What Triggers Reminders:**
 - `scripts/` changes → Update WORKFLOWS.md, QUICK-REFERENCE.md, PROJECT-CONTEXT.md
