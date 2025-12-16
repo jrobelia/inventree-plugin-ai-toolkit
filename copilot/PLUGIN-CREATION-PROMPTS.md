@@ -1,6 +1,6 @@
 # InvenTree Plugin Creation Prompts
 
-**Audience:** AI Agents | **Category:** Workflow Guides | **Purpose:** Ready-to-use prompts for creating InvenTree plugins | **Last Updated:** 2025-12-10
+**Audience:** AI Agents | **Category:** Workflow Guides | **Purpose:** Ready-to-use prompts for creating InvenTree plugins | **Last Updated:** 2025-12-15
 
 ---
 
@@ -483,8 +483,9 @@ When creating a new plugin, establish documentation organization from the start:
 
 **Create these files immediately:**
 1. **README.md** - Feature overview, installation, basic usage
-2. **tests/TEST-PLAN.md** - Testing strategy and workflow (even if just one test initially)
-3. **COPILOT-GUIDE.md** - Plugin-specific development patterns for AI agents
+2. **.github/copilot-instructions.md** - Auto-discovered entry point for AI agents (points to PLUGIN-CONTEXT.md)
+3. **PLUGIN-CONTEXT.md** - Plugin architecture, tech stack, development patterns (detailed guide)
+4. **tests/TEST-PLAN.md** - Testing strategy and workflow (even if just one test initially)
 
 **Optional (create as needed):**
 - **docs/TEST-QUALITY-REVIEW.md** - Test quality analysis (when you have 20+ tests)
@@ -499,12 +500,19 @@ When creating a new plugin, establish documentation organization from the start:
 
 **Good Organization:**
 ```
-README.md → What the plugin does, how to use it
+README.md → What the plugin does, how to use it (user-facing)
+.github/copilot-instructions.md → Auto-discovered entry point (points to other docs)
+PLUGIN-CONTEXT.md → Architecture, tech stack, patterns (detailed agent guide)
 tests/TEST-PLAN.md → How to test (strategy, workflow, commands)
 docs/TEST-QUALITY-REVIEW.md → Test quality analysis and improvements
 docs/REFAC-PLAN.md → What to refactor, current status, next steps
-COPILOT-GUIDE.md → Development patterns for AI agents
 ```
+
+**Why .github/copilot-instructions.md:**
+- Auto-discovered by GitHub Copilot from workspace root folders
+- Acts as entry point/table of contents for AI agents
+- Points to PLUGIN-CONTEXT.md for detailed guidance
+- Consistent with toolkit structure
 
 **When Documents Exceed 500 Lines:**
 1. Identify duplicate content across files
@@ -538,15 +546,51 @@ See [TEST-PLAN.md](tests/TEST-PLAN.md) for complete testing workflow.
 See [TEST-QUALITY-REVIEW.md](docs/TEST-QUALITY-REVIEW.md) for test analysis.
 ```
 
-### COPILOT-GUIDE.md Template
+### Plugin Documentation Template Structure
 
-New plugins should include a COPILOT-GUIDE.md with these sections:
+**Required Files:**
 
+**1. .github/copilot-instructions.md** (Auto-discovered by Copilot)
 ```markdown
-# GitHub Copilot Guide - [PluginName]
+# GitHub Copilot Instructions - [PluginName]
 
-## Quick Context
-- Plugin type, description, purpose
+**This file is automatically read by GitHub Copilot.**
+
+## Quick Start for AI Agents
+1. [PLUGIN-CONTEXT.md](../PLUGIN-CONTEXT.md) - Architecture & patterns
+2. [docs/REFAC-PLAN.md](../docs/REFAC-PLAN.md) - Current work status
+3. [tests/TEST-PLAN.md](../tests/TEST-PLAN.md) - Testing strategy
+
+## Plugin Overview
+- Type, purpose, key features
+
+## Current Work Status
+- Phase/milestone tracking
+- Test status
+- Recent changes
+
+## Documentation Organization
+- Single source of truth principle
+- Links to each doc's purpose
+
+## Common Commands
+- Testing, build, deploy commands
+
+## Key Guidelines
+- User context, communication style
+- Code generation rules
+- Testing approach
+
+## Architecture Quick Reference
+- Backend/frontend structure overview
+
+## Critical Gaps & Priorities
+- High-level issues from TEST-QUALITY-REVIEW.md
+```
+
+**2. PLUGIN-CONTEXT.md** (Detailed guidance, linked from copilot-instructions.md)
+```markdown
+# Plugin Context - [PluginName]
 
 ## Development Guidelines  
 - Communication style preferences
@@ -557,40 +601,34 @@ New plugins should include a COPILOT-GUIDE.md with these sections:
 - Single source of truth principle
 - When to reorganize (>500 lines)
 - Progress log guidelines
-- Cross-referencing examples
 
 ## Plugin Architecture
-- Backend/frontend structure
-- Common InvenTree patterns
-- Available mixins
+- Detailed backend/frontend structure
+- InvenTree patterns used
+- Mixin explanations
 
 ## Development Workflow
-- Feature development steps
-- Refactoring workflow
-- Testing commands
-- Build & deployment
+- Feature development, refactoring, testing
+- Complete command examples
 
 ## Common Tasks
-- Adding API endpoints
-- Adding frontend panels
-- Examples with code
+- Adding API endpoints (with code examples)
+- Adding frontend panels (with code examples)
 
 ## Debugging Tips
 - Backend/frontend debugging
-- Common issues
+- Common issues and solutions
 
 ## Best Practices
-- Code, documentation, testing
-
-## Resources
-- Links to toolkit and InvenTree docs
+- Code, documentation, testing standards
 ```
 
-**Why this matters:**
-- Future AI agents understand plugin-specific patterns
-- Consistent documentation organization across all plugins
-- Easy to maintain as plugin grows
-- Clear guidance prevents documentation sprawl
+**Why this structure:**
+- `.github/copilot-instructions.md` auto-discovered by Copilot (entry point)
+- `PLUGIN-CONTEXT.md` has detailed guidance (prevents 500+ line entry file)
+- Separates "quick reference" from "detailed guide"
+- Consistent with toolkit structure
+- Works in multi-root workspaces
 
 ---
 
