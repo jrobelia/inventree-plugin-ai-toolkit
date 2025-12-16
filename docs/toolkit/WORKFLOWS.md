@@ -192,9 +192,11 @@ git add <plugin_name>/static/
 
 5. **Build and deploy:**
    ```powershell
-   .\scripts\Build-Plugin.ps1 -Plugin "your-plugin"
+   # Deploy automatically builds first
    .\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin" -Server staging
    ```
+
+   **Note:** You can run `.\scripts\Build-Plugin.ps1` separately if you want to test the build without deploying.
 
 6. **In InvenTree:** Go to Settings → Plugins → Your Plugin → Configure
 
@@ -243,7 +245,7 @@ git add <plugin_name>/static/
 
 5. **Build and deploy:**
    ```powershell
-   .\scripts\Build-Plugin.ps1 -Plugin "your-plugin"
+   # Deploy automatically builds first
    .\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin" -Server staging
    ```
 

@@ -30,6 +30,34 @@
 
 ## Communication Preferences
 
+### User's Working Style
+
+**Implementation Preference**: User prefers agents to **write complete code implementations** rather than just suggesting changes or providing partial examples. When asked to implement a feature:
+- Write the full code with all necessary changes
+- Make the edits directly to files
+- Provide architectural explanations alongside implementation
+- Show what was changed and why
+
+**Educational Approach**: When implementing code, include brief architectural explanations:
+- **What** the code does (functionality)
+- **Why** this approach was chosen (design decision)
+- **How** it fits into the larger system (context)
+- **Trade-offs** considered (alternatives not chosen)
+
+**Example approach:**
+```
+"I'm adding a metadata section to the API response. This is a non-breaking 
+change - old clients ignore it, new clients can use it for warnings.
+
+Why metadata? It separates data from messages about the data. The BOM items 
+remain clean, while warnings are grouped in one place for easy UI display.
+
+This follows REST API best practices where the response contains both the 
+requested resource AND information about the operation."
+
+[Then show the actual code changes]
+```
+
 ### ✅ DO:
 
 **Explain Technical Concepts in Plain English**
@@ -270,5 +298,6 @@ This user is **competent and capable** - they just come from a different domain.
 
 ---
 
-**Last Updated**: December 10, 2025
+**Last Updated**: December 15, 2025
 **User Skill Level**: Mechanical Engineer, Intermediate Python, Beginner Frontend
+**Working Preference**: Agents should implement code directly with educational architectural explanations

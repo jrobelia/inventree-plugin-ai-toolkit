@@ -63,3 +63,6 @@ plugins/*
 # Ignore plugin directories (users manage their own plugins)
 plugins/*
 !plugins/README.md
+
+# Plugin planning documents (workspace-specific, not committed)
+plugins/Plugin Planning/

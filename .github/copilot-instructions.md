@@ -186,7 +186,7 @@ See `copilot/PROJECT-CONTEXT.md` → Documentation Update Routine for checklist.
 
 **For Agents:**
 - Communication style: `copilot/AGENT-BEHAVIOR.md`
-- Architecture & patterns: `copilot/PROJECT-CONTEXT.md`
+- Architecture, patterns & debugging: `copilot/PROJECT-CONTEXT.md`
 - Plugin creation: `copilot/plugin-creation-prompts.md`
 
 **For Tasks:**

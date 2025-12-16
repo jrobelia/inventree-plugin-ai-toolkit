@@ -17,16 +17,15 @@ Keep this handy while developing InvenTree plugins!
 c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit\
 ```
 
-### Build, Commit, Deploy (Full Workflow)
+### Build, Commit, Deploy (Full Workflow) FlatBOMGenerator used as Plugin Example Name
 ```powershell
 cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
-.\scripts\Build-Plugin.ps1 -Plugin "FlatBOMGenerator"
 cd plugins\FlatBOMGenerator
 git add -A
 git commit -m "your commit message here"
 git push origin main
 cd ..\..
-.\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
+.\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging  # Auto-builds
 ```
 
 ### Build Only
@@ -49,10 +48,9 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 .\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
 ```
 
-### Build + Deploy (Skip Commit)
+### Deploy (Auto-builds)
 ```powershell
 cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
-.\scripts\Build-Plugin.ps1 -Plugin "FlatBOMGenerator"
 .\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
 ```
 
@@ -66,18 +64,17 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 # Create new plugin
 .\scripts\New-Plugin.ps1
 
-# Build plugin
+# Build plugin (optional - Deploy auto-builds)
 .\scripts\Build-Plugin.ps1 -Plugin "plugin-name"
 
-# Deploy to staging
+# Deploy to staging (automatically builds first)
 .\scripts\Deploy-Plugin.ps1 -Plugin "plugin-name" -Server staging
 
-# Deploy to production
+# Deploy to production (automatically builds first)
 .\scripts\Deploy-Plugin.ps1 -Plugin "plugin-name" -Server production
-
-# Build and deploy in one go
-.\scripts\Deploy-Plugin.ps1 -Plugin "plugin-name" -Server staging -Build
 ```
+
+**Note:** Deploy-Plugin.ps1 automatically runs Build-Plugin.ps1 before copying files, so manual builds are optional.
 
 ---
 
@@ -294,12 +291,13 @@ plugins/your-plugin/         # Your plugin code
 ```
 1. Create plugin    → .\scripts\New-Plugin.ps1
 2. Edit code        → Use VS Code
-3. Build (optional) → .\scripts\Build-Plugin.ps1  # Deploy auto-builds
-4. Deploy to test   → .\scripts\Deploy-Plugin.ps1 -Server staging
-5. Test it          → Check on staging server
-6. Fix issues       → Repeat from step 2
-7. Deploy to prod   → .\scripts\Deploy-Plugin.ps1 -Server production
+3. Deploy to test   → .\scripts\Deploy-Plugin.ps1 -Server staging  # Auto-builds
+4. Test it          → Check on staging server
+5. Fix issues       → Repeat from step 2
+6. Deploy to prod   → .\scripts\Deploy-Plugin.ps1 -Server production
 ```
+
+**Note:** Deploy-Plugin.ps1 automatically runs Build-Plugin.ps1, so you don't need to build separately unless testing the build.
 
 ---
 

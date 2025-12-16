@@ -113,32 +113,36 @@ pre-commit run --all-files  # Initial formatting
 
 See `docs/toolkit/WORKFLOWS.md` for details.
 
-### 3. Build Your Plugin
+### 3. Build Your Plugin (Optional)
 
 ```powershell
 # Build everything (Python + Frontend if applicable)
+# Note: Deploy-Plugin.ps1 automatically builds, so this is optional
 .\scripts\Build-Plugin.ps1 -Plugin "your-plugin-name"
 ```
 
 ### 4. Deploy to Server
 
 ```powershell
-# Deploy to staging server first
+# Deploy to staging server (automatically builds first)
 .\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin-name" -Server staging
 
 # After testing, deploy to production
 .\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin-name" -Server production
 ```
 
+**Note:** `Deploy-Plugin.ps1` automatically runs `Build-Plugin.ps1` before deploying, so you don't need to build separately unless you want to test the build without deploying.
+
 ## 🛠️ Common Workflows
 
 ### Making Changes to Existing Plugin
 
 1. Edit your code in VS Code
-2. Build: `.\scripts\Build-Plugin.ps1 -Plugin "your-plugin-name"`
-3. Deploy: `.\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin-name" -Server staging`
-4. Test on staging server
-5. Deploy to production when ready
+2. Deploy: `.\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin-name" -Server staging`
+3. Test on staging server
+4. Deploy to production when ready
+
+**Optional:** Run `.\scripts\Build-Plugin.ps1` first if you want to verify the build succeeds before deploying.
 
 ## 📖 Documentation
 
