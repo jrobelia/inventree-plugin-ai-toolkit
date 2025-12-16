@@ -475,5 +475,126 @@ When Copilot asks which mixins you need, use this as a guide:
 
 ---
 
-**Last Updated**: December 10, 2025
+## 📚 Documentation Standards for New Plugins
+
+When creating a new plugin, establish documentation organization from the start:
+
+### Initial Documentation Setup
+
+**Create these files immediately:**
+1. **README.md** - Feature overview, installation, basic usage
+2. **tests/TEST-PLAN.md** - Testing strategy and workflow (even if just one test initially)
+3. **COPILOT-GUIDE.md** - Plugin-specific development patterns for AI agents
+
+**Optional (create as needed):**
+- **docs/TEST-QUALITY-REVIEW.md** - Test quality analysis (when you have 20+ tests)
+- **docs/REFAC-PLAN.md** - Refactoring plans (if doing major restructuring)
+
+### Documentation Organization Principles
+
+**Single Source of Truth:**
+- Each document has ONE focused purpose
+- Avoid duplicating information across files
+- Link between docs instead of copying content
+
+**Good Organization:**
+```
+README.md → What the plugin does, how to use it
+tests/TEST-PLAN.md → How to test (strategy, workflow, commands)
+docs/TEST-QUALITY-REVIEW.md → Test quality analysis and improvements
+docs/REFAC-PLAN.md → What to refactor, current status, next steps
+COPILOT-GUIDE.md → Development patterns for AI agents
+```
+
+**When Documents Exceed 500 Lines:**
+1. Identify duplicate content across files
+2. Link to other docs instead of duplicating
+3. Trim historical progress logs (3-5 lines per session, reference git commits)
+4. Focus on "what's next" rather than detailed historical narrative
+
+**Progress Log Guidelines:**
+```markdown
+# Good - Brief with key insights
+**2025-12-15**: Feature X (commit abc1234)
+- Implemented SerializerClass (24 fields)
+- Found 2 bugs through testing  
+- Production validated with 117 items
+
+# Bad - Too detailed, duplicates commit message
+**2025-12-15 Morning Session**: Feature X Implementation
+What We Did:
+1. Created SerializerClass with 24 fields:
+   - field1: IntegerField for...
+   - field2: CharField for...
+   [... 50 more lines ...]
+```
+
+**Cross-Reference Examples:**
+```markdown
+## Testing Strategy
+See [TEST-PLAN.md](tests/TEST-PLAN.md) for complete testing workflow.
+
+## Known Issues
+See [TEST-QUALITY-REVIEW.md](docs/TEST-QUALITY-REVIEW.md) for test analysis.
+```
+
+### COPILOT-GUIDE.md Template
+
+New plugins should include a COPILOT-GUIDE.md with these sections:
+
+```markdown
+# GitHub Copilot Guide - [PluginName]
+
+## Quick Context
+- Plugin type, description, purpose
+
+## Development Guidelines  
+- Communication style preferences
+- Code quality standards
+- Testing approach (test-first)
+
+## Documentation Organization
+- Single source of truth principle
+- When to reorganize (>500 lines)
+- Progress log guidelines
+- Cross-referencing examples
+
+## Plugin Architecture
+- Backend/frontend structure
+- Common InvenTree patterns
+- Available mixins
+
+## Development Workflow
+- Feature development steps
+- Refactoring workflow
+- Testing commands
+- Build & deployment
+
+## Common Tasks
+- Adding API endpoints
+- Adding frontend panels
+- Examples with code
+
+## Debugging Tips
+- Backend/frontend debugging
+- Common issues
+
+## Best Practices
+- Code, documentation, testing
+
+## Resources
+- Links to toolkit and InvenTree docs
+```
+
+**Why this matters:**
+- Future AI agents understand plugin-specific patterns
+- Consistent documentation organization across all plugins
+- Easy to maintain as plugin grows
+- Clear guidance prevents documentation sprawl
+
+---
+
+**Last Updated**: December 15, 2025
 **Compatible with**: InvenTree 0.16.x+
+
+See `copilot/TERMINAL-TESTING-COMMANDS.md` for terminal commands to run tests, deploy, and fetch logs.
