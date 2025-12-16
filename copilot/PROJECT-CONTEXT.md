@@ -1,6 +1,6 @@
 # Project Context - InvenTree Plugin Toolkit
 
-**Audience:** AI Agents | **Category:** Technical Architecture | **Purpose:** Project architecture, folder structure, tech stack, and InvenTree patterns | **Last Updated:** 2025-12-11
+**Audience:** AI Agents | **Category:** Technical Architecture | **Purpose:** Project architecture, folder structure, tech stack, and InvenTree patterns | **Last Updated:** 2025-12-15
 
 ---
 
@@ -677,15 +677,54 @@ When updating plugin documentation:
 - [ ] Test names clearly describe what they test
 - [ ] Edge cases documented
 
-### 3. Proactive Review Trigger
+### 3. Documentation Organization Principles
+
+**Single Source of Truth**:
+Each document should have ONE focused purpose. Avoid duplicating information across files.
+
+**Good Organization:**
+- **TEST-PLAN.md** → Testing execution, strategy, workflow, CI/CD guidance
+- **TEST-QUALITY-REVIEW.md** → Test quality analysis, gaps, improvement roadmap
+- **REFAC-PLAN.md** → What to refactor, how to refactor, current status, next steps
+
+**When Documents Get Too Large (>500 lines):**
+1. Identify duplicate content across multiple files
+2. Link to other docs instead of duplicating information
+3. Trim historical progress logs (git has full details)
+4. Keep focus on "what's next" rather than historical narrative
+5. Use git commit messages for comprehensive session summaries
+
+**Examples of Good Cross-Referencing:**
+```markdown
+## Testing Strategy
+See [TEST-PLAN.md](../tests/TEST-PLAN.md) for complete testing workflow and strategy.
+
+## Known Issues
+See [TEST-QUALITY-REVIEW.md](TEST-QUALITY-REVIEW.md) for detailed test quality analysis and improvement priorities.
+```
+
+**Progress Log Guidelines:**
+- Keep progress logs brief (3-5 lines per session)
+- Reference git commits for full details
+- Focus on key insights learned, not step-by-step narrative
+- Example good format:
+  ```markdown
+  **2025-12-15**: Phase 2 serializers (commit abc1234)
+  - Implemented FlatBOMItemSerializer (24 fields)
+  - Found 2 bugs through testing
+  - Production validated with 117 BOM items
+  ```
+
+### 4. Proactive Review Trigger
 
 Suggest documentation review after:
 - 5+ feature additions without doc review
 - Major refactoring or restructuring
 - Before production deployment
 - Quarterly (for mature plugins)
+- **Document exceeds 500 lines** - Consider reorganizing
 
-### 4. Version Tracking in Docs
+### 5. Version Tracking in Docs
 
 Add "Last Verified" dates to major sections:
 
@@ -799,6 +838,62 @@ When the git hook shows a reminder, review the listed files and update:
 2. Command examples if syntax changed
 3. Workflow steps if process changed
 4. File paths if structure changed
+
+---
+
+## Debugging & Deployment Commands
+
+### Server Configuration
+
+**Server keys and SSH settings** are configured in `config/servers.json`. See `config/servers.json.example` for template.
+
+### Deployment Commands
+
+**Deploy plugin to staging:**
+```powershell
+cd 'C:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit'
+.\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
+```
+
+### Server Log Viewing (SSH)
+
+**View last 500 lines of InvenTree server logs:**
+```powershell
+ssh -i "C:\Users\<you>\.ssh\id_ed25519_inventree" root@staging.inventree.openaeros.com "cd /root/inventree/inventree && docker-compose logs --tail=500 inventree-server"
+```
+
+**Filter logs for specific keywords (e.g., part IPN, debug tags):**
+```powershell
+ssh -i "C:\Users\<you>\.ssh\id_ed25519_inventree" root@staging.inventree.openaeros.com "cd /root/inventree/inventree && docker-compose logs --tail=1000 inventree-server" | Select-String -Pattern 'OA-00270|internal_fab_cut_list|deduplicate_and_sum'
+```
+
+**Run Django management command inside container:**
+```powershell
+ssh -i "C:\Users\<you>\.ssh\id_ed25519_inventree" root@staging.inventree.openaeros.com 'cd /root/inventree/inventree && docker-compose exec -T inventree-server python manage.py shell -c "from flat_bom_generator.bom_traversal import get_flat_bom; out=get_flat_bom(13, enable_ifab_cuts=True, ifab_units=set([\"mm\",\"in\",\"cm\",\"ft\"])); import pprint; pprint.pprint(out)"'
+```
+
+### Local Testing Commands
+
+**Activate plugin virtual environment:**
+```powershell
+& ".\plugins\FlatBOMGenerator\.venv\Scripts\Activate.ps1"
+```
+
+**Run single test file:**
+```powershell
+python -m unittest plugins/FlatBOMGenerator/flat_bom_generator/tests/test_internal_fab_cut_rollup.py -v
+```
+
+**Run all plugin tests (discovery):**
+```powershell
+python -m unittest discover plugins/FlatBOMGenerator -v
+```
+
+### Important Notes
+
+- **SSH keys and server paths**: Use exact values from `config/servers.json` for your environment
+- **Complex remote commands**: Wrap outer command in single quotes, escape inner quotes, or use remote scripts
+- **Testing workflow**: Run tests locally in plugin venv before deploying to staging
 
 ---
 
