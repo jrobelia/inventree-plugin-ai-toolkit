@@ -43,7 +43,9 @@ This is an **InvenTree Plugin Development Toolkit** - a lightweight workspace fo
 - **Create plugin**: `.\scripts\New-Plugin.ps1` (interactive)
 - **Build plugin**: `.\scripts\Build-Plugin.ps1 -Plugin "PluginName"`
 - **Deploy plugin**: `.\scripts\Deploy-Plugin.ps1 -Plugin "PluginName" -Server "staging"`
-- **Run tests**: `.\scripts\Test-Plugin.ps1 -Plugin "PluginName"`
+- **Run unit tests**: `.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -Unit` (fast)
+- **Run integration tests**: `.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -Integration` (requires setup)
+- **Set up integration testing**: `.\scripts\Setup-InvenTreeDev.ps1` (one-time)
 - See `docs/toolkit/QUICK-REFERENCE.md` for command reference
 
 ### When User Requests
@@ -100,6 +102,7 @@ All files in `copilot/` are **agent-facing documentation**:
 - VS Code with GitHub Copilot
 - Python virtual environment
 - Manual copy-to-server deployment
+- InvenTree dev environment (optional, for integration testing)
 
 ---
 
@@ -140,7 +143,11 @@ See `copilot/PROJECT-CONTEXT.md` for complete mixin reference.
 **Why**: Emoji cause PowerShell parsing errors and Python encoding issues on Windows.
 
 **Acceptable**: Emoji in Markdown docs, React UI text (user-facing only)
-
+**Testing**: When refactoring or adding features:
+- Check if tests exist first (test-first workflow)
+- Write unit tests for pure functions (fast, no database)
+- Write integration tests for API endpoints (requires InvenTree dev setup)
+- See `docs/toolkit/TESTING-STRATEGY.md` for guidelines
 ---
 
 ## Documentation Updates
@@ -192,7 +199,10 @@ See `copilot/PROJECT-CONTEXT.md` → Documentation Update Routine for checklist.
 **For Tasks:**
 - How-to guides: `docs/toolkit/WORKFLOWS.md`
 - Command reference: `docs/toolkit/QUICK-REFERENCE.md`
-- Testing info: `docs/inventree/TESTING-FRAMEWORK.md`
+- Testing strategy: `docs/toolkit/TESTING-STRATEGY.md`
+- Integration testing setup: `docs/toolkit/INVENTREE-DEV-SETUP.md`
+- Integration testing summary: `docs/toolkit/INTEGRATION-TESTING-SUMMARY.md`
+- Django testing patterns: `docs/inventree/TESTING-FRAMEWORK.md`
 
 **For Context:**
 - Toolkit overview: `README.md`

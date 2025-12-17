@@ -121,7 +121,31 @@ See `docs/toolkit/WORKFLOWS.md` for details.
 .\scripts\Build-Plugin.ps1 -Plugin "your-plugin-name"
 ```
 
-### 4. Deploy to Server
+### 4. Test Your Plugin (Optional but Recommended)
+
+```powershell
+# Run fast unit tests (no setup required)
+.\scripts\Test-Plugin.ps1 -Plugin "your-plugin-name" -Unit
+
+# Run integration tests (requires InvenTree dev setup - see below)
+.\scripts\Test-Plugin.ps1 -Plugin "your-plugin-name" -Integration
+```
+
+**Integration Testing** (one-time setup):
+```powershell
+# Set up InvenTree development environment (1-2 hours, one-time)
+.\scripts\Setup-InvenTreeDev.ps1
+
+# Link your plugin to InvenTree dev environment
+.\scripts\Link-PluginToDev.ps1 -Plugin "your-plugin-name"
+
+# Now you can run integration tests with real InvenTree models
+.\scripts\Test-Plugin.ps1 -Plugin "your-plugin-name" -Integration
+```
+
+See [docs/toolkit/INTEGRATION-TESTING-SUMMARY.md](docs/toolkit/INTEGRATION-TESTING-SUMMARY.md) for complete guide.
+
+### 5. Deploy to Server
 
 ```powershell
 # Deploy to staging server (automatically builds first)
@@ -155,6 +179,9 @@ See `docs/toolkit/WORKFLOWS.md` for details.
 ### Toolkit Documentation
 - **QUICK-REFERENCE.md** - Command cheat sheet (at toolkit root for easy access)
 - **docs/toolkit/WORKFLOWS.md** - Step-by-step guides for common tasks
+- **docs/toolkit/INVENTREE-DEV-SETUP.md** - InvenTree development environment setup for integration testing
+- **docs/toolkit/TESTING-STRATEGY.md** - When to use unit tests vs integration tests
+- **docs/toolkit/INTEGRATION-TESTING-SUMMARY.md** - Complete integration testing guide
 
 ### InvenTree Knowledge Base
 - **docs/inventree/CUSTOM-STATES.md** - Understanding InvenTree custom states

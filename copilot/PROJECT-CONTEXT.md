@@ -1,6 +1,6 @@
 # Project Context - InvenTree Plugin Toolkit
 
-**Audience:** AI Agents | **Category:** Technical Architecture | **Purpose:** Project architecture, folder structure, tech stack, and InvenTree patterns | **Last Updated:** 2025-12-15
+**Audience:** AI Agents | **Category:** Comprehensive Developer Context | **Purpose:** Project architecture, tech stack, testing infrastructure, development workflows, debugging patterns, and InvenTree integration guide | **Last Updated:** 2025-12-16
 
 ---
 
@@ -237,6 +237,50 @@ pre-commit run --all-files
 - Catches errors before deployment
 - Reduces code review friction
 - Enforces best practices automatically
+
+### Testing Infrastructure
+
+**Two-Tier Testing Approach:**
+
+**Unit Tests** (Fast, No Database):
+- Location: `plugins/PluginName/plugin_name/tests/unit/`
+- Speed: ~0.2 seconds
+- Setup: None (just Python)
+- Use For: Pure functions, business logic, serializer validation
+- Runner: `python -m unittest`
+
+**Integration Tests** (Real InvenTree Models):
+- Location: `plugins/PluginName/plugin_name/tests/integration/`
+- Speed: ~2-5 seconds
+- Setup: InvenTree dev environment (one-time, 1-2 hours)
+- Use For: API endpoints, BOM traversal, database queries
+- Runner: `invoke dev.test` (InvenTree test framework)
+
+**Setup Commands:**
+```powershell
+# One-time setup (1-2 hours)
+.\scripts\Setup-InvenTreeDev.ps1
+.\scripts\Link-PluginToDev.ps1 -Plugin "PluginName"
+
+# Run tests
+.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -Unit         # Fast
+.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -Integration  # Real models
+.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -All          # Both
+```
+
+**Test-First Workflow:**
+1. Check if tests exist for code you're refactoring
+2. Evaluate test quality (coverage, thoroughness, accuracy)
+3. Improve/create tests BEFORE refactoring
+4. Refactor code
+5. Verify tests still pass
+
+**Why**: Phase 2 serializer refactoring found 2 bugs immediately through test-first approach.
+
+**Documentation:**
+- **Testing Strategy**: `docs/toolkit/TESTING-STRATEGY.md` - When to use unit vs integration tests
+- **Setup Guide**: `docs/toolkit/INVENTREE-DEV-SETUP.md` - Complete InvenTree dev setup
+- **Quick Summary**: `docs/toolkit/INTEGRATION-TESTING-SUMMARY.md` - Executive overview
 
 ### Deployment
 - **Method**: Manual copy to server plugin directories
