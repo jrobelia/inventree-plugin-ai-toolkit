@@ -36,6 +36,14 @@ response = self.client.get('/api/plugin/flat-bom-generator/flat-bom/123/')  # 40
 # ✅ DO: Call functions directly with real Part objects
 from flat_bom_generator.bom_traversal import get_flat_bom
 result, imp_count, warnings, max_depth = get_flat_bom(part.pk)  # Works!
+
+# ✅ ALSO WORKS: Call DRF APIView as callable (for testing view layer)
+from rest_framework.test import APIRequestFactory, force_authenticate
+factory = APIRequestFactory()
+view = MyAPIView.as_view()  # Get callable
+request = factory.get('/fake-url/')
+force_authenticate(request, user=test_user)  # Bypass auth
+response = view(request, part_id=123)  # Calls dispatch() which wraps request
 ```
 
 **Key Principle**: Integration tests validate "does it work with real InvenTree models?" not "does the HTTP layer work?" (that's manual testing).
@@ -182,6 +190,91 @@ def test_bom_quantity_aggregation(self):
 ```
 
 **Key Principle**: Integration tests should be **simple validation that functions work with real models**, not complex end-to-end scenarios. Complex scenarios belong in unit tests with controlled inputs.
+
+---
+
+### Testing DRF APIView Subclasses (View Layer)
+
+**Problem**: APIView.get() expects DRF Request object (has `.query_params`), but APIRequestFactory creates plain WSGIRequest.
+
+**Solution**: Use `as_view()` pattern to trigger full DRF lifecycle (dispatch → initialize_request → get).
+
+✅ **Complete Pattern**:
+```python
+# tests/integration/test_views_integration.py
+from rest_framework.test import APIRequestFactory, force_authenticate
+from django.contrib.auth import get_user_model
+from InvenTree.unit_test import InvenTreeTestCase
+
+class ViewIntegrationTests(InvenTreeTestCase):
+    """Test DRF APIView with real InvenTree models."""
+    
+    @classmethod
+    def setUpTestData(cls):
+        """Create test data once."""
+        super().setUpTestData()
+        
+        # Create test user for authentication
+        User = get_user_model()
+        cls.user, _ = User.objects.get_or_create(
+            username='plugin_testuser',
+            defaults={'email': 'test@example.com', 'password': 'test123'}
+        )
+        
+        # Create test parts
+        cls.assembly = Part.objects.create(
+            name='Test Assembly',
+            IPN='TST-001',
+            assembly=True,
+            active=True
+        )
+    
+    def setUp(self):
+        """Set up test environment."""
+        super().setUp()
+        self.factory = APIRequestFactory()
+        self.view = MyPluginView.as_view()  # Returns callable
+    
+    def test_view_returns_200_with_valid_data(self):
+        """View should return 200 OK with valid part ID."""
+        # Create DRF-compatible request
+        request = self.factory.get('/fake-url/')  # URL doesn't matter
+        
+        # Bypass authentication (tests don't need real auth)
+        force_authenticate(request, user=self.user)
+        
+        # Call view as callable (triggers dispatch)
+        response = self.view(request, part_id=self.assembly.pk)
+        
+        # Validate response
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('part_id', response.data)
+```
+
+**Why This Works**:
+1. `MyPluginView.as_view()` returns a **callable** (not instance)
+2. Calling `self.view(request, **kwargs)` triggers `dispatch()` method
+3. `dispatch()` calls `initialize_request()` which wraps WSGIRequest → DRF Request
+4. Wrapped request has `.query_params`, `.user`, and other DRF attributes
+5. `force_authenticate()` bypasses permission checks (test doesn't need real auth)
+
+**Common Mistakes**:
+```python
+# ❌ DON'T: Call view.get() directly (bypasses dispatch)
+view = MyPluginView()
+response = view.get(request, part_id=123)  # AttributeError: no query_params
+
+# ❌ DON'T: Use RequestFactory (not DRF-aware)
+factory = RequestFactory()  # Django factory, not DRF
+
+# ✅ DO: Use as_view() and call as callable
+view = MyPluginView.as_view()
+response = view(request, part_id=123)  # Works!
+```
+
+**Reference**: See `plugins/FlatBOMGenerator/flat_bom_generator/tests/test_view_function.py` for complete working example (14 view tests).
+
+---
 
 **Benefits:**
 - Test real behavior

@@ -243,14 +243,16 @@ if ($IsRemote) {
     
     # Clean up wheel file
     Write-Info "Cleaning up temporary files..."
-    ssh @SSHCheckArgs $SSHConnection "rm -f $RemoteWheelPath" 2>$null
+    ssh @SSHCheckArgs $SSHConnection "rm -f $RemoteWheelPath" 2>&1 | Out-Null
     
     # Restart InvenTree
     Write-Info "Restarting InvenTree..."
     $RestartCmd = "cd $DockerDir && docker-compose restart inventree-server"
     
     $RestartOutput = ssh @SSHCheckArgs $SSHConnection $RestartCmd 2>&1
-    Write-Host $RestartOutput
+    if ($RestartOutput) {
+        Write-Host $RestartOutput
+    }
     
     if ($LASTEXITCODE -eq 0) {
         Write-Success "??? InvenTree restarted successfully"

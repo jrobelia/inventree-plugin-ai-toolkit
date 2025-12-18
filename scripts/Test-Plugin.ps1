@@ -325,83 +325,177 @@ if ($runIntegration) {
     Write-Host ""
     $allPassed = $false
   } else {
-    try {
-      # Change to InvenTree directory
-      Push-Location $inventreeDevDir
-      
-      # Activate InvenTree virtual environment (use dot-sourcing to persist in current session)
-      $activateScript = Join-Path $inventreeDevDir ".venv\Scripts\Activate.ps1"
-      if (Test-Path $activateScript) {
-        Write-Status "Activating InvenTree virtual environment..."
-        . $activateScript
-      } else {
-        Write-Failure "InvenTree virtual environment not found: $activateScript"
-        Write-Host "Make sure InvenTree dev environment is properly set up."
-        $allPassed = $false
-        Pop-Location
-        return
-      }
-      
-      # On Windows, invoke has issues with python3 command (tasks.py hardcodes python3)
-      # Use python manage.py directly instead
-      # Reference: https://docs.inventree.org/en/latest/plugins/test/
-      
-      # Set plugin testing environment variables (must be set AFTER venv activation)
-      $env:INVENTREE_PLUGINS_ENABLED = "True"
-      $env:INVENTREE_PLUGIN_TESTING = "True"
-      $env:INVENTREE_PLUGIN_TESTING_SETUP = "True"
-      Write-Host "Plugin testing environment variables set" -ForegroundColor DarkGray
-      
-      # Add plugins directory to PYTHONPATH so Django can discover the plugin module
-      $pluginsDir = Join-Path $inventreeDevDir "src\backend\plugins"
-      $env:PYTHONPATH = "$pluginsDir;$env:PYTHONPATH"
-      Write-Host "Added to PYTHONPATH: $pluginsDir" -ForegroundColor DarkGray
-      
-      # Navigate to InvenTree backend directory
-      $backendDir = Join-Path $inventreeDevDir "src\backend\InvenTree"
-      $managePy = Join-Path $backendDir "manage.py"
-      
-      if (-not (Test-Path $managePy)) {
-        Write-Failure "InvenTree manage.py not found: $managePy"
-        Write-Host "Make sure InvenTree dev environment is properly set up."
-        $allPassed = $false
-      } else {
-        Push-Location $backendDir
-        try {
-          if ($TestPath) {
-            # Run specific test path (user-provided path)
-            Write-Status "Running: $TestPath"
-            Write-Host "Command: python manage.py test $TestPath --keepdb" -ForegroundColor DarkGray
-            python manage.py test $TestPath --keepdb
-          } else {
-            # Run all integration tests
-            # InvenTree plugins require full path: PluginDir.package_name.tests.integration
-            # where package_name is the snake_case Python package directory
-            $integrationPath = "$Plugin.$packageName.tests.integration"
-            Write-Status "Running integration tests: $integrationPath"
-            Write-Host "Command: python manage.py test $integrationPath --keepdb" -ForegroundColor DarkGray
-            python manage.py test $integrationPath --keepdb
-          }
-          
-          if ($LASTEXITCODE -eq 0) {
+    # Change to InvenTree directory
+    Push-Location $inventreeDevDir
+    
+    # Activate InvenTree virtual environment (use dot-sourcing to persist in current session)
+    $activateScript = Join-Path $inventreeDevDir ".venv\Scripts\Activate.ps1"
+    if (Test-Path $activateScript) {
+      Write-Status "Activating InvenTree virtual environment..."
+      $ErrorActionPreference = 'Continue'  # Don't treat warnings as errors
+      . $activateScript
+      $ErrorActionPreference = 'Stop'  # Restore strict error handling
+    } else {
+      Write-Failure "InvenTree virtual environment not found: $activateScript"
+      Write-Host "Make sure InvenTree dev environment is properly set up."
+      $allPassed = $false
+      Pop-Location
+      return
+    }
+    
+    # On Windows, invoke has issues with python3 command (tasks.py hardcodes python3)
+    # Use python manage.py directly instead
+    # Reference: https://docs.inventree.org/en/latest/plugins/test/
+    
+    # Set plugin testing environment variables (must be set AFTER venv activation)
+    $env:INVENTREE_PLUGINS_ENABLED = "True"
+    $env:INVENTREE_PLUGIN_TESTING = "True"
+    $env:INVENTREE_PLUGIN_TESTING_SETUP = "True"
+    Write-Host "Plugin testing environment variables set" -ForegroundColor DarkGray
+    
+    # Add plugins directory to PYTHONPATH so Django can discover the plugin module
+    $pluginsDir = Join-Path $inventreeDevDir "src\backend\plugins"
+    $env:PYTHONPATH = "$pluginsDir;$env:PYTHONPATH"
+    Write-Host "Added to PYTHONPATH: $pluginsDir" -ForegroundColor DarkGray
+    
+    # Navigate to InvenTree backend directory
+    $backendDir = Join-Path $inventreeDevDir "src\backend\InvenTree"
+    $managePy = Join-Path $backendDir "manage.py"
+    
+    if (-not (Test-Path $managePy)) {
+      Write-Failure "InvenTree manage.py not found: $managePy"
+      Write-Host "Make sure InvenTree dev environment is properly set up."
+      $allPassed = $false
+    } else {
+      Push-Location $backendDir
+      if ($TestPath) {
+        # Run specific test path (user-provided path)
+        Write-Status "Running: $TestPath"
+        Write-Host "Command: python manage.py test $TestPath --keepdb --verbosity=2" -ForegroundColor DarkGray
+        Write-Host ""
+            
+        # Capture output and filter for readability
+        # Merge stderr (2) into stdout (1) to capture warnings as regular output
+        $ErrorActionPreference = 'Continue'  # Don't let stderr trigger script errors
+        $output = & python manage.py test $TestPath --keepdb --verbosity=2 2>&1
+        $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = 'Stop'  # Restore strict error handling
+            
+        # Filter output: show test names, results, and summary
+        $output | ForEach-Object {
+          $line = $_.ToString()
+          # Skip Django system checks and warnings
+          if ($line -match '^\d{4}-\d{2}-\d{2}.*WARNING') { return }
+          if ($line -match 'SyntaxWarning.*invalid escape') { return }
+          if ($line -match 'No SITE_URL specified') { return }
+          if ($line -match 'Specify a SITE_URL') { return }
+          if ($line -match 'Using existing test database') { return }
+          if ($line -match 'System check identified no issues') { return }
+          if ($line -match 'Preserving test database') { return }
+          if ($line -match '^\s*$') { return }  # Skip blank lines
+              
+          # Highlight test results
+          if ($line -match '(test_\w+).*\.\.\.') {
+            Write-Host $line -ForegroundColor Cyan
+          } elseif ($line -match '\bok\b') {
+            Write-Host $line -ForegroundColor Green
+          } elseif ($line -match '\bFAIL\b|\bERROR\b') {
+            Write-Host $line -ForegroundColor Red
+          } elseif ($line -match '^Ran \d+ test') {
             Write-Host ""
-            Write-Success "Integration tests passed!"
+            Write-Host $line -ForegroundColor Yellow
+          } elseif ($line -match '^(OK|FAILED)') {
+            Write-Host $line -ForegroundColor $(if ($line -match '^OK') { 'Green' } else { 'Red' })
+          } elseif ($line -match '^={5,}|^-{5,}') {
+            Write-Host $line -ForegroundColor DarkGray
+          } elseif ($line -match 'slowest tests:') {
+            # Skip slowest tests section (too verbose)
+            return
+          } elseif ($line -match '^\d+\.\d+s test_') {
+            # Skip slowest test timings
+            return
           } else {
-            Write-Host ""
-            Write-Failure "Integration tests failed"
-            $allPassed = $false
+            # Show errors and failures with full detail
+            Write-Host $line
           }
-        } finally {
-          Pop-Location
+        }
+            
+        if ($exitCode -eq 0) {
+          Write-Host ""
+          Write-Success "Tests passed!"
+        } else {
+          Write-Host ""
+          Write-Failure "Tests failed"
+          $allPassed = $false
+        }
+      } else {
+        # Run all integration tests
+        # InvenTree plugins require full path: PluginDir.package_name.tests.integration
+        # where package_name is the snake_case Python package directory
+        $integrationPath = "$Plugin.$packageName.tests.integration"
+        Write-Status "Running integration tests: $integrationPath"
+        Write-Host "Command: python manage.py test $integrationPath --keepdb --verbosity=2" -ForegroundColor DarkGray
+        Write-Host ""
+            
+        # Capture output and filter for readability
+        # Merge stderr (2) into stdout (1) to capture warnings as regular output
+        $ErrorActionPreference = 'Continue'  # Don't let stderr trigger script errors
+        $output = & python manage.py test $integrationPath --keepdb --verbosity=2 2>&1
+        $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = 'Stop'  # Restore strict error handling
+            
+        # Filter output: show test names, results, and summary
+        $output | ForEach-Object {
+          $line = $_.ToString()
+          # Skip Django system checks and warnings
+          if ($line -match '^\d{4}-\d{2}-\d{2}.*WARNING') { return }
+          if ($line -match 'SyntaxWarning.*invalid escape') { return }
+          if ($line -match 'No SITE_URL specified') { return }
+          if ($line -match 'Specify a SITE_URL') { return }
+          if ($line -match 'Using existing test database') { return }
+          if ($line -match 'System check identified no issues') { return }
+          if ($line -match 'Preserving test database') { return }
+          if ($line -match '^\s*$') { return }  # Skip blank lines
+              
+          # Highlight test results
+          if ($line -match '(test_\w+).*\.\.\.') {
+            Write-Host $line -ForegroundColor Cyan
+          } elseif ($line -match '\bok\b') {
+            Write-Host $line -ForegroundColor Green
+          } elseif ($line -match '\bFAIL\b|\bERROR\b') {
+            Write-Host $line -ForegroundColor Red
+          } elseif ($line -match '^Ran \d+ test') {
+            Write-Host ""
+            Write-Host $line -ForegroundColor Yellow
+          } elseif ($line -match '^(OK|FAILED)') {
+            Write-Host $line -ForegroundColor $(if ($line -match '^OK') { 'Green' } else { 'Red' })
+          } elseif ($line -match '^={5,}|^-{5,}') {
+            Write-Host $line -ForegroundColor DarkGray
+          } elseif ($line -match 'slowest tests:') {
+            # Skip slowest tests section (too verbose)
+            return
+          } elseif ($line -match '^\d+\.\d+s test_') {
+            # Skip slowest test timings
+            return
+          } else {
+            # Show errors and failures with full detail
+            Write-Host $line
+          }
+        }
+            
+        if ($exitCode -eq 0) {
+          Write-Host ""
+          Write-Success "Integration tests passed!"
+        } else {
+          Write-Host ""
+          Write-Failure "Integration tests failed"
+          $allPassed = $false
         }
       }
-    } catch {
-      Write-Failure "Error running integration tests: $_"
-      $allPassed = $false
-    } finally {
-      Pop-Location
     }
+    Pop-Location
   }
+  Pop-Location
   
   Write-Host ""
 }

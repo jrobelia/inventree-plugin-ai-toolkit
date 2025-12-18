@@ -278,3 +278,50 @@ See **copilot/plugin-creation-prompts.md** for ready-to-use prompts and **docs/t
 - [InvenTree Plugin Documentation](https://docs.inventree.org/en/latest/plugins/)
 - [InvenTree API Documentation](https://docs.inventree.org/en/latest/api/api/)
 - [Plugin Creator Repository](https://github.com/inventree/plugin-creator)
+
+---
+
+## 🚧 Future Work
+
+### Toolkit Enhancements
+
+**Workflow Checklists for AI Agents**
+- Create structured checklists to guide AI agent behavior during development
+- Prevent common mistakes (stacking unverified changes, skipping deployment testing)
+- Examples:
+  - "Before Starting Work" checklist (check git log, git status, deployment status)
+  - "Phase-Based Refactoring" workflow (implement → test → deploy → verify before next phase)
+  - "Testing Philosophy" guide (unit vs integration vs manual testing)
+- See `plugins/FlatBOMGenerator/docs/internal/DEPLOYMENT-WORKFLOW.md` for working prototype
+- Goal: Make AI agents more reliable and educational in their approach
+
+**Automated Deployment Verification**
+- Script to run basic smoke tests after deployment
+- Check server health, plugin loaded, basic API calls work
+- Reduce manual verification burden
+
+**Plugin Template Improvements**
+- Add optional integration testing setup to plugin scaffolding
+- Include deployment workflow checklist template
+- Pre-configure Biome and pre-commit hooks by default
+
+**CI/CD Templates**
+- GitHub Actions workflow templates for plugin testing
+- Automated build and deployment pipelines
+- For when manual testing becomes a bottleneck
+
+### Documentation Enhancements
+
+**Agent Behavior Guidelines**
+- Expand collaborative development principles
+- More examples of "explain before implementing" patterns
+- Test-first workflow detailed guides
+
+**InvenTree Knowledge Base**
+- More Django REST Framework serializer patterns
+- Frontend integration patterns (React + InvenTree API)
+- Performance optimization guides
+
+### Ideas/Suggestions Welcome
+
+Have ideas for improving the toolkit? Open an issue or discussion in your plugin repository!
