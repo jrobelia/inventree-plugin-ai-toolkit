@@ -46,12 +46,14 @@ This is an **InvenTree Plugin Development Toolkit** - a lightweight workspace fo
 - **Run unit tests**: `.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -Unit` (fast)
 - **Run integration tests**: `.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -Integration` (requires setup)
 - **Set up integration testing**: `.\scripts\Setup-InvenTreeDev.ps1` (one-time)
-- See `docs/toolkit/QUICK-REFERENCE.md` for command reference
+- See `QUICK-REFERENCE.md` for command reference
 
 ### When User Requests
 - **"Create a plugin"**: Use prompts from `copilot/plugin-creation-prompts.md`
 - **"How do I..."**: Check `docs/toolkit/WORKFLOWS.md` first
-- **"What's the command for..."**: Reference `docs/toolkit/QUICK-REFERENCE.md`
+- **"What's the command for..."**: Reference `QUICK-REFERENCE.md`
+- **"Need plugin development guide"**: See `docs/toolkit/PLUGIN-DEVELOPMENT-WORKFLOW.md`
+- **"Documentation standards"**: See `docs/toolkit/DOCUMENTATION-STANDARDS.md`
 - **Need InvenTree patterns**: See `copilot/PROJECT-CONTEXT.md` → InvenTree Patterns section
 
 ---
@@ -65,11 +67,18 @@ All files in `copilot/` are **agent-facing documentation**:
 - `plugin-creation-prompts.md` - Ready-to-use prompts for plugin creation
 
 ### Developer Documentation (docs/ folder)
-- `WORKFLOWS.md` - Step-by-step task guides
+- `toolkit/WORKFLOWS.md` - Step-by-step task guides
+- `toolkit/PLUGIN-DEVELOPMENT-WORKFLOW.md` - Complete plugin development process
+- `toolkit/DOCUMENTATION-STANDARDS.md` - Documentation naming conventions
+- `toolkit/TESTING-STRATEGY.md` - Testing guidelines
+- `toolkit/INVENTREE-DEV-SETUP.md` - Integration testing setup
+- `inventree/CUSTOM-STATES.md` - InvenTree custom states
+- `inventree/TESTING-FRAMEWORK.md` - Django testing patterns
+
+### Root Documentation
 - `QUICK-REFERENCE.md` - Command cheat sheet
-- `copilot-prompts.md` - Ready-to-use Copilot prompts
-- `CUSTOM-STATES-GUIDE.md` - InvenTree custom states
-- `TESTING-FRAMEWORK-RESEARCH.md` - Django testing notes
+- `README.md` - Toolkit overview
+- `SETUP.md` - Initial setup
 
 ### Active Development (plugins/ folder)
 - User's plugins under development
@@ -162,7 +171,7 @@ When making code changes, update documentation:
 **Update if Changed:**
 - `copilot/PROJECT-CONTEXT.md` - If architecture/folder structure changes
 - `docs/toolkit/WORKFLOWS.md` - If workflows change
-- `docs/toolkit/QUICK-REFERENCE.md` - If commands change
+- `QUICK-REFERENCE.md` - If commands change
 
 See `copilot/PROJECT-CONTEXT.md` → Documentation Update Routine for checklist.
 
@@ -198,7 +207,9 @@ See `copilot/PROJECT-CONTEXT.md` → Documentation Update Routine for checklist.
 
 **For Tasks:**
 - How-to guides: `docs/toolkit/WORKFLOWS.md`
-- Command reference: `docs/toolkit/QUICK-REFERENCE.md`
+- Command reference: `QUICK-REFERENCE.md`
+- Plugin development workflow: `docs/toolkit/PLUGIN-DEVELOPMENT-WORKFLOW.md`
+- Documentation standards: `docs/toolkit/DOCUMENTATION-STANDARDS.md`
 - Testing strategy: `docs/toolkit/TESTING-STRATEGY.md`
 - Integration testing setup: `docs/toolkit/INVENTREE-DEV-SETUP.md`
 - Integration testing summary: `docs/toolkit/INTEGRATION-TESTING-SUMMARY.md`
@@ -223,5 +234,5 @@ This user:
 
 ---
 
-**Last Updated**: December 10, 2025
+**Last Updated**: December 18, 2025
 **Toolkit Version**: 1.0

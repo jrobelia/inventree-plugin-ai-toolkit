@@ -52,6 +52,11 @@ htmlcov/
 *.md.bak
 docs/_build/
 
+# InvenTree development environment (local testing infrastructure)
+# Created by Setup-InvenTreeDev.ps1, contains local database and config
+# Easily recreated, should not be committed (user-specific state)
+inventree-dev/
+
 # Reference folder (git submodules tracked via .gitmodules)
 reference/
 
