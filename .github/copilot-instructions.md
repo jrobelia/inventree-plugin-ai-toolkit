@@ -69,6 +69,10 @@ This is an **InvenTree Plugin Development Toolkit** - a lightweight workspace fo
 
 ### When User Requests
 - **"Create a plugin"**: Use prompts from `copilot/plugin-creation-prompts.md`
+- **"Build/deploy plugin"**: Run `/run build-plugin` or `/run deploy-plugin` for guided workflow
+- **"Write tests"**: Run `/run create-plugin-test` for Grade A quality tests
+- **"Review my code"**: Use `@workspace /agent plugin-reviewer` for structured review
+- **"Check test quality"**: Run `/run review-test-quality` or use `@workspace /agent test-quality`
 - **"How do I..."**: Check `docs/toolkit/WORKFLOWS.md` first
 - **"What's the command for..."**: Reference `QUICK-REFERENCE.md`
 - **"Need plugin development guide"**: See `docs/toolkit/PLUGIN-DEVELOPMENT-WORKFLOW.md`
@@ -86,7 +90,7 @@ All files in `copilot/` are **agent-facing documentation**:
 - `plugin-creation-prompts.md` - Ready-to-use prompts for plugin creation
 
 ### Instruction Files (.github/instructions/ folder)
-**Comprehensive patterns for code generation** (7 files, ~2000 lines):
+**Comprehensive patterns for code generation** (9 files, ~2600 lines):
 - `python.instructions.md` - General Python + fail-fast philosophy
 - `backend.core.instructions.md` - Plugin class, mixins, settings
 - `backend.api.instructions.md` - Django/DRF, serializers, views, QuerySet optimization
@@ -94,10 +98,34 @@ All files in `copilot/` are **agent-facing documentation**:
 - `frontend.react.instructions.md` - React, TypeScript, InvenTree context, Mantine UI
 - `frontend.build.instructions.md` - Vite, externalized dependencies, TypeScript config
 - `packaging.instructions.md` - pyproject.toml, versioning, entry points, PyPI
+- `taming-copilot.instructions.md` - Control Copilot behavior, prevent overly broad changes
+- `update-docs-on-code-change.instructions.md` - Auto-sync documentation when code changes
 
 **Key Feature**: Fail-fast decision trees to avoid defensive fallbacks that hide bugs
 
 **Documentation**: See `.github/instructions/README.md` for complete guide
+
+### Prompts (.github/prompts/ folder)
+**Guided workflows for common tasks** (5 prompts):
+- `build-plugin.prompt.md` - Guide for Build-Plugin.ps1 usage
+- `deploy-plugin.prompt.md` - Guide for Deploy-Plugin.ps1 with safety checks
+- `test-plugin.prompt.md` - Guide for Test-Plugin.ps1 (unit/integration)
+- `create-plugin-test.prompt.md` - Generate Grade A quality unit tests
+- `review-test-quality.prompt.md` - Assess test suite quality with grading system
+
+**Usage**: Type `/run [prompt-name]` in Copilot Chat (e.g., `/run build-plugin`)
+
+**Documentation**: See `.github/prompts/README.md` for usage examples
+
+### Agents (.github/agents/ folder)
+**Specialized expertise for complex tasks** (3 agents):
+- `inventree-plugin` - Expert assistant for InvenTree plugin development
+- `plugin-reviewer.agent.md` - Code review specialist with structured checklist
+- `test-quality.agent.md` - Test quality assessment with grading system
+
+**Usage**: Type `@workspace /agent [agent-name]` in Copilot Chat
+
+**Documentation**: See `.github/agents/README.md` for agent descriptions
 
 ### Developer Documentation (docs/ folder)
 - `toolkit/WORKFLOWS.md` - Step-by-step task guides
@@ -237,6 +265,14 @@ See `copilot/PROJECT-CONTEXT.md` → Documentation Update Routine for checklist.
 - Communication style: `copilot/AGENT-BEHAVIOR.md`
 - Architecture, patterns & debugging: `copilot/PROJECT-CONTEXT.md`
 - Plugin creation: `copilot/plugin-creation-prompts.md`
+- Specialized agents: `.github/agents/README.md`
+
+**For Workflows (Prompts):**
+- Build plugin: `/run build-plugin` or `.github/prompts/build-plugin.prompt.md`
+- Deploy plugin: `/run deploy-plugin` or `.github/prompts/deploy-plugin.prompt.md`
+- Test plugin: `/run test-plugin` or `.github/prompts/test-plugin.prompt.md`
+- Create tests: `/run create-plugin-test` or `.github/prompts/create-plugin-test.prompt.md`
+- Review tests: `/run review-test-quality` or `.github/prompts/review-test-quality.prompt.md`
 
 **For Tasks:**
 - How-to guides: `docs/toolkit/WORKFLOWS.md`
@@ -251,6 +287,7 @@ See `copilot/PROJECT-CONTEXT.md` → Documentation Update Routine for checklist.
 **For Context:**
 - Toolkit overview: `README.md`
 - Initial setup: `SETUP.md`
+- Copilot improvements: `.github/COPILOT-IMPROVEMENTS.md`
 
 ---
 
@@ -267,5 +304,5 @@ This user:
 
 ---
 
-**Last Updated**: December 18, 2025
+**Last Updated**: December 19, 2025
 **Toolkit Version**: 1.0
