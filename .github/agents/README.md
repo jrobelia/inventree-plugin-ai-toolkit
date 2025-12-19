@@ -1,13 +1,73 @@
-# GitHub Copilot Agents
+# Specialized Agents for InvenTree Plugin Development
 
-**Purpose**: Specialized agent configurations for InvenTree plugin development  
-**Created**: December 19, 2025
+This folder contains specialized agent modes (chat modes) that provide expert assistance for specific aspects of InvenTree plugin development.
+
+**Created**: December 19, 2025  
+**Last Updated**: December 19, 2025
 
 ---
 
-## Available Agents
+## 🤖 Available Agents
 
-### InvenTree Plugin Expert
+### [plugin-reviewer.agent.md](plugin-reviewer.agent.md)
+**Code review specialist for InvenTree plugins**
+
+**Expertise:**
+- InvenTree plugin architecture and patterns
+- Plugin mixins (SettingsMixin, UrlsMixin, etc.)
+- Django REST Framework best practices
+- React/TypeScript frontend integration
+- Fail-fast philosophy and defensive coding
+- Security and performance review
+
+**Use when:**
+- Reviewing pull requests
+- Checking code before deployment
+- Evaluating architectural decisions
+- Need expert feedback on implementation
+- Want to learn plugin development patterns
+
+**Usage in Copilot Chat:**
+```
+@workspace /mode plugin-reviewer
+
+[Copilot enters review mode]
+
+Review the changes in views.py
+```
+
+---
+
+### [test-quality.agent.md](test-quality.agent.md)
+**Expert in test quality assessment and improvement**
+
+**Expertise:**
+- Test quality grading (Grade A/B/C)
+- Coverage gap analysis
+- Test anti-pattern detection
+- Test-first vs code-first methodologies
+- Python unittest framework patterns
+- Django/InvenTree testing strategies
+
+**Use when:**
+- Assessing test suite quality
+- Planning test improvements
+- Identifying coverage gaps
+- Learning testing best practices
+- Preparing for deployment
+
+**Usage in Copilot Chat:**
+```
+@workspace /mode test-quality
+
+[Copilot enters test quality mode]
+
+Review the test quality for FlatBOMGenerator
+```
+
+---
+
+### InvenTree Plugin Expert (Root Level)
 
 **File**: [inventree-plugin.agent.md](inventree-plugin.agent.md)  
 **Purpose**: Comprehensive assistant for developing, reviewing, and debugging InvenTree plugins
