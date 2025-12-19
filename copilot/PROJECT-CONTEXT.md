@@ -903,17 +903,17 @@ cd 'C:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit'
 
 **View last 500 lines of InvenTree server logs:**
 ```powershell
-ssh -i "C:\Users\<you>\.ssh\id_ed25519_inventree" root@staging.inventree.openaeros.com "cd /root/inventree/inventree && docker-compose logs --tail=500 inventree-server"
+ssh -i "C:\Users\<you>\.ssh\id_rsa_inventree" user@staging.example.com "cd /path/to/inventree && docker-compose logs --tail=500 inventree-server"
 ```
 
 **Filter logs for specific keywords (e.g., part IPN, debug tags):**
 ```powershell
-ssh -i "C:\Users\<you>\.ssh\id_ed25519_inventree" root@staging.inventree.openaeros.com "cd /root/inventree/inventree && docker-compose logs --tail=1000 inventree-server" | Select-String -Pattern 'OA-00270|internal_fab_cut_list|deduplicate_and_sum'
+ssh -i "C:\Users\<you>\.ssh\id_rsa_inventree" user@staging.example.com "cd /path/to/inventree && docker-compose logs --tail=1000 inventree-server" | Select-String -Pattern 'PART-001|plugin_name|function_name'
 ```
 
 **Run Django management command inside container:**
 ```powershell
-ssh -i "C:\Users\<you>\.ssh\id_ed25519_inventree" root@staging.inventree.openaeros.com 'cd /root/inventree/inventree && docker-compose exec -T inventree-server python manage.py shell -c "from flat_bom_generator.bom_traversal import get_flat_bom; out=get_flat_bom(13, enable_ifab_cuts=True, ifab_units=set([\"mm\",\"in\",\"cm\",\"ft\"])); import pprint; pprint.pprint(out)"'
+ssh -i "C:\Users\<you>\.ssh\id_rsa_inventree" user@staging.example.com 'cd /path/to/inventree && docker-compose exec -T inventree-server python manage.py shell -c "from your_plugin.module import function; result=function(123); import pprint; pprint.pprint(result)"'
 ```
 
 ### Local Testing Commands

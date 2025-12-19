@@ -68,4 +68,3 @@ plugins/*
 # Ignore plugin directories (users manage their own plugins)
 plugins/*
 !plugins/README.md
-!plugins/Plugin Planning/

@@ -2,7 +2,7 @@
   "servers": {
     "staging": {
       "plugin_dir": "/opt/inventree/plugins",
-      "url": "https://staging.inventree.openaeros.com",
+      "url": "https://staging.example.com",
       "api_key": "your-staging-api-key-here",
       "ssh": {
         "host": "staging.server.com",
@@ -15,7 +15,7 @@
     },
     "production": {
       "plugin_dir": "/opt/inventree/plugins",
-      "url": "https://inventree.openaeros.com",
+      "url": "https://production.example.com",
       "api_key": "your-production-api-key-here",
       "ssh": {
         "host": "prod.server.com",
@@ -29,7 +29,7 @@
   },
   "defaults": {
     "author_name": "Jon Robelia",
-    "author_email": "jonr@openaeros.com",
+    "author_email": "you@example.com",
     "license": "MIT",
     "project_url": "https://github.com/jrobelia/inventree-plugin-toolkit"
   },
