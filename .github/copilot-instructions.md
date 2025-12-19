@@ -1,8 +1,27 @@
 # GitHub Copilot Instructions
 
-**Audience:** AI Agents (GitHub Copilot) | **Category:** Quick Reference | **Purpose:** Auto-discovered entry point for GitHub Copilot agents | **Last Updated:** 2025-12-10
+**Audience:** AI Agents (GitHub Copilot) | **Category:** Quick Reference | **Purpose:** Auto-discovered entry point for GitHub Copilot agents | **Last Updated:** 2025-12-19
 
 **This file is automatically read by GitHub Copilot to provide context about this project.**
+
+---
+
+## GitHub Copilot Agent
+
+**For comprehensive InvenTree plugin development assistance**, invoke the specialized agent:
+
+```
+@workspace /agent inventree-plugin
+```
+
+**Agent Features**:
+- Expert guidance on plugin architecture and patterns
+- Code review for InvenTree compatibility and best practices
+- Fail-fast philosophy enforcement (avoid defensive bugs)
+- Testing strategies (unit + integration, code-first + test-first)
+- Critical gotcha detection (plugin URLs, externalized deps, entry points)
+
+**Documentation**: See [.github/agents/README.md](.github/agents/README.md)
 
 ---
 
@@ -65,6 +84,20 @@ All files in `copilot/` are **agent-facing documentation**:
 - `AGENT-BEHAVIOR.md` - Communication style, tone, code generation rules
 - `PROJECT-CONTEXT.md` - Architecture, tech stack, folder structure, patterns
 - `plugin-creation-prompts.md` - Ready-to-use prompts for plugin creation
+
+### Instruction Files (.github/instructions/ folder)
+**Comprehensive patterns for code generation** (7 files, ~2000 lines):
+- `python.instructions.md` - General Python + fail-fast philosophy
+- `backend.core.instructions.md` - Plugin class, mixins, settings
+- `backend.api.instructions.md` - Django/DRF, serializers, views, QuerySet optimization
+- `backend.testing.instructions.md` - Unit/integration, code-first methodology, test quality
+- `frontend.react.instructions.md` - React, TypeScript, InvenTree context, Mantine UI
+- `frontend.build.instructions.md` - Vite, externalized dependencies, TypeScript config
+- `packaging.instructions.md` - pyproject.toml, versioning, entry points, PyPI
+
+**Key Feature**: Fail-fast decision trees to avoid defensive fallbacks that hide bugs
+
+**Documentation**: See `.github/instructions/README.md` for complete guide
 
 ### Developer Documentation (docs/ folder)
 - `toolkit/WORKFLOWS.md` - Step-by-step task guides
