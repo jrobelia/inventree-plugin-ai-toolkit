@@ -215,6 +215,52 @@
 
 **When Needed** (instruction files are production-ready now):
 
+### Documentation Optimization (If Token Budget Issues Arise)
+
+**Current Status** (December 2025):
+- Total AI-facing documentation: ~4,845 lines
+- Context utilization: ~30% of Claude Sonnet 4.5 (50-60K of 200K tokens)
+- **Assessment**: Comfortable, no optimization needed yet
+
+**Optimization Strategies** (apply if responses slow or token budget exceeded):
+
+1. **Split PROJECT-CONTEXT.md** (962 lines → 3 smaller files)
+   - `copilot/ARCHITECTURE.md` - Folder structure, design philosophy
+   - `copilot/TECH-STACK.md` - Django, React, build tools
+   - `copilot/DEVELOPMENT-PATTERNS.md` - Workflows, debugging
+   - **Impact**: Save ~30-40K tokens when only architecture needed
+
+2. **Extract Fail-Fast Tree to Single Reference** (currently in 4 files)
+   - Create `copilot/FAIL-FAST-PHILOSOPHY.md` as canonical reference
+   - Update instruction files to reference instead of duplicate
+   - **Impact**: Save ~5-10K tokens
+
+3. **Add "Quick Patterns" TL;DR Sections**
+   - Top of each instruction file: essential patterns only
+   - Deep explanations below for when needed
+   - **Impact**: Faster scanning, reduced token load for simple tasks
+
+4. **Progressive Disclosure Pattern**
+   - Tag sections: `<!-- @essential -->`, `<!-- @detailed -->`
+   - Agents load essential first, detailed on demand
+   - **Impact**: ~40-50% token reduction for routine tasks
+
+5. **Reduce Cross-File Redundancy**
+   - Testing patterns: Consolidate to backend.testing.instructions.md
+   - InvenTree context: Keep in PROJECT-CONTEXT.md, reference from others
+   - **Impact**: ~15-20% token reduction
+
+**When to Optimize**: 
+- If context utilization exceeds 50% (100K+ tokens)
+- If response generation slows noticeably
+- If agent reports difficulty holding context
+
+**Current Recommendation**: Use as-is, monitor performance
+
+---
+
+### Feature Enhancements
+
 ### High Priority
 - **Prompt Libraries** (`copilot/prompts/`)
   - `debugging-workflows.md` - Common failure scenarios, systematic debugging steps
