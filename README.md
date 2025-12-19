@@ -10,7 +10,27 @@
 
 A lightweight development toolkit for creating and deploying InvenTree plugins. Includes PowerShell automation scripts and GitHub Copilot instructions to help guide development.
 
-## 🚀 Quick Start
+## � Official InvenTree Documentation
+
+**Before using this toolkit, familiarize yourself with official InvenTree plugin documentation:**
+
+- **[InvenTree Plugin Development Guide](https://docs.inventree.org/en/latest/plugins/)** - Official comprehensive guide
+- **[Plugin API Reference](https://docs.inventree.org/en/latest/api/api/)** - InvenTree API documentation
+- **[Frontend Development](https://docs.inventree.org/en/latest/plugins/frontend/)** - Running plugin UI locally
+
+**What this toolkit does:**
+- Simplifies plugin creation with templates, leveraging Inventree's plugin-creator tool
+- Automates building and deployment to servers
+- Provides AI assistance for development
+- Includes testing infrastructure
+
+**What this toolkit does NOT do:**
+- **Local frontend development server** - InvenTree recommends running frontend code locally against a development InvenTree instance. See [InvenTree's Frontend Plugin Guide](https://docs.inventree.org/en/latest/plugins/frontend/) for local development setup.
+- Replace understanding InvenTree plugin architecture
+- Automatically test your plugin logic
+- Guarantee bug-free code
+
+## �🚀 Quick Start
 
 **First time setup?** See [SETUP.md](SETUP.md) for detailed installation instructions including:
 - Git submodule initialization for plugin-creator
@@ -19,6 +39,28 @@ A lightweight development toolkit for creating and deploying InvenTree plugins. 
 - Verification steps
 
 **Already set up?** Jump to [Create Your First Plugin](#2-create-your-first-plugin)
+
+---
+
+## ⚠️ Important Disclaimer
+
+**This toolkit is provided as-is for development assistance.**
+
+- **Not a magic solution** - You are responsible for understanding and testing your plugin code
+- **Always test on staging first** - Never deploy directly to production without verification
+- **Review AI-generated code** - GitHub Copilot suggestions should be reviewed for correctness and security
+- **Backup your data** - Test plugins can affect your InvenTree database
+- **Use at your own risk** - No warranties or guarantees provided
+- **You own the responsibility** - For bugs, data loss, or system issues from your plugins
+
+**Best practices:**
+1. Set up a staging/test InvenTree server separate from production
+2. Test thoroughly before deploying to production
+3. Keep backups of your InvenTree database
+4. Review all code changes, especially from AI assistance
+5. Start simple - test basic functionality before adding complexity
+
+See [SETUP.md](SETUP.md) for recommended staging server configuration.
 
 ---
 
@@ -175,15 +217,30 @@ See [docs/toolkit/INTEGRATION-TESTING-SUMMARY.md](docs/toolkit/INTEGRATION-TESTI
 
 ### 5. Deploy to Server
 
+**⚠️ CRITICAL: Always deploy to staging first!**
+
 ```powershell
 # Deploy to staging server (automatically builds first)
 .\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin-name" -Server staging
 
-# After testing, deploy to production
+# Test thoroughly on staging server:
+# - Verify plugin loads correctly
+# - Test all features manually
+# - Check for errors in InvenTree logs
+# - Confirm database changes are safe
+
+# After thorough testing, deploy to production
 .\scripts\Deploy-Plugin.ps1 -Plugin "your-plugin-name" -Server production
 ```
 
 **Note:** `Deploy-Plugin.ps1` automatically runs `Build-Plugin.ps1` before deploying, so you don't need to build separately unless you want to test the build without deploying.
+
+**Best Practice Workflow:**
+1. Test locally with unit tests
+2. Deploy to staging server
+3. Manually test all plugin functionality on staging
+4. Review InvenTree logs for warnings/errors
+5. Only deploy to production after staging verification
 
 ## 🛠️ Common Workflows
 
@@ -337,12 +394,18 @@ For professional plugins with proper structure:
 - Each plugin can have its own git repository
 - The scripts handle building both Python and frontend code
 - Always test on staging before production!
+- **Frontend development**: For local frontend development, see [InvenTree's Frontend Plugin Guide](https://docs.inventree.org/en/latest/plugins/frontend/)
 
-## 🔗 Useful Links
+## 🔗 Essential Resources
 
-- [InvenTree Plugin Documentation](https://docs.inventree.org/en/latest/plugins/)
-- [InvenTree API Documentation](https://docs.inventree.org/en/latest/api/api/)
-- [Plugin Creator Repository](https://github.com/inventree/plugin-creator)
+### Official InvenTree Documentation (Read These First!)
+- **[InvenTree Plugin Development Guide](https://docs.inventree.org/en/latest/plugins/)** - Start here for plugin concepts
+- **[Frontend Plugin Development](https://docs.inventree.org/en/latest/plugins/frontend/)** - Local frontend development setup
+- **[InvenTree API Documentation](https://docs.inventree.org/en/latest/api/api/)** - API reference
+- **[Plugin Mixins Reference](https://docs.inventree.org/en/latest/plugins/mixins/)** - Available plugin capabilities
+
+### Related Tools
+- [Plugin Creator Repository](https://github.com/inventree/plugin-creator) - Template generator (used by this toolkit)
 
 ---
 
