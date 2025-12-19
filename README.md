@@ -1,6 +1,10 @@
 # InvenTree Plugin Development Toolkit
 
-**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2025-12-11
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![InvenTree](https://img.shields.io/badge/InvenTree-1.1.6+-blue.svg)](https://inventree.org)
+[![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-Enabled-purple.svg)](https://github.com/features/copilot)
+
+**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2025-12-19
 
 ---
 
