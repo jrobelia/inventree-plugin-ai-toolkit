@@ -90,8 +90,9 @@ All files in `copilot/` are **agent-facing documentation**:
 - `plugin-creation-prompts.md` - Ready-to-use prompts for plugin creation
 
 ### Instruction Files (.github/instructions/ folder)
-**Comprehensive patterns for code generation** (9 files, ~2600 lines):
+**Comprehensive patterns for code generation** (10 files, ~2950 lines):
 - `python.instructions.md` - General Python + fail-fast philosophy
+- `powershell.instructions.md` - PowerShell cmdlets, parameters, pipeline, error handling
 - `backend.core.instructions.md` - Plugin class, mixins, settings
 - `backend.api.instructions.md` - Django/DRF, serializers, views, QuerySet optimization
 - `backend.testing.instructions.md` - Unit/integration, code-first methodology, test quality
@@ -304,5 +305,5 @@ This user:
 
 ---
 
-**Last Updated**: December 19, 2025
+**Last Updated**: January 9, 2026
 **Toolkit Version**: 1.0
