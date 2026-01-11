@@ -673,6 +673,112 @@ def test_api_matches_serializer_contract(self):
 
 ---
 
+### "I need complex test data (deep BOMs, multiple scenarios)"
+
+**Problem**: InvenTree's `Part.check_add_to_bom()` validation prevents creating certain test scenarios dynamically (e.g., assemblies without BOM items, circular references)
+
+**Solution**: Use Django fixtures with programmatic loading
+
+**Why Standard Fixtures Don't Work for Plugins:**
+```python
+class MyTests(InvenTreeTestCase):
+    fixtures = ['complex_bom']  # ❌ FAILS - plugins not in INSTALLED_APPS
+```
+
+Django's fixture system requires apps to be in `INSTALLED_APPS`. InvenTree plugins are dynamically loaded and not registered as Django apps, so the standard fixture loading fails.
+
+**Programmatic Loading Pattern (THE ONLY WAY):**
+```python
+from django.core.management import call_command
+import os
+
+class ComplexBOMTests(InvenTreeTestCase):
+    """Tests requiring complex pre-validated BOM structures."""
+    
+    @classmethod
+    def setUpTestData(cls):
+        """Load fixtures programmatically - bypasses plugin INSTALLED_APPS limitation."""
+        super().setUpTestData()
+        
+        # Calculate absolute path to fixtures (4 levels up from test file)
+        fixtures_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        fixture_path = os.path.join(fixtures_dir, 'fixtures', 'complex_bom.yaml')
+        
+        # Load fixture programmatically
+        call_command('loaddata', fixture_path, verbosity=0)
+        
+        # Now you can reference the fixture data
+        cls.main_assembly = Part.objects.get(pk=9001)
+```
+
+**Fixture File Requirements (complex_bom.yaml):**
+```yaml
+# fixtures/complex_bom.yaml
+- model: part.partcategory
+  pk: 9101
+  fields:
+    name: Test Category
+    tree_id: 10          # MPPT fields required
+    level: 0
+    lft: 1
+    rght: 2
+
+- model: part.part
+  pk: 9001
+  fields:
+    name: Main Assembly
+    category: 9101
+    assembly: true
+    active: true
+    # ... other required fields
+
+- model: part.bomitem
+  pk: 8001
+  fields:
+    part: 9001           # Parent assembly
+    sub_part: 9002       # Child part
+    quantity: 2.0
+    validated: true      # Critical - bypasses runtime validation
+    # ... other fields
+```
+
+**Critical YAML Details:**
+- **MPPT fields required** on PartCategory: `tree_id`, `level`, `lft`, `rght`
+- **validated: true** on BomItems bypasses InvenTree's `check_add_to_bom()` validation
+- **4-space indentation** for fields, 0-space for root-level items (YAML syntax critical)
+- **Unique PKs** - Use high numbers (9000+) to avoid conflicts with test database
+
+**Benefits:**
+- Bypasses InvenTree runtime validation (can create invalid states for error testing)
+- Pre-validated complex structures (deep BOMs, circular refs, multiple paths)
+- Reusable across multiple test classes
+- Faster than dynamic creation (loaded once in setUpTestData)
+
+**Example Test Using Fixtures:**
+```python
+def test_same_part_via_multiple_paths(self):
+    """Validate quantity aggregation when same part appears in different BOM branches."""
+    flat_bom, imp_count, warnings, max_depth = get_flat_bom(self.main_assembly.pk)
+    
+    # Find the screw that appears in both Sub A and Sub B
+    screw = next(item for item in flat_bom if item['ipn'] == 'SCR-M4-20')
+    
+    # Main Assy → Sub A (qty=2) → Screw (qty=4) = 8
+    # Main Assy → Sub B (qty=3) → Screw (qty=2) = 6
+    # Total: 8 + 6 = 14
+    self.assertEqual(screw['total_qty'], 14.0)
+```
+
+**When to Use This Pattern:**
+- Testing scenarios InvenTree validation prevents (e.g., empty assemblies, invalid BOM structures)
+- Complex multi-level BOMs (5+ levels deep)
+- Parts appearing via multiple BOM paths
+- Error handling for invalid BOM structures
+
+**Reference Implementation**: See `plugins/FlatBOMGenerator/flat_bom_generator/tests/test_complex_bom_structures.py` for complete example with 4 test scenarios (16 tests) using programmatic fixture loading.
+
+---
+
 ### "Integration tests are too slow"
 
 **Problem**: Creating too much test data or running too many queries
@@ -713,5 +819,6 @@ def test_api_matches_serializer_contract(self):
 
 ---
 
-**Last Updated**: December 16, 2025  
-**Toolkit Version**: 1.1
+**Last Updated**: January 11, 2026  
+**Toolkit Version**: 1.1  
+**Major Addition**: Django fixtures for plugin integration tests (programmatic loading pattern)

@@ -1,7 +1,7 @@
 # InvenTree Integration Testing - Implementation Summary
 
-**Date**: December 16, 2025 (Updated: December 17, 2025)  
-**Status**: Framework functional, URL routing limitation discovered  
+**Date**: December 16, 2025 (Updated: January 11, 2026)  
+**Status**: Framework functional, URL routing limitation documented, fixture loading pattern discovered  
 **Purpose**: Document InvenTree dev environment setup and integration testing approach
 
 ---
@@ -54,13 +54,14 @@ See "What We Learned" section below for full investigation details and workaroun
 - Troubleshooting guide
 - Maintenance procedures
 
-✅ **[TESTING-STRATEGY.md](TESTING-STRATEGY.md)** (600+ lines)
+✅ **[TESTING-STRATEGY.md](TESTING-STRATEGY.md)** (700+ lines)
 - When to use unit tests vs integration tests
 - Comparison table (speed, setup, purpose)
 - Development workflow (TDD → Integration → Deploy)
 - Best practices with code examples
 - Good vs bad test examples
 - Running tests quick reference
+- **NEW**: Django fixtures for plugin integration tests (programmatic loading pattern)
 
 ---
 
@@ -410,6 +411,20 @@ git push --tags
 ❌ **Refactoring Without Tests**: Dangerous (found 2 serializer bugs through testing)
 
 **Key Insight**: Test quality matters more than test count. Need integration tests for views.py.
+
+---
+
+### From Complex BOM Testing (January 11, 2026)
+
+✅ **Django Fixtures for Plugins Require Programmatic Loading**: Standard `fixtures = ['name']` fails because plugins aren't in `INSTALLED_APPS`  
+✅ **Solution**: `call_command('loaddata', absolute_path, verbosity=0)` in `setUpTestData()`  
+✅ **Bypasses InvenTree Validation**: Fixtures with `validated: true` skip runtime BOM validation  
+✅ **Enables Complex Test Scenarios**: Deep BOMs, circular refs, empty assemblies that can't be created dynamically  
+✅ **YAML Syntax Critical**: 4-space indentation required, MPPT fields on categories, validated flag on BomItems
+
+**Key Insight**: Programmatic fixture loading is THE ONLY WAY to test complex BOM scenarios with plugins. Documented pattern in TESTING-STRATEGY.md.
+
+**Reference**: See `plugins/FlatBOMGenerator/flat_bom_generator/tests/test_complex_bom_structures.py` for complete implementation (16 tests, 693-line fixture file).
 
 ---
 
