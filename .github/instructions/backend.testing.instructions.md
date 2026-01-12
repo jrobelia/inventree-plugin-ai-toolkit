@@ -148,6 +148,116 @@ class TestAPIView(InvenTreeTestCase):
 
 **Reference**: See [TESTING-STRATEGY.md](../../docs/toolkit/TESTING-STRATEGY.md) for 6-hour research breakthrough
 
+## Fixture-Based Testing (InvenTree BOM Validation Workaround)
+
+**⚠️ InvenTree's `Part.check_add_to_bom()` blocks dynamic BOM creation in tests**
+
+When creating BOM relationships, InvenTree's circular reference protection prevents dynamic model creation:
+
+```python
+# ❌ DON'T: Dynamic creation triggers validation
+BomItem.objects.create(
+    part=parent_assembly,
+    sub_part=child_part,
+    quantity=2
+)
+# ValidationError: "Part 'X' cannot be used in BOM for 'Y' (recursive)"
+```
+
+**Solution: Use Django fixtures to bypass validation**
+
+```python
+# ✅ DO: Load pre-validated fixture data
+from django.core.management import call_command
+import os
+
+class ComplexBOMTests(InvenTreeTestCase):
+    """Test BOM structures using fixtures."""
+    
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        
+        # Calculate fixture path (adjust levels based on test location)
+        test_dir = os.path.dirname(__file__)  # integration/
+        fixtures_dir = os.path.dirname(test_dir)  # tests/
+        fixture_path = os.path.join(fixtures_dir, 'fixtures', 'complex_bom.yaml')
+        
+        # Load fixture - bypasses Part.check_add_to_bom() validation!
+        call_command('loaddata', fixture_path, verbosity=0)
+    
+    def test_same_part_in_multiple_paths(self):
+        """Test BOM with shared components."""
+        from part.models import Part
+        
+        # Use parts created by fixture
+        assembly = Part.objects.get(pk=9001)
+        result = get_flat_bom(assembly.pk)
+        
+        self.assertIsNotNone(result)
+```
+
+**Fixture Example** (`fixtures/complex_bom.yaml`):
+```yaml
+# Categories with MPPT fields
+- model: part.partcategory
+  pk: 9001
+  fields:
+    name: 'Test Assemblies'
+    tree_id: 901
+    level: 0
+    lft: 1
+    rght: 2
+
+# Parts
+- model: part.part
+  pk: 9001
+  fields:
+    name: 'Main Assembly'
+    IPN: 'ASM-001'
+    category: 9001
+    active: true
+    assembly: true
+    purchaseable: true
+    tree_id: 1001
+    level: 0
+
+- model: part.part
+  pk: 9004
+  fields:
+    name: 'Screw, M3x10mm'
+    IPN: 'SCREW-M3-10'
+    category: 9002
+    active: true
+    assembly: false
+    purchaseable: true
+    tree_id: 1004
+    level: 0
+
+# BOM Items (pre-validated, bypasses check_add_to_bom!)
+- model: part.bomitem
+  pk: 90001
+  fields:
+    part: 9001  # Main Assembly
+    sub_part: 9004  # Screw
+    quantity: 4.0
+    reference: 'H1-H4'
+    validated: true
+```
+
+**Why Fixtures Work**:
+- Django's `loaddata` assumes data is pre-validated
+- Inserts directly into database without calling `save()` or `clean()`
+- InvenTree validation only runs during model save, not fixture load
+
+**When to Use**:
+- Complex BOM structures (nested assemblies)
+- Same part appearing in multiple branches
+- Testing BOM traversal algorithms
+- Integration tests requiring specific BOM relationships
+
+**Reference**: [test_complex_bom_structures.py](../../plugins/FlatBOMGenerator/flat_bom_generator/tests/integration/test_complex_bom_structures.py) - Working example with 693-line fixture
+
 ## Test Quality Standards
 
 **High Quality (⭐⭐⭐)**:

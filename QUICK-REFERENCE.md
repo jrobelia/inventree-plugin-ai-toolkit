@@ -1,6 +1,6 @@
 # Quick Reference Card
 
-**Audience:** Users and AI Agents | **Category:** Command Reference | **Purpose:** Quick lookup for toolkit commands and patterns | **Last Updated:** 2025-12-11
+**Audience:** Users and AI Agents | **Category:** Command Reference | **Purpose:** Quick lookup for toolkit commands and patterns | **Last Updated:** 2026-01-12
 
 **Location:** Toolkit root (moved from `docs/toolkit/` for easy access)
 
@@ -75,6 +75,27 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 ```
 
 **Note:** Deploy-Plugin.ps1 automatically runs Build-Plugin.ps1 before copying files, so manual builds are optional.
+
+---
+
+## 🧪 Testing Commands
+
+```powershell
+# Run unit tests (fast, no InvenTree required)
+.\scripts\Test-Plugin.ps1 -Plugin "plugin-name" -Unit
+
+# Run integration tests (requires InvenTree dev setup)
+.\scripts\Test-Plugin.ps1 -Plugin "plugin-name" -Integration
+
+# Run all tests
+.\scripts\Test-Plugin.ps1 -Plugin "plugin-name" -All
+
+# Filter test output (useful for CI/CD or large test suites)
+.\scripts\Test-Plugin.ps1 -Plugin "plugin-name" -Integration 2>&1 | Select-String -Pattern '(test_name|Ran|OK|FAILED)'
+
+# Show only last 40 lines with context
+.\scripts\Test-Plugin.ps1 -Plugin "plugin-name" -Integration 2>&1 | Select-String -Pattern '(Ran \d+|OK|FAILED)' -Context 0,1 | Select-Object -Last 40
+```
 
 ---
 

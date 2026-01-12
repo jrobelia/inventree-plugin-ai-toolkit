@@ -180,6 +180,7 @@ def test_serializers_validate_real_part_data(self):
 def test_bom_quantity_aggregation(self):
     """Verify quantity calculations through real BOM structure."""
     # NOTE: Keep BOM structures simple to avoid InvenTree validation issues
+    # For complex BOM structures, use fixture-based testing (see below)
     assembly = Part.objects.create(name='ASM', assembly=True, active=True)
     component = Part.objects.create(name='CMP', assembly=False, active=True)
     
@@ -190,6 +191,45 @@ def test_bom_quantity_aggregation(self):
 ```
 
 **Key Principle**: Integration tests should be **simple validation that functions work with real models**, not complex end-to-end scenarios. Complex scenarios belong in unit tests with controlled inputs.
+
+### ⚠️ Fixture-Based Testing for Complex BOM Structures
+
+**Problem**: InvenTree's `Part.check_add_to_bom()` validation prevents creating complex BOM relationships dynamically in tests (circular reference protection triggers false positives).
+
+**Solution**: Use Django fixtures with `call_command('loaddata')` to bypass validation:
+
+```python
+# tests/integration/test_complex_bom.py
+from django.core.management import call_command
+import os
+
+class ComplexBOMTests(InvenTreeTestCase):
+    """Test complex BOM scenarios using pre-validated fixtures."""
+    
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        
+        # Load fixture (bypasses Part.check_add_to_bom validation!)
+        test_dir = os.path.dirname(__file__)
+        fixtures_dir = os.path.dirname(test_dir)
+        fixture_path = os.path.join(fixtures_dir, 'fixtures', 'complex_bom.yaml')
+        call_command('loaddata', fixture_path, verbosity=0)
+    
+    def test_same_part_multiple_paths(self):
+        """Test BOM with shared components across branches."""
+        assembly = Part.objects.get(pk=9001)  # From fixture
+        result = get_flat_bom(assembly.pk)
+        self.assertEqual(len(result), 3)  # Deduplicated count
+```
+
+**When to Use Fixtures**:
+- Nested assemblies (3+ levels deep)
+- Same part appearing in multiple BOM branches
+- Complex quantity aggregation scenarios
+- Testing BOM traversal algorithms
+
+**Reference**: See [backend.testing.instructions.md](../../.github/instructions/backend.testing.instructions.md) for complete fixture pattern and YAML example.
 
 ---
 
@@ -777,6 +817,45 @@ def test_same_part_via_multiple_paths(self):
 
 **Reference Implementation**: See `plugins/FlatBOMGenerator/flat_bom_generator/tests/test_complex_bom_structures.py` for complete example with 4 test scenarios (16 tests) using programmatic fixture loading.
 
+**Fixture Debugging Tips:**
+
+When creating or troubleshooting YAML fixtures, follow this workflow:
+
+1. **Validate YAML Syntax First** (catches 90% of issues)
+   ```powershell
+   python -c "import yaml; yaml.safe_load(open('fixtures/file.yaml'))"
+   ```
+   Common errors:
+   - 6-space indentation (must be 4-space)
+   - Missing MPPT fields on PartCategory
+   - Wrong PK ranges (use 9000+ to avoid conflicts)
+   - Tabs instead of spaces
+
+2. **Test Small Sections Before Full Fixture**
+   - Create fixture with 1-2 test scenarios first
+   - Verify tests pass
+   - Add remaining scenarios incrementally
+
+3. **Use Temporary Files for Large Regenerations**
+   ```powershell
+   # When regenerating part of a large fixture:
+   # 1. Keep working section in main file
+   # 2. Generate new section in temp file
+   # 3. Validate temp file with yaml.safe_load()
+   # 4. Append if valid
+   ```
+
+4. **Common Fixture Errors and Fixes**:
+   - **Test fails: "Part matching query does not exist"** → Wrong PK in test expectations
+   - **Test passes but data wrong** → Missing `validated: true` on BomItems
+   - **Django fixture loading error** → YAML indentation or MPPT fields issue
+   - **Path not found** → Wrong number of `dirname()` calls (count test file depth)
+
+5. **Fixture Organization Best Practices**:
+   - Group by PK ranges: 9001-9099 (Scenario 1), 9100-9199 (Scenario 2)
+   - Document PK ranges in test file docstring
+   - One fixture file per test module (unless shared across modules)
+
 ---
 
 ### "Integration tests are too slow"
@@ -819,6 +898,8 @@ def test_same_part_via_multiple_paths(self):
 
 ---
 
-**Last Updated**: January 11, 2026  
+**Last Updated**: January 12, 2026  
 **Toolkit Version**: 1.1  
-**Major Addition**: Django fixtures for plugin integration tests (programmatic loading pattern)
+**Major Additions**: 
+- Django fixtures for plugin integration tests (programmatic loading pattern)
+- Fixture debugging workflow and common pitfalls
