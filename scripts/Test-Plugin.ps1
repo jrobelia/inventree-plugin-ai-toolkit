@@ -208,14 +208,10 @@ if (-not (Test-Path $testsDir)) {
 Write-Host "Test Structure:"
 Write-Host "  Unit Tests:        $(if ($hasUnitTests) { 'Found' } else { 'Not found' })" -ForegroundColor $(if ($hasUnitTests) { 'Green' } else { 'Yellow' })
 Write-Host "  Integration Tests: $(if ($hasIntegrationTests) { 'Found' } else { 'Not found' })" -ForegroundColor $(if ($hasIntegrationTests) { 'Green' } else { 'Yellow' })
-if ($hasLegacyTests) {
-  Write-Host "  Legacy Tests:      Found (tests/*.py directly)" -ForegroundColor Yellow
-  Write-Host "    Consider organizing into unit/ and integration/ folders"
-}
 Write-Host ""
 
 # Validate requested test type exists
-if ($runUnit -and -not $hasUnitTests -and -not $hasLegacyTests) {
+if ($runUnit -and -not $hasUnitTests) {
   Write-Warning "No unit tests found in $unitTestsDir"
   if ($runIntegration) {
     Write-Host "Continuing with integration tests only..."
@@ -262,29 +258,41 @@ if ($runUnit) {
       # Add plugin directory to PYTHONPATH
       $env:PYTHONPATH = $pluginDir
       
+      # Temporarily allow errors (integration test imports will fail)
+      $originalErrorPref = $ErrorActionPreference
+      $ErrorActionPreference = 'Continue'
+      
       Push-Location $pluginDir
       try {
+        $testOutput = @()
+        
         if ($TestPath) {
           # Run specific test path
           Write-Status "Running: $TestPath"
-          & python -m unittest $TestPath -v
+          $testOutput = & python -m unittest $TestPath -v 2>&1
+          $exitCode = $LASTEXITCODE
         } else {
-          # Run all unit tests
-          if ($hasUnitTests) {
-            $testsPath = Join-Path $packageName "tests\unit"
-            Write-Status "Running unit tests from: $testsPath"
-            & python -m unittest discover -s $testsPath -p "test_*.py" -v
-          } elseif ($hasLegacyTests) {
-            # Fallback to legacy tests directory
-            $testsPath = Join-Path $packageName "tests"
-            Write-Status "Running legacy tests from: $testsPath"
-            & python -m unittest discover -s $testsPath -p "test_*.py" -v
-          }
+          # Run all unit tests from tests/unit/ directory
+          $testsPath = Join-Path $packageName "tests\unit"
+          Write-Status "Running unit tests from: $testsPath"
+          $testOutput = & python -m unittest discover -s $testsPath -p "test_*.py" -v 2>&1
+          $exitCode = $LASTEXITCODE
         }
         
-        if ($LASTEXITCODE -eq 0) {
+        # Display test output
+        $testOutput | ForEach-Object { Write-Host $_ }
+        
+        # Parse test summary
+        $summaryLine = $testOutput | Where-Object { $_ -match "^Ran (\d+) test" }
+        
+        if ($summaryLine -match "Ran (\d+) test") {
+          $totalTests = [int]$Matches[1]
+        }
+        
+        # Check for success
+        if ($exitCode -eq 0) {
           Write-Host ""
-          Write-Success "Unit tests passed!"
+          Write-Success "Unit tests passed! ($totalTests tests)"
         } else {
           Write-Host ""
           Write-Failure "Unit tests failed"
@@ -292,6 +300,7 @@ if ($runUnit) {
         }
       } finally {
         Pop-Location
+        $ErrorActionPreference = $originalErrorPref
       }
     }
   } catch {
