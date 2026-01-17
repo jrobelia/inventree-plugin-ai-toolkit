@@ -440,6 +440,62 @@ const handleClick = (id: number) => {
 - Lazy load components (React.lazy)
 - Debounce search inputs
 
+## Mantine DataTable Column Formatting
+
+**Critical Discovery**: `minWidth` on column definitions is metadata only - mantine-datatable does NOT automatically apply it to DOM elements.
+
+**Problem**: Fixed-layout tables (`table-layout: fixed`) ignore column `minWidth` property, causing content to overflow into adjacent columns.
+
+**Solution**: Use `cellsStyle` and `titleStyle` callbacks to enforce minWidth as actual CSS (matches InvenTree core pattern).
+
+```typescript
+// ❌ BAD: minWidth is ignored by table layout
+{
+  accessor: 'in_stock',
+  title: 'In Stock',
+  minWidth: 125,  // ← Never applied to DOM!
+  render: (record) => (
+    <Group wrap="nowrap">
+      <Badge>{record.in_stock}</Badge>
+      <Text>[mm]</Text>
+    </Group>
+  )
+}
+// Result: Column shrinks below 125px, content overflows
+
+// ✅ GOOD: Enforce minWidth with callbacks (InvenTree pattern)
+{
+  accessor: 'in_stock',
+  title: 'In Stock',
+  minWidth: 125,
+  cellsStyle: () => ({ minWidth: 125 }),  // ← Applies CSS to cells
+  titleStyle: () => ({ minWidth: 125 }),  // ← Applies CSS to header
+  render: (record) => (
+    <Group wrap="nowrap" justify="space-between">
+      <Badge style={{ minWidth: 'fit-content' }}>{record.in_stock}</Badge>
+      <Text size="xs" c="dimmed">[{record.unit}]</Text>
+    </Group>
+  )
+}
+// Result: Column never shrinks below 125px, no overflow
+```
+
+**Pattern Explanation**:
+1. **cellsStyle callback**: Applies `minWidth` CSS to all table cells in this column
+2. **titleStyle callback**: Applies `minWidth` CSS to column header cell
+3. **justify="space-between"**: Safe to use once minWidth is enforced (left/right alignment without overflow)
+4. **Badge minWidth: 'fit-content'**: Prevents number truncation inside badge
+
+**InvenTree Core Reference**: `BuildLineTable.tsx` and `ColumnRenderers.tsx` use this pattern for progress/badge columns (standard 125px width).
+
+**When to Use**:
+- Badge + unit text columns (stock, quantity, measurements)
+- Progress bar columns
+- Any column where content must not overflow
+- Fixed-layout tables requiring strict column widths
+
+**Debugging**: If columns still shrink, check that both `cellsStyle` AND `titleStyle` are defined (header cells need width too).
+
 ---
 
 **When optional chaining hides bugs**: Ask user if null is valid state. Fail-fast reveals design issues.
