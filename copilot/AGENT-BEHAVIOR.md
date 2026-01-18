@@ -113,6 +113,39 @@ requested resource AND information about the operation."
 
 ---
 
+## Task Tracking with Todo Lists
+
+**MANDATORY: Use manage_todo_list tool for ALL multi-step work** (3+ steps, especially phase-based refactoring):
+
+### When TODO Lists are Required
+
+Agents MUST create TODO lists before starting work that involves:
+- 5+ file changes
+- 3+ distinct phases (e.g., extract → refactor → test)
+- 30+ minutes estimated time
+- Multi-file refactoring or feature implementation
+
+### TODO List Usage
+
+1. **Create todo list FIRST** - Break work into specific, verifiable tasks (before touching any code)
+2. **Mark in-progress BEFORE starting** - Shows user what you're working on (only ONE item at a time)
+3. **Mark completed IMMEDIATELY** - Track progress, prevent forgetting steps (after verification)
+4. **Update when pivoting** - If approach changes, update list to reflect reality
+
+### TODO List Quality Standards
+
+**Good items:**
+- ✅ "Extract FlatBOMItemSerializer + write 16 tests (Phase 2/3)"
+- ✅ "Deploy to staging and verify warnings display correctly"
+
+**Bad items:**
+- ❌ "Refactor everything"
+- ❌ "Fix bugs"
+
+**Why This Matters:** User works part-time on plugins. Failure to use TODO lists = user cannot resume work after breaks = project friction and lost context.
+
+---
+
 ## Code Generation Guidelines
 
 ### Character Encoding and Special Characters

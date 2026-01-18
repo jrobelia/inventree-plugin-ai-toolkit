@@ -48,7 +48,11 @@ This is an **InvenTree Plugin Development Toolkit** - a lightweight workspace fo
 - Use **plain English** - explain software concepts simply
 - Provide **complete examples** with step-by-step instructions
 - **No emoji in code** (use ASCII prefixes like `[INFO]`, `[OK]`, `[ERROR]`)
+- **MANDATORY todo lists** for multi-step work (3+ steps, 5+ files, 30+ minutes)
+- **Commit after EVERY verified checkpoint** (tests pass, build succeeds, manual test confirms)
+- **Test incrementally** - Never stack unverified changes
 - See `copilot/AGENT-BEHAVIOR.md` for detailed communication guidelines
+- See `copilot/DEVELOPMENT-WORKFLOW.md` for universal development workflow
 
 ### Architecture
 - **Toolkit root**: PowerShell scripts for building/deploying plugins
@@ -66,6 +70,25 @@ This is an **InvenTree Plugin Development Toolkit** - a lightweight workspace fo
 - **Run integration tests**: `.\scripts\Test-Plugin.ps1 -Plugin "PluginName" -Integration` (requires setup)
 - **Set up integration testing**: `.\scripts\Setup-InvenTreeDev.ps1` (one-time)
 - See `QUICK-REFERENCE.md` for command reference
+
+### Workflow Discipline (MANDATORY)
+**Agents MUST follow incremental verification workflow:**
+
+1. **Before starting** - Create TODO list if 3+ steps
+2. **During work** - Change 1-3 files, test, deploy, verify, commit
+3. **Between phases** - STOP and ask user to verify before proceeding
+4. **Phase complete** - Only when deployed, tested in browser, and committed
+
+**Commit immediately after:**
+- All tests pass (unit + integration)
+- Build succeeds (`npm run tsc`, `Build-Plugin.ps1`)
+- Manual browser test confirms feature works
+- Phase completion (after deployment verification)
+
+**Never commit:**
+- Failing tests, compilation errors, broken functionality
+
+See `copilot/DEVELOPMENT-WORKFLOW.md` for complete workflow guide.
 
 ### When User Requests
 - **"Create a plugin"**: Use prompts from `copilot/plugin-creation-prompts.md`
@@ -86,6 +109,7 @@ This is an **InvenTree Plugin Development Toolkit** - a lightweight workspace fo
 ### AI Guidance (copilot/ folder)
 All files in `copilot/` are **agent-facing documentation**:
 - `AGENT-BEHAVIOR.md` - Communication style, tone, code generation rules
+- `DEVELOPMENT-WORKFLOW.md` - Universal workflow: TODO lists, commits, testing, phase completion
 - `PROJECT-CONTEXT.md` - Architecture, tech stack, folder structure, patterns
 - `plugin-creation-prompts.md` - Ready-to-use prompts for plugin creation
 

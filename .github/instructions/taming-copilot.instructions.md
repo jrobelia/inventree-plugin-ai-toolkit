@@ -41,6 +41,171 @@ These rules have the highest priority and must not be violated:
 
 ---
 
+## Work Breakdown & Progress Tracking
+
+**MANDATORY: Use TODO lists for all multi-step work (3+ steps)**
+
+### When TODO Lists are Required
+
+Create TODO list BEFORE starting if task involves:
+- [ ] 5+ file changes
+- [ ] 3+ distinct phases (e.g., extract → refactor → test)
+- [ ] 30+ minutes estimated time
+- [ ] Multi-file refactoring or feature implementation
+
+### TODO List Usage Pattern
+
+1. **Create FIRST** - Before touching any code, break work into verifiable steps
+2. **Mark in-progress** - Before starting each item (only ONE item in-progress at a time)
+3. **Mark completed** - Immediately after verification (tests pass, deployed, confirmed working)
+4. **Update when pivoting** - If approach changes, update list to reflect new reality
+
+### TODO List Quality Standards
+
+**Good TODO items:**
+- ✅ "Extract FlatBOMItemSerializer + write 16 tests (Phase 2/3)"
+- ✅ "Add shortfall calculation to frontend with checkbox toggles"
+- ✅ "Deploy to staging and verify warnings display in browser"
+
+**Bad TODO items:**
+- ❌ "Refactor everything"
+- ❌ "Fix bugs"
+- ❌ "Improve code quality"
+
+**Why This Matters:** User works part-time and needs to resume work easily. TODO lists = resumability. Without them, context is lost between sessions.
+
+---
+
+## Version Control Discipline
+
+### Commit Frequency (MANDATORY)
+
+**Commit IMMEDIATELY after:**
+- [ ] All tests pass (unit + integration)
+- [ ] TypeScript compiles successfully (`npm run tsc`)
+- [ ] Manual browser test confirms feature works
+- [ ] Phase completion in multi-phase work (after deployment verification)
+
+**Commit BEFORE:**
+- [ ] Deploying to any server (staging or production)
+- [ ] Starting next feature or phase
+- [ ] Taking a break (use "WIP:" prefix if work incomplete)
+
+**NEVER Commit:**
+- [ ] Failing tests
+- [ ] TypeScript compilation errors
+- [ ] Broken functionality (unless clearly marked "WIP: debugging X")
+
+### Commit Message Format
+
+Use conventional commits: `<type>: <clear description>`
+
+**Types:**
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `refactor:` - Code restructure (no behavior change)
+- `test:` - Add/improve tests
+- `docs:` - Documentation only
+- `chore:` - Build, dependencies, tooling
+
+**Good commit messages:**
+- ✅ "feat: add shortfall calculation with checkbox toggles"
+- ✅ "test: add 22 integration tests for get_bom_items()"
+- ✅ "refactor: extract BOMWarningSerializer (Phase 1/3, verified on staging)"
+
+**Bad commit messages:**
+- ❌ "updates"
+- ❌ "fix stuff"
+- ❌ "wip"
+
+**Why This Matters:** Frequent commits create checkpoints for recovery. Clear messages create understandable history. User needs to understand what changed and why when resuming work days later.
+
+---
+
+## Incremental Verification Workflow
+
+**CRITICAL: Test after EACH change before stacking more changes**
+
+### Mandatory Test Checkpoints
+
+After each step, **STOP and verify** before proceeding:
+
+1. **Code Change** → Run relevant unit tests
+2. **Unit Tests Pass** → Run integration tests (if applicable)
+3. **All Tests Pass** → Build plugin (`npm run tsc` + `Build-Plugin.ps1`)
+4. **Build Succeeds** → Deploy to staging server
+5. **Deploy Succeeds** → Manual test in browser (check UI + F12 console)
+6. **Browser Test Passes** → Commit with clear message
+
+**DO NOT** proceed to next step if current step fails. Fix the failure immediately.
+
+### Agent Pause Points (Wait for User Approval)
+
+**STOP and ask user to verify after:**
+- [ ] Phase 1 of multi-phase refactoring complete (before starting Phase 2)
+- [ ] First deployment of new feature (user must verify in production environment)
+- [ ] After fixing a bug (user must verify fix actually works on server)
+- [ ] After 3+ file changes (show progress, get feedback)
+- [ ] After 1 hour of continuous work (update TODO list, show status)
+
+**Example pause point message:**
+```
+"Phase 2 code complete and all tests pass locally. Before proceeding to Phase 3, 
+please deploy to staging and verify the hooks are working correctly in the browser. 
+Confirm when ready for Phase 3."
+```
+
+### Recovery When Verification Fails
+
+If test/build/deploy fails:
+
+1. **Read error completely** - Don't skim, understand the full error message
+2. **Identify which code change broke it** - Use git diff if needed
+3. **Explain to user** - What went wrong and WHY it happened
+4. **Propose fix** - Don't just implement, explain the approach first
+5. **Get approval** - Wait for user confirmation before changing code
+6. **After fix: re-run ALL tests** - Not just the one that failed
+
+**Why This Matters:** FlatBOMGenerator's Phase 3 serializer refactoring skipped deployment verification → broken code reached staging → took days to discover. Don't repeat this mistake.
+
+---
+
+## Phase Completion Definition
+
+A "phase" is complete **ONLY when ALL of these are true:**
+
+- [ ] All tests pass (unit + integration)
+- [ ] TypeScript compiles without errors
+- [ ] Code builds successfully
+- [ ] Deployed to staging server
+- [ ] Manual browser test confirms functionality works
+- [ ] Committed to git with clear message referencing phase
+
+**DO NOT** start next phase until current phase meets ALL criteria.
+
+**Example: 3-Phase Serializer Refactoring**
+
+- Phase 1 Complete = BOMWarningSerializer **working on staging server** (not just "code written")
+- Phase 2 Complete = FlatBOMItemSerializer **working on staging server**  
+- Phase 3 Complete = FlatBOMResponseSerializer **working on staging server**
+
+**Mark phase complete in TODO list only after ALL criteria met.**
+
+### Reconciling "Complete Implementation" with "Surgical Precision"
+
+These are NOT contradictory:
+
+- **Surgical Precision** = Don't touch unrelated code/files
+- **Complete Implementation** = Finish what you start before moving on
+- **Phased Approach** = Break large work into 3-5 verifiable phases
+
+**Example Implementation:**
+- ✅ GOOD: "Implement BOMWarningSerializer (Phase 1/3)" - Complete for ONE serializer, surgically targeted
+- ❌ BAD: "Refactor all serializers at once" - Too broad, can't verify incrementally
+- ❌ BAD: "Update serializer.py line 45" - Too narrow, leaves work incomplete
+
+---
+
 ## Surgical Code Modification
 
 **CRITICAL FOR THIS PROJECT**: InvenTree plugins are complex with many interconnected files. Uncontrolled refactoring can break functionality.
@@ -86,10 +251,72 @@ These rules have the highest priority and must not be violated:
 
 ---
 
-## Remember
+## Reconciling Apparent Conflicts
 
-This user:
-- Works part-time on plugins (needs easy resume after breaks)
+### "Surgical Precision" vs "Complete Implementation"
+
+These instructions are NOT contradictory - they work together:
+
+- **Surgical Precision** = Don't touch unrelated code/files
+- **Complete Implementation** = Finish what you start before moving on
+- **Phased Approach** = Break large work into 3-5 verifiable phases
+
+**How they work together:**
+
+When implementing a feature:
+1. Break large work into 3-5 phases
+2. Each phase is **complete** (all files needed for that phase to work)
+3. Each phase is **surgical** (only touches files directly related to that phase)
+4. Verify each phase works before starting next
+
+**Examples:**
+
+✅ **GOOD - Surgical AND Complete:**
+- "Implement BOMWarningSerializer (Phase 1/3)" 
+- Complete: Serializer + tests + integration with views
+- Surgical: Only touches serializers.py, test_serializers.py, views.py (where serializer is used)
+- All code for THIS serializer works and is verified before starting next serializer
+
+❌ **BAD - Too Broad:**
+- "Refactor all serializers at once"
+- Touches serializers.py, views.py, test_serializers.py, bom_traversal.py all at once
+- Can't verify incrementally - too many changes stacked
+- If something breaks, hard to identify which change caused it
+
+❌ **BAD - Too Narrow/Incomplete:**
+- "Update serializer.py line 45"
+- Changes one line but doesn't complete the feature
+- Leaves half-implemented code
+- Doesn't include tests or integration
+
+### "Test-First" vs "Code-First"
+
+Both methodologies are valid - use the right one for the situation:
+
+**Use Test-First when:**
+- ✅ Building NEW feature from scratch
+- ✅ Requirements are clear and well-defined
+- ✅ No existing code to work with
+- ✅ User explicitly requests test-first approach
+
+**Use Code-First when:**
+- ✅ Refactoring EXISTING code
+- ✅ Tests are missing, wrong, or testing stubs
+- ✅ Need to understand current behavior first
+- ✅ Legacy code with complex logic
+
+**When uncertain:** ASK USER which methodology to use.
+
+**Example decision process:**
+```
+User: "Add support for optional BOM items"
+Agent: "This is a new feature. Should I use test-first (write tests, then implement) 
+        or code-first (implement, then add tests)? Test-first is recommended for 
+        new features, but I'll follow your preference."
+```
+
+---
+
 - Prefers simple solutions over complex automation
 - Values clear explanations over assumed knowledge
 - Comfortable with Python, learning frontend
