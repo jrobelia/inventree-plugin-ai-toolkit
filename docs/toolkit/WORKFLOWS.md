@@ -754,6 +754,137 @@ You'll be asked to confirm - type `yes` to proceed.
 
 ---
 
+## 🧪 Workflow 11: Test Plugin Frontend Code
+
+**When to use:** Verify your frontend code works correctly before deployment
+
+### Prerequisites:
+- Your plugin has frontend code (React/TypeScript components)
+- You have vitest configured in `frontend/package.json`
+
+### Quick Test (Both TypeScript and Vitest):
+
+```powershell
+# From toolkit root
+.\scripts\Test-Frontend.ps1 -Plugin "YourPluginName"
+```
+
+**What it runs:**
+1. **Vitest unit tests** (`npm test`)
+   - Tests logic, utilities, hooks
+   - Fast execution (< 1 second for 50+ tests)
+   - No browser needed
+2. **TypeScript validation** (`npx tsc -b --noEmit`)
+   - Checks type errors
+   - Validates all .ts/.tsx files
+
+### Run Only Specific Tests:
+
+```powershell
+# Only run vitest (skip TypeScript check)
+.\scripts\Test-Frontend.ps1 -Plugin "YourPluginName" -TestOnly
+
+# Only run TypeScript validation (skip vitest)
+.\scripts\Test-Frontend.ps1 -Plugin "YourPluginName" -TypeScriptOnly
+```
+
+### Understanding Test Output:
+
+**✅ Success output:**
+```
+=======================================
+  Frontend Testing: YourPlugin
+=======================================
+
+[INFO] Running Vitest unit tests...
+ ✓ src/utils/myUtil.test.ts (10 tests) 5ms
+ ✓ src/hooks/useMyHook.test.ts (23 tests) 12ms
+ Test Files  2 passed (2)
+      Tests  33 passed (33)
+[OK] Vitest tests passed
+
+[INFO] Running TypeScript validation...
+[OK] TypeScript validation passed
+
+=======================================
+  Frontend Testing PASSED
+=======================================
+```
+
+**❌ Failure output (test failures):**
+```
+[INFO] Running Vitest unit tests...
+ ✖ src/utils/myUtil.test.ts > should calculate correctly
+   AssertionError: expected 5 to equal 10
+[ERROR] Vitest tests failed
+```
+
+**❌ Failure output (TypeScript errors):**
+```
+[INFO] Running TypeScript validation...
+src/Panel.tsx(45,12): error TS2322: Type 'string' is not assignable to type 'number'.
+[ERROR] TypeScript validation failed
+```
+
+### Setting Up Frontend Tests (First Time):
+
+**1. Add vitest to package.json:**
+```json
+{
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.17"
+  }
+}
+```
+
+**2. Create test files:**
+```typescript
+// frontend/src/utils/myUtil.test.ts
+import { describe, it, expect } from 'vitest';
+import { myFunction } from './myUtil';
+
+describe('myFunction', () => {
+  it('should return expected value', () => {
+    const result = myFunction(5);
+    expect(result).toBe(10);
+  });
+});
+```
+
+**3. Run tests:**
+```powershell
+.\scripts\Test-Frontend.ps1 -Plugin "YourPluginName"
+```
+
+### Best Practices:
+
+✅ **Test business logic** - Calculations, data transformations, utility functions  
+✅ **Test hooks** - Custom React hooks with state/effects  
+✅ **Fast execution** - Keep tests under 1 second total  
+✅ **Run before committing** - Catch errors early  
+
+❌ **Don't test UI rendering** (yet) - Requires additional setup  
+❌ **Don't test InvenTree APIs** - Use integration tests for that  
+❌ **Don't test external libraries** - Trust they work  
+
+### When to Run Frontend Tests:
+
+- ✅ Before every commit
+- ✅ After refactoring logic
+- ✅ Before deployment
+- ✅ When adding new features
+
+### Related Documentation:
+
+- [TESTING-STRATEGY.md](TESTING-STRATEGY.md) - Overall testing philosophy
+- [Test-Frontend.ps1 source](../../scripts/Test-Frontend.ps1) - Script details
+
+---
+
 ## 💡 Pro Tips
 
 ### Tip 1: Use Copilot for Repetitive Code

@@ -48,6 +48,27 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 .\scripts\Deploy-Plugin.ps1 -Plugin "FlatBOMGenerator" -Server staging
 ```
 
+### Testing Backend
+```powershell
+cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
+.\scripts\Test-Plugin.ps1 -Plugin "FlatBOMGenerator" -Unit
+.\scripts\Test-Plugin.ps1 -Plugin "FlatBOMGenerator" -Integration
+.\scripts\Test-Plugin.ps1 -Plugin "FlatBOMGenerator" -All
+```
+
+### Testing Frontend
+```powershell
+cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
+# Run both vitest and TypeScript validation
+.\scripts\Test-Frontend.ps1 -Plugin "FlatBOMGenerator"
+
+# Run only vitest unit tests (fast)
+.\scripts\Test-Frontend.ps1 -Plugin "FlatBOMGenerator" -TestOnly
+
+# Run only TypeScript type checking
+.\scripts\Test-Frontend.ps1 -Plugin "FlatBOMGenerator" -TypeScriptOnly
+```
+
 ### Deploy (Auto-builds)
 ```powershell
 cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
