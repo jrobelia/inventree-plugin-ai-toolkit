@@ -74,6 +74,43 @@ Write-Host ""
 Push-Location $PluginPath
 
 try {
+    # Auto-increment patch version to avoid browser cache issues
+    Write-Step "Auto-incrementing patch version..."
+    # We're already in $PluginPath after Push-Location, search current directory
+    # Look for __init__.py containing PLUGIN_VERSION (not the root package __init__)
+    $InitFiles = Get-ChildItem -Recurse -Filter "__init__.py" | Where-Object { 
+        $_.FullName -notmatch '[\\/](dist|build|node_modules|__pycache__|\.venv|\.git|tests)[\\/]' 
+    }
+    $InitFile = $InitFiles | Where-Object {
+        (Get-Content $_.FullName -Raw) -match 'PLUGIN_VERSION'
+    } | Select-Object -First 1
+    
+    if ($InitFile) {
+        $Content = Get-Content $InitFile.FullName -Raw
+        # Use PowerShell regex: [0-9]+ instead of \d+
+        # Match PLUGIN_VERSION = "x.y.z" (double quotes only for simplicity)
+        if ($Content -match 'PLUGIN_VERSION\s*=\s*"([0-9]+)\.([0-9]+)\.([0-9]+)"') {
+            $Major = $Matches[1]
+            $Minor = $Matches[2]
+            $Patch = [int]$Matches[3]
+            $NewPatch = $Patch + 1
+            $OldVersion = "$Major.$Minor.$Patch"
+            $NewVersion = "$Major.$Minor.$NewPatch"
+            
+            # Use simple string replacement instead of regex
+            $OldString = "PLUGIN_VERSION = `"$OldVersion`""
+            $NewString = "PLUGIN_VERSION = `"$NewVersion`""
+            $NewContent = $Content.Replace($OldString, $NewString)
+            Set-Content -Path $InitFile.FullName -Value $NewContent -NoNewline
+            
+            Write-Info "Version: $OldVersion → $NewVersion"
+        } else {
+            Write-Warning "Could not find PLUGIN_VERSION in __init__.py"
+        }
+    } else {
+        Write-Warning "Could not find __init__.py"
+    }
+    
     # Clean if requested
     if ($Clean) {
         Write-Step "Cleaning build artifacts..."
@@ -155,8 +192,21 @@ try {
     # Build Python package
     Write-Step "Building Python package..."
     
-    python -m pip install --upgrade build wheel
-    python -m build
+    # Suppress verbose pip output (show only warnings/errors)
+    python -m pip install --upgrade build wheel --quiet 2>&1 | Where-Object { $_ -notmatch 'Requirement already satisfied' } | Write-Host
+    
+    # Suppress setuptools warnings about test packages (expected, tests are intentionally included)
+    $env:PYTHONWARNINGS = 'ignore::UserWarning'
+    python -m build 2>&1 | Where-Object { 
+        $_ -notmatch 'Package.*is absent from the.*packages.*configuration' -and
+        $_ -notmatch 'copying.*->.*' -and
+        $_ -notmatch 'creating.*' -and
+        $_ -notmatch 'running.*' -and
+        $_ -notmatch 'writing.*' -and
+        $_ -notmatch 'reading manifest' -and
+        $_ -notmatch 'adding license file'
+    } | Write-Host
+    $env:PYTHONWARNINGS = ''
     
     if ($LASTEXITCODE -eq 0) {
         Write-Success "[OK] Python package built successfully"

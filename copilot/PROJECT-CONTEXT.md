@@ -49,6 +49,38 @@ A lightweight development toolkit for creating and deploying InvenTree plugins. 
 Create Plugin → Edit Code → Build → Deploy to Staging → Test → Deploy to Production
 ```
 
+### Server Configuration
+
+**Server credentials stored in:** `config/servers.json`
+
+**Contents:**
+- SSH connection details (host, user, port)
+- SSH key path (if configured)
+- InvenTree installation path
+- Server aliases (staging, production, etc.)
+
+**SSH Key Usage:**
+- Deploy-Plugin.ps1 automatically uses SSH key from servers.json
+- No need to manually specify key or enter passwords
+- Key path is typically: `C:\Users\<user>\.ssh\id_ed25519` or `id_rsa`
+
+**Example servers.json:**
+```json
+{
+  "staging": {
+    "host": "staging.example.com",
+    "user": "root",
+    "ssh_key": "C:\\Users\\User\\.ssh\\id_ed25519",
+    "inventree_path": "/root/inventree/inventree"
+  }
+}
+```
+
+**When SSHing to servers:**
+- Use credentials from servers.json
+- No passphrase prompts if key is configured correctly
+- Scripts handle authentication automatically
+
 ---
 
 ## Architecture & Folder Structure
@@ -606,9 +638,11 @@ interface InvenTreePluginContext {
 3. Copies frontend bundle to `static/` folder
 
 **Deploy-Plugin.ps1:**
-1. Builds plugin (calls Build-Plugin.ps1)
+1. Auto-builds plugin (calls Build-Plugin.ps1 first)
 2. Copies built plugin to server via SCP
 3. SSHs to server and restarts InvenTree
+
+*Note: Use Build-Plugin.ps1 only when you want to build without deploying.*
 
 **Test-Plugin.ps1:**
 1. Sets InvenTree test environment variables
