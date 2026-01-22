@@ -225,7 +225,7 @@ if ($IsRemote) {
         exit 1
     }
     
-    Write-Success "??? Uploaded successfully"
+    Write-Success "[OK] Uploaded successfully"
     
     # Install via pip in the Docker container
     Write-Info "Installing plugin via pip..."
@@ -239,7 +239,21 @@ if ($IsRemote) {
         exit 1
     }
     
-    Write-Success "??? Plugin installed successfully"
+    Write-Success "[OK] Plugin installed successfully"
+    
+    # Collect plugin static files (copies from pip package to served location)
+    Write-Info "Collecting plugin static files..."
+    $CollectCmd = "cd $DockerDir && docker-compose exec -T inventree-server bash -c 'cd /home/inventree/src/backend/InvenTree && python manage.py collectplugins'"
+    $CollectOutput = ssh @SSHCheckArgs $SSHConnection $CollectCmd 2>&1
+    
+    if ($LASTEXITCODE -eq 0) {
+        Write-Success "[OK] Static files collected"
+    } else {
+        Write-Warning "Static file collection may have failed - check manually"
+        if ($CollectOutput) {
+            Write-Host $CollectOutput
+        }
+    }
     
     # Clean up wheel file
     Write-Info "Cleaning up temporary files..."
@@ -255,7 +269,7 @@ if ($IsRemote) {
     }
     
     if ($LASTEXITCODE -eq 0) {
-        Write-Success "??? InvenTree restarted successfully"
+        Write-Success "[OK] InvenTree restarted successfully"
     } else {
         Write-Warning "InvenTree restart may have failed - please check manually"
     }
