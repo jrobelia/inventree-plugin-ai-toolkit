@@ -103,7 +103,20 @@ try {
             $NewContent = $Content.Replace($OldString, $NewString)
             Set-Content -Path $InitFile.FullName -Value $NewContent -NoNewline
             
-            Write-Info "Version: $OldVersion → $NewVersion"
+            Write-Info "Python version: $OldVersion -> $NewVersion"
+            
+            # Also update frontend/package.json if it exists (keep versions synchronized)
+            $PackageJsonPath = Join-Path $PluginPath "frontend\package.json"
+            if (Test-Path $PackageJsonPath) {
+                $PackageContent = Get-Content $PackageJsonPath -Raw
+                if ($PackageContent -match '"version"\s*:\s*"[^"]+"') {
+                    $PackageOldString = "`"version`": `"$OldVersion`""
+                    $PackageNewString = "`"version`": `"$NewVersion`""
+                    $PackageNewContent = $PackageContent.Replace($PackageOldString, $PackageNewString)
+                    Set-Content -Path $PackageJsonPath -Value $PackageNewContent -NoNewline
+                    Write-Info "Frontend version: $OldVersion -> $NewVersion"
+                }
+            }
         } else {
             Write-Warning "Could not find PLUGIN_VERSION in __init__.py"
         }
