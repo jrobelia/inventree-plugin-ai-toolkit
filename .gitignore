@@ -68,3 +68,5 @@ plugins/*
 # Ignore plugin directories (users manage their own plugins)
 plugins/*
 !plugins/README.md
+
+.github-old/

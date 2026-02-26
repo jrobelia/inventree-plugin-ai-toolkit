@@ -219,8 +219,9 @@ plugins/my-plugin/                  # Active development plugin
 **Key Concepts:**
 - **InvenTreePluginContext**: Context object passed to all components with API client, user info, model data
 - **Mantine Components**: Pre-built UI components (Button, Table, Modal, etc.)
-- **React Query**: Data fetching and caching
-- **Lingui i18n**: Translation system using `<Trans>` component
+- **React Query**: Data fetching and caching (use `useQuery` hook)
+- **Lingui i18n**: Translation system using `` t`text` `` macro
+- **See `.github/instructions/frontend.react.instructions.md`** for complete patterns
 
 ### Development Tools
 - **Package Manager (Python)**: pip with virtual environments
@@ -529,29 +530,30 @@ export function renderMyPanel(context: InvenTreePluginContext) {
 ```typescript
 // In frontend/src/Panel.tsx
 import { useQuery } from '@tanstack/react-query';
-import { Text, Loader } from '@mantine/core';
+import { Center, Loader, Alert } from '@mantine/core';
 import type { InvenTreePluginContext } from '@inventreedb/ui';
 
 function MyPanel({ context }: { context: InvenTreePluginContext }) {
   
-  // Fetch data from your plugin API
-  const dataQuery = useQuery(
-    {
-      queryKey: ['myPluginData', context.id],
-      queryFn: async () => {
-        const url = '/plugin/my-plugin-slug/data/';
-        const response = await context.api.get(url);
-        return response.data;
-      }
+  // Fetch data from your plugin API using React Query
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['myPluginData', context.id],
+    queryFn: async () => {
+      const url = '/plugin/my-plugin-slug/data/';
+      const response = await context.api.get(url);
+      return response.data;
     },
-    context.queryClient
-  );
+    enabled: !!context.id  // Only fetch when ID exists
+  });
   
-  if (dataQuery.isLoading) return <Loader />;
-  if (dataQuery.error) return <Text c="red">Error loading data</Text>;
+  if (isLoading) return <Center h={200}><Loader /></Center>;
+  if (error) return <Alert color="red">Error loading data</Alert>;
   
-  return <Text>{dataQuery.data.message}</Text>;
+  return <div>{data.message}</div>;
 }
+```
+
+**See `.github/instructions/frontend.react.instructions.md` for complete React Query patterns.**
 ```
 
 ### Pattern 5: React to InvenTree Events
