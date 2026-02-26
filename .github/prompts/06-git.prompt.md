@@ -2,6 +2,12 @@
 
 Use these rules whenever creating a branch or committing in this workspace.
 
+## Before any git operation
+- Run `git submodule status` to identify submodule directories.
+- **Never commit inside a submodule** — changes there belong to the upstream repo.
+- Run `git status` from the **repo root**, not from inside a subdirectory.
+
+
 ## Branch names
 - Lowercase letters and hyphens only.
 - 40 characters maximum.
