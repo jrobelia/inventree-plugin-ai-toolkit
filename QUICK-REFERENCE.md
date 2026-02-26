@@ -2,7 +2,7 @@
 
 **Audience:** Users and AI Agents | **Category:** Command Reference | **Purpose:** Quick lookup for toolkit commands and patterns | **Last Updated:** 2026-01-12
 
-**Location:** Toolkit root (moved from `docs/toolkit/` for easy access)
+**Location:** Toolkit root
 
 ---
 
@@ -10,7 +10,7 @@ Keep this handy while developing InvenTree plugins!
 
 ---
 
-## 🚀 Copy-Paste Commands
+## Copy-Paste Commands
 
 **All commands assume you're starting from the toolkit root:**
 ```
@@ -79,7 +79,7 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 
 ---
 
-## 🛠️ Common Toolkit Commands
+## Common Toolkit Commands
 
 ```powershell
 # Create new plugin
@@ -99,7 +99,7 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 
 ---
 
-## 🧪 Testing Commands
+## Testing Commands
 
 ```powershell
 # Run unit tests (fast, no InvenTree required)
@@ -120,7 +120,7 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 
 ---
 
-## 📁 Important Files
+## Important Files
 
 | File | Purpose | Edit? |
 |------|---------|-------|
@@ -135,7 +135,7 @@ cd "c:\PythonProjects\Inventree Plugin Creator\inventree-plugin-ai-toolkit"
 
 ---
 
-## 🎨 Mantine Components (Most Used)
+## Mantine Components (Most Used)
 
 ```typescript
 import { 
@@ -154,7 +154,7 @@ import {
 
 ---
 
-## 🔌 Plugin Mixins
+## Plugin Mixins
 
 Add to your plugin class to enable features:
 
@@ -173,7 +173,7 @@ class MyPlugin(
 
 ---
 
-## 🌐 Context Properties (Frontend)
+## Context Properties (Frontend)
 
 ```typescript
 context.id              // Current item ID (e.g., part ID)
@@ -188,7 +188,7 @@ context.locale          // Current language
 
 ---
 
-## 🎯 Target Models (for Panels)
+## Target Models (for Panels)
 
 ```python
 # Show panel on different pages:
@@ -207,7 +207,7 @@ if part.assembly:  # Check properties
 
 ---
 
-## 📊 Icon Examples (Tabler Icons)
+## Icon Examples (Tabler Icons)
 
 ```python
 'icon': 'ti:info-circle'      # Info icon
@@ -224,7 +224,7 @@ Browse all icons: https://tabler-icons.io/
 
 ---
 
-## ✨ Code Quality Tools
+## Code Quality Tools
 
 **Auto-formatted when scaffolding new plugins:**
 
@@ -253,7 +253,7 @@ cd frontend; npm run lint:fix       # Frontend auto-fix
 
 ---
 
-## 🐛 Troubleshooting Checklist
+## Troubleshooting Checklist
 
 **Plugin doesn't appear:**
 - [ ] Deployed to correct folder?
@@ -276,17 +276,20 @@ cd frontend; npm run lint:fix       # Frontend auto-fix
 
 ---
 
-## 💬 Quick Copilot Prompts
+## Quick Copilot Prompts
 
 ```
+# Build a feature (full pipeline)
+@agent orchestrator I want to add [DESCRIPTION]
+
+# Debug a problem
+@agent debug I'm getting this error: [ERROR]
+
 # Create a panel
 @workspace Create a custom panel for Part pages in Panel.tsx with [DESCRIPTION]
 
 # Add API endpoint  
 @workspace Create an API endpoint in views.py that [DESCRIPTION]
-
-# Debug error
-I'm getting this error: [ERROR]. Help me fix it.
 
 # Add setting
 @workspace Add a plugin setting called [NAME] that [DESCRIPTION]
@@ -294,17 +297,17 @@ I'm getting this error: [ERROR]. Help me fix it.
 
 ---
 
-## 📞 Getting Help
+## Getting Help
 
 1. **Read error messages** - they usually tell you what's wrong
-2. **Check toolkit/WORKFLOWS.md** - step-by-step guides
-3. **Check copilot/PROJECT-CONTEXT.md** - technical architecture and patterns
-4. **Ask Copilot** - reference copilot/plugin-creation-prompts.md for guided creation
+2. **Check docs/reference/** - setup guides and workflows
+3. **Check docs/architecture.md** - module map and how things fit together
+4. **Ask Copilot** - use `@agent orchestrator` for feature work, `@agent debug` for problems
 5. **InvenTree Docs** - https://docs.inventree.org/
 
 ---
 
-## 🎓 Learning Path
+## Learning Path
 
 1. ✅ Create your first simple plugin (no frontend)
 2. ✅ Add plugin settings
@@ -318,7 +321,7 @@ I'm getting this error: [ERROR]. Help me fix it.
 
 ---
 
-## 💾 Configuration Locations
+## Configuration Locations
 
 ```
 config/servers.json          # Server paths & credentials
@@ -328,7 +331,7 @@ plugins/your-plugin/         # Your plugin code
 
 ---
 
-## 🔄 Typical Workflow
+## Typical Workflow
 
 ```
 1. Create plugin    → .\scripts\New-Plugin.ps1
@@ -343,4 +346,4 @@ plugins/your-plugin/         # Your plugin code
 
 ---
 
-Print this page and keep it near your desk! 📌
+Print this page and keep it near your desk!

@@ -10,7 +10,7 @@
 
 A lightweight development toolkit for creating and deploying InvenTree plugins. Includes PowerShell automation scripts and GitHub Copilot instructions to help guide development.
 
-## � Official InvenTree Documentation
+## Official InvenTree Documentation
 
 **Before using this toolkit, familiarize yourself with official InvenTree plugin documentation:**
 
@@ -30,7 +30,7 @@ A lightweight development toolkit for creating and deploying InvenTree plugins. 
 - Automatically test your plugin logic
 - Guarantee bug-free code
 
-## �🚀 Quick Start
+## Quick Start
 
 **First time setup?** See [SETUP.md](SETUP.md) for detailed installation instructions including:
 - Git submodule initialization for plugin-creator
@@ -42,7 +42,7 @@ A lightweight development toolkit for creating and deploying InvenTree plugins. 
 
 ---
 
-## ⚠️ Important Disclaimer
+## Important Disclaimer
 
 **This toolkit is provided as-is for development assistance.**
 
@@ -64,53 +64,62 @@ See [SETUP.md](SETUP.md) for recommended staging server configuration.
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 inventree-plugin-ai-toolkit/
 ├── .github/
-│   ├── agents/                          # GitHub Copilot agent configurations
-│   │   ├── inventree-plugin.agent.md    # Specialized InvenTree plugin expert agent
-│   │   └── README.md                    # Agent usage guide
-│   ├── instructions/                    # Code generation instruction files
-│   │   ├── backend.api.instructions.md  # Django/DRF patterns
-│   │   ├── backend.core.instructions.md # Plugin class and mixins
-│   │   ├── backend.testing.instructions.md # Testing strategies
-│   │   ├── frontend.react.instructions.md # React/TypeScript patterns
-│   │   ├── frontend.build.instructions.md # Vite build configuration
-│   │   ├── packaging.instructions.md    # Python packaging
-│   │   ├── python.instructions.md       # General Python conventions
-│   │   └── README.md                    # Instruction files guide
-│   └── copilot-instructions.md          # Auto-discovered by GitHub Copilot
+│   ├── agents/                          # Copilot agent personas
+│   │   ├── orchestrator.agent.md        # Full pipeline management
+│   │   ├── debug.agent.md              # Systematic debugging
+│   │   ├── test.agent.md               # RED phase test writing
+│   │   └── code-review.agent.md        # Quality and spec check
+│   ├── instructions/                    # Always-on coding rules
+│   │   ├── core/                        # Language and practice rules
+│   │   │   ├── agent-behavior           # Communication style
+│   │   │   ├── design-principles        # SOLID, DRY, KISS, YAGNI
+│   │   │   ├── python                   # PEP 8, type hints
+│   │   │   ├── powershell               # PS 5.1 conventions
+│   │   │   ├── typescript               # Strict mode, React
+│   │   │   └── testing                  # AAA, naming, TDD
+│   │   └── domain/                      # InvenTree-specific patterns
+│   │       ├── django-api               # DRF serializers, views
+│   │       ├── django-testing           # URL 404 gotcha, as_view()
+│   │       ├── inventree-plugin         # Plugin class, mixins
+│   │       ├── inventree-packaging      # pyproject.toml, entry points
+│   │       ├── inventree-custom-states  # Custom states (Admin UI)
+│   │       ├── react-inventree          # Context, Mantine, Vite
+│   │       └── yaml-fixtures            # MPTT fields, BomItem
+│   ├── prompts/                         # On-demand workflows
+│   │   ├── 01-intake through 06-git     # Pipeline stages
+│   │   ├── inventree-plugin-*           # Build, deploy, test
+│   │   ├── inventree-review             # Code review
+│   │   └── debug-solidworks             # SolidWorks debugging
+│   └── copilot-instructions.md          # Auto-discovered entry point
 ├── config/
 │   └── servers.json                      # Your server configurations (gitignored)
-├── copilot/                              # AI agent guidance
-│   ├── AGENT-BEHAVIOR.md                # Communication style and code generation rules
-│   ├── PROJECT-CONTEXT.md               # Architecture, tech stack, patterns
-│   └── PLUGIN-CREATION-PROMPTS.md       # Ready-to-use creation workflows
 ├── docs/
-│   ├── toolkit/                         # Toolkit usage guides
-│   │   ├── WORKFLOWS.md                 # Step-by-step task guides
-│   │   ├── PLUGIN-DEVELOPMENT-WORKFLOW.md # Complete development lifecycle
-│   │   ├── TESTING-STRATEGY.md          # Unit vs integration testing
-│   │   ├── INVENTREE-DEV-SETUP.md       # InvenTree dev environment setup
-│   │   ├── INTEGRATION-TESTING-SUMMARY.md # Integration testing guide
-│   │   ├── INTEGRATION-TESTING-SETUP-SUMMARY.md # Integration setup summary
-│   │   ├── INTEGRATION-TESTING-KNOWN-ISSUES.md # Known integration issues
-│   │   ├── DOCUMENTATION-STANDARDS.md   # Documentation conventions
-│   │   └── FRESH-USER-WORKFLOW.md       # First-time setup walkthrough
-│   └── inventree/                       # InvenTree knowledge base
-│       ├── CUSTOM-STATES.md             # Custom states guide
-│       └── TESTING-FRAMEWORK.md         # Django testing patterns
+│   ├── architecture.md                  # Toolkit module map (living doc)
+│   ├── decisions.md                     # Append-only decision log
+│   ├── roadmap.md                       # Toolkit feature wish list
+│   ├── reference/                       # How things work today
+│   │   ├── FRESH-USER-WORKFLOW.md       # Zero to working tests
+│   │   ├── INVENTREE-DEV-SETUP.md       # Dev environment setup
+│   │   ├── DOCUMENTATION-STANDARDS.md   # File naming conventions
+│   │   └── PLUGIN-DEVELOPMENT-WORKFLOW.md # Full dev lifecycle
+│   ├── planning/                        # What we want to do next
+│   │   └── TEST-SCRIPT-IMPROVEMENTS.md  # Test script backlog
+│   └── archive/                         # Superseded docs (gitignored)
 ├── plugins/                              # Your plugin projects go here
 │   └── YourPlugin/                      # Each plugin in its own folder
 ├── scripts/                              # PowerShell automation scripts
 │   ├── New-Plugin.ps1                   # Create a new plugin
 │   ├── Build-Plugin.ps1                 # Build plugin (Python + Frontend)
 │   ├── Deploy-Plugin.ps1                # Build & Deploy to server
-│   ├── Test-Plugin.ps1                  # Run plugin unit tests
+│   ├── Test-Plugin.ps1                  # Run plugin tests
+│   ├── Test-Frontend.ps1                # Run frontend tests
 │   ├── Setup-InvenTreeDev.ps1           # Set up InvenTree dev environment
-│   └── Link-PluginToDev.ps1             # Link plugin to dev environment
+│   └── Link-PluginToDev.ps1            # Link plugin to dev environment
 ├── plugin-creator/                       # Git submodule (don't modify)
 ├── QUICK-REFERENCE.md                    # Command cheat sheet
 ├── SETUP.md                              # Initial setup instructions
@@ -119,7 +128,7 @@ inventree-plugin-ai-toolkit/
 
 ---
 
-## 🛠️ Prerequisites
+## Prerequisites
 
 - **Python 3.8+**
 - **Node.js 18+** and npm
@@ -134,9 +143,9 @@ inventree-plugin-ai-toolkit/
 **Option 1: With GitHub Copilot Assistance**
 
 1. Open GitHub Copilot Chat in VS Code
-2. Reference the creation prompts:
+2. Use the orchestrator agent:
    ```
-   @workspace I want to create a new InvenTree plugin. Follow the guided creation process in copilot/PLUGIN-CREATION-PROMPTS.md
+   @agent orchestrator I want to create a new InvenTree plugin that [describe what it does]
    ```
 3. Copilot can help:
    - Suggest appropriate mixins for your use case
@@ -181,7 +190,7 @@ pre-commit run --all-files  # Initial formatting
 - Runs automatically on every `git commit`
 - Catches common errors before deployment
 
-See `docs/toolkit/WORKFLOWS.md` for details.
+See `docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md` for details.
 
 ### 3. Build Your Plugin (Optional)
 
@@ -213,7 +222,7 @@ See `docs/toolkit/WORKFLOWS.md` for details.
 .\scripts\Test-Plugin.ps1 -Plugin "your-plugin-name" -Integration
 ```
 
-See [docs/toolkit/INTEGRATION-TESTING-SUMMARY.md](docs/toolkit/INTEGRATION-TESTING-SUMMARY.md) for complete guide.
+See [docs/reference/FRESH-USER-WORKFLOW.md](docs/reference/FRESH-USER-WORKFLOW.md) for complete guide.
 
 ### 5. Deploy to Server
 
@@ -242,7 +251,7 @@ See [docs/toolkit/INTEGRATION-TESTING-SUMMARY.md](docs/toolkit/INTEGRATION-TESTI
 4. Review InvenTree logs for warnings/errors
 5. Only deploy to production after staging verification
 
-## 🛠️ Common Workflows
+## Common Workflows
 
 ### Making Changes to Existing Plugin
 
@@ -253,64 +262,43 @@ See [docs/toolkit/INTEGRATION-TESTING-SUMMARY.md](docs/toolkit/INTEGRATION-TESTI
 
 **Optional:** Run `.\scripts\Build-Plugin.ps1` first if you want to verify the build succeeds before deploying.
 
-## 📖 Documentation
+## Documentation
 
 ### GitHub Copilot Integration
 - **.github/copilot-instructions.md** - Auto-discovered entry point for GitHub Copilot
-- **.github/agents/inventree-plugin.agent.md** - Specialized InvenTree plugin expert agent
-- **.github/agents/README.md** - How to invoke and use the Copilot agent
-- **.github/instructions/** - 7 instruction files with code generation patterns
-  - **README.md** - Instruction files guide and index
-  - **python.instructions.md** - General Python conventions and fail-fast philosophy
-  - **backend.core.instructions.md** - Plugin class, mixins, settings
-  - **backend.api.instructions.md** - Django/DRF, serializers, views
-  - **backend.testing.instructions.md** - Testing strategies and patterns
-  - **frontend.react.instructions.md** - React/TypeScript, InvenTree context
-  - **frontend.build.instructions.md** - Vite configuration, externalized dependencies
-  - **packaging.instructions.md** - pyproject.toml, entry points, versioning
+- **.github/agents/** - Orchestrator, debug, test, and code-review agents
+- **.github/instructions/core/** - Language and practice rules (Python, TypeScript, testing)
+- **.github/instructions/domain/** - InvenTree-specific patterns (plugins, Django, fixtures)
+- **.github/prompts/** - On-demand workflows (build, deploy, test, review)
 
-### AI Agent Guidance
-- **copilot/AGENT-BEHAVIOR.md** - How agents should communicate with you
-- **copilot/PROJECT-CONTEXT.md** - Architecture, tech stack, and patterns
-- **copilot/PLUGIN-CREATION-PROMPTS.md** - Ready-to-use prompts for creating plugins
+### Living Documents
+- **docs/architecture.md** - Toolkit module map
+- **docs/decisions.md** - Append-only decision log
+- **docs/roadmap.md** - Toolkit feature wish list
 
-### Toolkit Documentation
+### Reference Guides
 - **QUICK-REFERENCE.md** - Command cheat sheet
 - **SETUP.md** - Initial setup instructions
-- **docs/toolkit/WORKFLOWS.md** - Step-by-step guides for common tasks
-- **docs/toolkit/PLUGIN-DEVELOPMENT-WORKFLOW.md** - Complete plugin development lifecycle
-- **docs/toolkit/DOCUMENTATION-STANDARDS.md** - Documentation naming conventions
-- **docs/toolkit/TESTING-STRATEGY.md** - When to use unit tests vs integration tests
-- **docs/toolkit/INVENTREE-DEV-SETUP.md** - InvenTree dev environment setup
-- **docs/toolkit/INTEGRATION-TESTING-SUMMARY.md** - Complete integration testing guide
-- **docs/toolkit/INTEGRATION-TESTING-SETUP-SUMMARY.md** - Integration setup status
-- **docs/toolkit/INTEGRATION-TESTING-KNOWN-ISSUES.md** - Known testing issues
-- **docs/toolkit/FRESH-USER-WORKFLOW.md** - First-time user walkthrough
-
-### InvenTree Knowledge Base
-- **docs/inventree/CUSTOM-STATES.md** - Understanding InvenTree custom states
-- **docs/inventree/TESTING-FRAMEWORK.md** - Django testing patterns for plugins
+- **docs/reference/FRESH-USER-WORKFLOW.md** - First-time user walkthrough
+- **docs/reference/INVENTREE-DEV-SETUP.md** - InvenTree dev environment setup
+- **docs/reference/DOCUMENTATION-STANDARDS.md** - Documentation naming conventions
+- **docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md** - Complete plugin development lifecycle
 
 ### Using GitHub Copilot (Optional)
 
-This toolkit includes a specialized Copilot agent and instruction files for AI assistance.
+This toolkit includes specialized Copilot agents and instruction files for AI assistance.
 
-**Invoke the InvenTree Plugin Expert Agent:**
+**Use the Orchestrator agent for feature work:**
 ```
-@workspace /agent inventree-plugin
+@agent orchestrator [describe what you want to build]
 ```
 
-The agent provides:
-- Expert guidance on plugin architecture and patterns
-- Code review for InvenTree compatibility
-- Fail-fast philosophy enforcement
-- Testing strategies and critical gotcha detection
+**Use the Debug agent for problems:**
+```
+@agent debug [describe the issue]
+```
 
 **Or ask Copilot directly:**
-
-```
-@workspace Create a new InvenTree plugin using copilot/PLUGIN-CREATION-PROMPTS.md
-```
 
 ```
 How do I add a custom panel to the Part page?
@@ -318,14 +306,9 @@ Show me how to create a plugin setting
 Help me debug this error: [paste error]
 ```
 
-**Reference specific guides:**
-```
-#file:docs/toolkit/WORKFLOWS.md Show me how to deploy a plugin
-```
-
 **Tip:** GitHub Copilot is helpful but not required. All documentation is readable by humans and can guide manual development.
 
-## 📦 Plugin Deployment Methods
+## Plugin Deployment Methods
 
 InvenTree supports two ways to deploy plugins:
 
@@ -349,23 +332,23 @@ For professional plugins with proper structure:
 - **Single file:** Quick prototypes, simple backend-only plugins
 - **Packaged:** Production plugins, plugins with frontend, shared plugins
 
-## 🆘 Getting Help
+## Getting Help
 
 ### Documentation and AI Assistance
 
 **If using GitHub Copilot:**
-- Invoke the specialized agent: `@workspace /agent inventree-plugin`
+- Use `@agent orchestrator` for feature work
+- Use `@agent debug` for problems
 - Try asking questions like: "How do I add a custom panel to the Part page?"
-- Reference **copilot/PLUGIN-CREATION-PROMPTS.md** for example prompts
 
 **Manual development:**
-- See **docs/toolkit/WORKFLOWS.md** for step-by-step guides
+- See **docs/reference/** for setup guides and workflows
 - Check **QUICK-REFERENCE.md** for command cheat sheet
 - Review [InvenTree Plugin Documentation](https://docs.inventree.org/en/latest/plugins/)
 
 **Note:** The Copilot instructions are designed to help AI assistants provide better suggestions, but all information is available in human-readable documentation.
 
-## ⚙️ Configuration
+## Configuration
 
 ### Server Configuration (config/servers.json)
 
@@ -387,7 +370,7 @@ For professional plugins with proper structure:
 **For local servers:** Use regular paths like `C:\\InvenTree\\plugins`
 **For network servers:** Use UNC paths like `\\\\server\\share\\inventree\\plugins`
 
-## 📝 Notes
+## Notes
 
 - This toolkit works **alongside** the plugin-creator, not inside it
 - Your plugins are created in `plugins/` folder
@@ -396,7 +379,7 @@ For professional plugins with proper structure:
 - Always test on staging before production!
 - **Frontend development**: For local frontend development, see [InvenTree's Frontend Plugin Guide](https://docs.inventree.org/en/latest/plugins/frontend/)
 
-## 🔗 Essential Resources
+## Essential Resources
 
 ### Official InvenTree Documentation (Read These First!)
 - **[InvenTree Plugin Development Guide](https://docs.inventree.org/en/latest/plugins/)** - Start here for plugin concepts
@@ -409,7 +392,7 @@ For professional plugins with proper structure:
 
 ---
 
-## 🚧 Future Work
+## Future Work
 
 ### Toolkit Enhancements
 
