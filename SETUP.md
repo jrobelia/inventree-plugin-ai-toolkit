@@ -8,7 +8,7 @@ This toolkit helps you create, develop, and deploy InvenTree plugins efficiently
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **Python 3.8+** installed
 - **Node.js 18+** and npm (for frontend development)
@@ -18,7 +18,7 @@ This toolkit helps you create, develop, and deploy InvenTree plugins efficiently
 
 ---
 
-## 🚀 Initial Setup
+## Initial Setup
 
 ### 1. Clone the Repository
 
@@ -81,7 +81,7 @@ Edit `config\servers.json` with your server details:
 
 ---
 
-## 🔄 Updating plugin-creator
+## Updating plugin-creator
 
 To get the latest version of plugin-creator:
 
@@ -99,7 +99,7 @@ git commit -m "Update plugin-creator to latest version"
 
 ---
 
-## 📦 Plugin-creator Location
+## Plugin-creator Location
 
 The toolkit expects plugin-creator at: `plugin-creator/` (inside the toolkit directory)
 
@@ -120,7 +120,7 @@ This is configured in `config\servers.json`:
 
 ---
 
-## 🎯 Directory Structure
+## Directory Structure
 
 After setup, you should have:
 
@@ -138,7 +138,7 @@ inventree-plugin-ai-toolkit/
 
 ---
 
-## 🔐 Security Notes
+## Security Notes
 
 1. **Never commit `servers.json`** - It contains API keys and credentials
    - Already in `.gitignore`
@@ -156,7 +156,7 @@ inventree-plugin-ai-toolkit/
 
 ---
 
-## ✅ Verify Setup
+## Verify Setup
 
 Test that everything works:
 
@@ -176,7 +176,7 @@ If this works, your setup is complete! 🎉
 
 ---
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### "plugin-creator not found"
 
@@ -208,21 +208,22 @@ cd ..
 
 ---
 
-## 📚 Next Steps
+## Next Steps
 
 Once setup is complete:
 
-1. **Learn the toolkit workflows**
-   - Read [WORKFLOWS.md](docs/toolkit/WORKFLOWS.md) for step-by-step development guides
-   - Check [QUICK-REFERENCE.md](docs/toolkit/QUICK-REFERENCE.md) for command quick reference
+1. **Learn the toolkit structure**
+   - Read [docs/architecture.md](docs/architecture.md) for the module map
+   - Check [QUICK-REFERENCE.md](QUICK-REFERENCE.md) for command quick reference
+   - Browse [docs/reference/](docs/reference/) for setup guides and workflows
 
 2. **Use GitHub Copilot for guided plugin creation**
    - Copilot automatically discovers `.github/copilot-instructions.md`
-   - Use prompts from [plugin-creation-prompts.md](copilot/plugin-creation-prompts.md)
-   - Example: `@workspace Create a new InvenTree plugin using the guided creation workflow`
+   - Use `@agent orchestrator` for full-pipeline feature work
+   - Example: `@agent orchestrator I want to create a new InvenTree plugin that [describe what it does]`
 
-3. **Explore InvenTree knowledge base**
-   - [CUSTOM-STATES.md](docs/inventree/CUSTOM-STATES.md) - Understanding custom states
-   - [TESTING-FRAMEWORK.md](docs/inventree/TESTING-FRAMEWORK.md) - Django testing patterns
+3. **Explore InvenTree patterns**
+   - `.github/instructions/domain/` contains InvenTree-specific coding patterns
+   - These load automatically when you edit relevant file types
 
-Happy plugin development! 🚀
+Happy plugin development!

@@ -43,7 +43,7 @@
     Prerequisites: Git, Python 3.9+, SQLite3
     Time: 1-2 hours
     
-    See docs/toolkit/INVENTREE-DEV-SETUP.md for detailed documentation.
+    See docs/reference/INVENTREE-DEV-SETUP.md for detailed documentation.
 #>
 
 [CmdletBinding()]

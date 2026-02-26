@@ -47,6 +47,10 @@ This pattern bypasses URL routing entirely and calls the view directly.
   `self.delete()` helpers with auth pre-configured
 - Use raw `unittest.TestCase` only for pure logic with zero Django dependencies
 
+**Note:** The `plugin-creator` scaffolding tool does NOT generate a `tests/`
+directory by default. Plugin testing is optional and left to developers to
+set up manually.
+
 ---
 
 ## Unit vs Integration Tests

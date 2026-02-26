@@ -43,6 +43,9 @@ Thumbs.db
 *.bak
 *.backup
 
+# Archived documentation (kept locally, not tracked)
+docs/archive/
+
 # Testing artifacts
 .pytest_cache/
 .coverage
@@ -58,7 +61,7 @@ docs/_build/
 inventree-dev/
 
 # Reference folder (git submodules tracked via .gitmodules)
-reference/
+/reference/
 
 # Plugins have their own git repositories - ignore all plugin contents
 # Keep the plugins/ folder structure but ignore everything inside
