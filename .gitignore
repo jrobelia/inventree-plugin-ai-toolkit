@@ -72,4 +72,7 @@ plugins/*
 plugins/*
 !plugins/README.md
 
+# User-specific plugin planning docs (not part of the generic toolkit)
+docs/plugin-planning/
+
 .github-old/
