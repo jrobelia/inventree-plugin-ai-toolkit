@@ -1,5 +1,5 @@
 ---
-applyTo: "**/core.py,**/plugin.py,**/__init__.py"
+applyTo: "**/core.py,**/plugin.py,plugins/**/__init__.py"
 ---
 
 # InvenTree Plugin Patterns

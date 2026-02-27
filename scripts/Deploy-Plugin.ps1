@@ -241,25 +241,11 @@ if ($IsRemote) {
     
     Write-Success "[OK] Plugin installed successfully"
     
-    # Collect plugin static files (copies from pip package to served location)
-    Write-Info "Collecting plugin static files..."
-    $CollectCmd = "cd $DockerDir && docker-compose exec -T inventree-server bash -c 'cd /home/inventree/src/backend/InvenTree && python manage.py collectplugins'"
-    $CollectOutput = ssh @SSHCheckArgs $SSHConnection $CollectCmd 2>&1
-    
-    if ($LASTEXITCODE -eq 0) {
-        Write-Success "[OK] Static files collected"
-    } else {
-        Write-Warning "Static file collection may have failed - check manually"
-        if ($CollectOutput) {
-            Write-Host $CollectOutput
-        }
-    }
-    
     # Clean up wheel file
     Write-Info "Cleaning up temporary files..."
     ssh @SSHCheckArgs $SSHConnection "rm -f $RemoteWheelPath" 2>&1 | Out-Null
     
-    # Restart InvenTree
+    # Restart InvenTree (this may trigger its own static file collection on startup)
     Write-Info "Restarting InvenTree..."
     $RestartCmd = "cd $DockerDir && docker-compose restart inventree-server"
     
@@ -272,6 +258,21 @@ if ($IsRemote) {
         Write-Success "[OK] InvenTree restarted successfully"
     } else {
         Write-Warning "InvenTree restart may have failed - please check manually"
+    }
+    
+    # Collect plugin static files AFTER restart so our version has the last word
+    # (InvenTree's startup may re-collect stale static files from Django storage)
+    Write-Info "Collecting plugin static files..."
+    $CollectCmd = "cd $DockerDir && docker-compose exec -T inventree-server bash -c 'cd /home/inventree/src/backend/InvenTree && python manage.py collectplugins'"
+    $CollectOutput = ssh @SSHCheckArgs $SSHConnection $CollectCmd 2>&1
+    
+    if ($LASTEXITCODE -eq 0) {
+        Write-Success "[OK] Static files collected"
+    } else {
+        Write-Warning "Static file collection may have failed - check manually"
+        if ($CollectOutput) {
+            Write-Host $CollectOutput
+        }
     }
     
 } else {

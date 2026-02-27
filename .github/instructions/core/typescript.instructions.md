@@ -1,5 +1,5 @@
 ---
-applyTo: "**/*.ts,**/*.tsx"
+applyTo: "**/*.ts,**/*.tsx,!frontend/src/**"
 ---
 
 # TypeScript and React Conventions

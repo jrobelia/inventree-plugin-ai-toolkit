@@ -124,3 +124,27 @@ numbers, tests implementation details, depends on external files.
 - Testing stubs or mocks instead of real behaviour.
 - Assertions that pass for any input (`assertTrue(True)`).
 - Shared test fixtures that create hidden coupling between tests.
+
+---
+
+## Frontend (Vitest) Conventions
+
+Applies to `*.test.ts` / `*.test.tsx` files.
+
+**File placement and extension**
+- Test file lives next to the file it tests: `utils/foo.test.ts` tests `utils/foo.ts`.
+- Use `.test.ts` unless the test file itself contains JSX. Almost never needed for pure functions.
+- Never place a test in `components/` if it tests a utility in `utils/`.
+
+**Assertion style**
+- Always use direct equality: `expect(result.foo).toBe(false)` — never `expect(result.foo).not.toBe(true)`.
+- `.not.toBe(true)` passes for `undefined`, which hides missing return values.
+- Use `expect(arr).toHaveLength(n)` not `expect(arr.length).toBe(n)`.
+
+**What not to test**
+- Do NOT write tests that check `typeof result.foo === 'boolean'`.
+  TypeScript enforces types at compile time — runtime `typeof` checks add noise with no safety benefit.
+
+**Subagent handoffs**
+- Pass these conventions explicitly when handing off to a test subagent.
+  The subagent does not read docs automatically — give it the rules.

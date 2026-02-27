@@ -18,6 +18,10 @@
 - Apply `.github/instructions/core/design-principles.instructions.md`
   silently and automatically. Explain only if asked.
 
+## Server Access
+- `config/servers.json` has SSH keys, hosts, API keys for staging & production.
+- **Always read it** before running any SSH, SCP, or API command manually.
+
 ## Living Documentation
 - `docs/roadmap.md` -- feature wish list. Check before planning.
 - `docs/architecture.md` -- module map. Update when files change.
