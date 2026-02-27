@@ -6,3 +6,6 @@
 	path = reference/inventree-source
 	url = https://github.com/inventree/InvenTree.git
 	branch = stable
+[submodule ".github"]
+	path = .github
+	url = https://github.com/jrobelia/copilot-config.git
