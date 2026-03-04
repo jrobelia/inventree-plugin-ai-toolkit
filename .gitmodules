@@ -9,3 +9,4 @@
 [submodule ".github"]
 	path = .github
 	url = https://github.com/jrobelia/copilot-config.git
+	branch = dist
