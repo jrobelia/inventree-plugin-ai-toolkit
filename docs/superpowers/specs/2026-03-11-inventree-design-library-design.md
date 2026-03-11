@@ -140,18 +140,20 @@ themes: { mode: [light, dark] }
 | Overlays | Modal/Center, Modal/Left, Modal/Center Icon, Dialog, Drawer/Right, Tooltip |
 | Content | Accordion/Open, Accordion/Closed, Dropdown |
 
-### Phase 4 — InvenTree-Specific (~22 components)
+### Phase 4 — InvenTree Custom Widgets + Content (~22 components)
 
-Each Part Type Badge variant is a distinct component (different fill color). Stock Level Indicator has 3 variants. Labels have 4 variants. Total is ~22, not ~14.
+InvenTree builds custom components on top of Mantine that are not part of the standard Mantine library. These are exported from InvenTree's own component layer and are the correct building blocks for plugin UIs — including FlatBOM. Sourced from `inventree-dev/InvenTree/src/frontend/src/components/`.
+
+> **FlatBOM-specific components** (Part Type Badge color variants, Stats Panel, BOM Row, Column Visibility Toggle) are NOT part of this library — they are FlatBOM inventions and will be designed inline in `flat-bom-design.pen`. Before designing them as one-offs, check whether an InvenTree custom widget below already serves the need.
 
 | Group | Components |
 |---|---|
 | Content | Card, Card Image, Card Action, Card Plain (4) |
 | Content | List Item/Checked, /Unchecked, List Item Title, List Divider (4) |
-| InvenTree | Part Type Badge/TLA, /Coml, /Fab, /CtL, /Purchased-Assy, /Internal-Fab, /Assy, /Other (8 — each a distinct component from `colorUtils.ts`) |
-| InvenTree | Stock Level Indicator/Sufficient, /Partial, /None (3) |
-| InvenTree | Stats Panel Item, BOM Table Row, Column Visibility Toggle (3) |
-| InvenTree | Label/Success, /Warning, /Error, /Info (4) |
+| InvenTree Buttons | PrimaryActionButton, ActionButton, SplitButton, CopyButton (4) |
+| InvenTree Badges | DetailsBadge/Default, DetailsBadge/Success, DetailsBadge/Error, DetailsBadge/Warning (4) |
+| InvenTree Table Columns | StatusColumn, PartColumn, DateColumn, DescriptionColumn, LocationColumn (5) |
+| InvenTree Admin | AdminButton (1) |
 
 ---
 
@@ -186,8 +188,9 @@ Each phase follows this session sequence:
 |---|---|
 | `design/inventree.lib.pen` | Library file to create |
 | `plugins/FlatBOMGenerator/docs/flat-bom-design.pen` | Consumer — import after Phase 2 |
-| `plugins/FlatBOMGenerator/frontend/src/utils/colorUtils.ts` | Part-type badge color source (Phase 4) |
-| `plugins/FlatBOMGenerator/frontend/src/Panel.tsx` | FlatBOM UI structure reference (Phase 4) |
+| `inventree-dev/InvenTree/src/frontend/src/components/buttons/` | Source for PrimaryActionButton, ActionButton, SplitButton, CopyButton (Phase 4) |
+| `inventree-dev/InvenTree/src/frontend/src/components/details/DetailsBadge.tsx` | Source for DetailsBadge variants (Phase 4) |
+| `inventree-dev/InvenTree/src/frontend/src/tables/` | Source for InvenTreeTable column type patterns (Phase 4) |
 | `~/.vscode/extensions/highagency.pencildev-0.6.30/out/data/lunaris.lib.pen` | Reference library pattern — lives in VS Code extension install dir, not the repo |
 
 ---
@@ -215,4 +218,4 @@ Each phase follows this session sequence:
 | 1 | Phase 1 | File created, full token system, buttons, basic form inputs |
 | 2 | Phase 2 | Form controls, data display, feedback — library usable for FlatBOM |
 | 3 | Phase 3 | Navigation, overlays, content |
-| 4 | Phase 4 | InvenTree-specific components (~22) + `flat-bom-design.pen` wired up and smoke-tested |
+| 4 | Phase 4 | Content components + InvenTree custom widgets (~22) + `flat-bom-design.pen` wired up and smoke-tested |
