@@ -324,6 +324,134 @@
               "fontSize": "$font-size-md"
             }
           }
+        },
+        {
+          "type": "frame",
+          "id": "HZ5mH",
+          "name": "IconButton/Default",
+          "reusable": true,
+          "width": 36,
+          "height": 36,
+          "fill": "$color-primary",
+          "cornerRadius": "$radius-sm",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "AndeA",
+              "name": "iconBtnDefaultIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "settings",
+              "iconFontFamily": "lucide",
+              "fill": "#ffffff"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "er57i",
+          "name": "IconButton/Secondary",
+          "reusable": true,
+          "width": 36,
+          "height": 36,
+          "fill": "$bg-secondary",
+          "cornerRadius": "$radius-sm",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "C43g0",
+              "name": "iconBtnSecondaryIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "settings",
+              "iconFontFamily": "lucide",
+              "fill": "$text-primary"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LkRuO",
+          "name": "IconButton/Outline",
+          "reusable": true,
+          "width": 36,
+          "height": 36,
+          "cornerRadius": "$radius-sm",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$color-primary"
+          },
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "I01vd",
+              "name": "iconBtnOutlineIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "settings",
+              "iconFontFamily": "lucide",
+              "fill": "$color-primary"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dnY3g",
+          "name": "IconButton/Ghost",
+          "reusable": true,
+          "width": 36,
+          "height": 36,
+          "cornerRadius": "$radius-sm",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "9wVw6",
+              "name": "iconBtnGhostIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "settings",
+              "iconFontFamily": "lucide",
+              "fill": "$text-primary"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eVdgy",
+          "name": "IconButton/Destructive",
+          "reusable": true,
+          "width": 36,
+          "height": 36,
+          "fill": "$color-error",
+          "cornerRadius": "$radius-sm",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "JHokn",
+              "name": "iconBtnDestructiveIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "settings",
+              "iconFontFamily": "lucide",
+              "fill": "#ffffff"
+            }
+          ]
         }
       ]
     }
