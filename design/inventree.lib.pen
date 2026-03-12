@@ -649,6 +649,230 @@
               "name": "igfInput"
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "YbMrF",
+          "name": "NumberInput/Default",
+          "reusable": true,
+          "width": 120,
+          "height": 36,
+          "cornerRadius": "$radius-sm",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          },
+          "padding": [
+            0,
+            8
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "1KtIa",
+              "name": "numText",
+              "fill": "$text-primary",
+              "content": "0",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "ONsn0",
+              "name": "numStepper",
+              "layout": "vertical",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "nfRF2",
+                  "name": "numUp",
+                  "width": 10,
+                  "height": 10,
+                  "iconFontName": "chevron-up",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text-secondary"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "4aT6j",
+                  "name": "numDown",
+                  "width": 10,
+                  "height": 10,
+                  "iconFontName": "chevron-down",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text-secondary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "X0mOd",
+          "name": "Select Group/Default",
+          "reusable": true,
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "ZcJhn",
+              "name": "sgdLabel",
+              "fill": "$text-primary",
+              "content": "Label",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "500"
+            },
+            {
+              "type": "frame",
+              "id": "fKEW9",
+              "name": "selectInput",
+              "width": 200,
+              "height": 36,
+              "cornerRadius": "$radius-sm",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border"
+              },
+              "padding": [
+                0,
+                12
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IaWQf",
+                  "name": "sgdPlaceholder",
+                  "fill": "$text-placeholder",
+                  "content": "Select...",
+                  "fontFamily": "Inter",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "EFdPu",
+                  "name": "sgdChevron",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "chevron-down",
+                  "iconFontFamily": "lucide",
+                  "fill": "$text-secondary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "YQv6K",
+          "type": "ref",
+          "ref": "X0mOd",
+          "name": "Select Group/Filled",
+          "y": 3149,
+          "descendants": {
+            "fKEW9": {
+              "fill": "$bg-secondary",
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "$border-strong"
+              }
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "CNUL8",
+          "name": "Search Box/Default",
+          "reusable": true,
+          "width": 220,
+          "height": 36,
+          "cornerRadius": "$radius-sm",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          },
+          "gap": "$spacing-sm",
+          "padding": [
+            0,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "vf0rO",
+              "name": "sbdIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "search",
+              "iconFontFamily": "lucide",
+              "fill": "$text-placeholder"
+            },
+            {
+              "type": "text",
+              "id": "aiHXh",
+              "name": "sbdText",
+              "fill": "$text-placeholder",
+              "content": "Search...",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "WTJWL",
+          "name": "Search Box/Filled",
+          "reusable": true,
+          "width": 220,
+          "height": 36,
+          "fill": "$bg-secondary",
+          "cornerRadius": "$radius-sm",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border-strong"
+          },
+          "gap": "$spacing-sm",
+          "padding": [
+            0,
+            12
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "jXLoj",
+              "name": "sbfIcon",
+              "width": 16,
+              "height": 16,
+              "iconFontName": "search",
+              "iconFontFamily": "lucide",
+              "fill": "$text-placeholder"
+            },
+            {
+              "type": "text",
+              "id": "VkWSS",
+              "name": "sbfText",
+              "fill": "$text-placeholder",
+              "content": "Search...",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "normal"
+            }
+          ]
         }
       ]
     }
