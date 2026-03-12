@@ -219,6 +219,111 @@
               "fontWeight": "500"
             }
           ]
+        },
+        {
+          "id": "afxAg",
+          "type": "ref",
+          "ref": "C2z18",
+          "name": "Button/Large/Default",
+          "height": 44,
+          "padding": [
+            0,
+            20
+          ],
+          "y": 700,
+          "descendants": {
+            "9o7pY": {
+              "width": 18,
+              "height": 18
+            },
+            "enySh": {
+              "fontSize": "$font-size-md"
+            }
+          }
+        },
+        {
+          "id": "GvEgf",
+          "type": "ref",
+          "ref": "uyhP8",
+          "name": "Button/Large/Secondary",
+          "height": 44,
+          "padding": [
+            0,
+            20
+          ],
+          "y": 824,
+          "descendants": {
+            "Dcpui": {
+              "width": 18,
+              "height": 18
+            },
+            "xqs0v": {
+              "fontSize": "$font-size-md"
+            }
+          }
+        },
+        {
+          "id": "J2EQh",
+          "type": "ref",
+          "ref": "7rNTR",
+          "name": "Button/Large/Outline",
+          "height": 44,
+          "padding": [
+            0,
+            20
+          ],
+          "y": 948,
+          "descendants": {
+            "RoCmH": {
+              "width": 18,
+              "height": 18
+            },
+            "ibxM4": {
+              "fontSize": "$font-size-md"
+            }
+          }
+        },
+        {
+          "id": "LRedE",
+          "type": "ref",
+          "ref": "hzLMI",
+          "name": "Button/Large/Ghost",
+          "height": 44,
+          "padding": [
+            0,
+            20
+          ],
+          "y": 1072,
+          "descendants": {
+            "jXYzV": {
+              "width": 18,
+              "height": 18
+            },
+            "NoOhs": {
+              "fontSize": "$font-size-md"
+            }
+          }
+        },
+        {
+          "id": "vqKGh",
+          "type": "ref",
+          "ref": "WxBog",
+          "name": "Button/Large/Destructive",
+          "height": 44,
+          "padding": [
+            0,
+            20
+          ],
+          "y": 1196,
+          "descendants": {
+            "FacPy": {
+              "width": 18,
+              "height": 18
+            },
+            "f6FtV": {
+              "fontSize": "$font-size-md"
+            }
+          }
         }
       ]
     }
