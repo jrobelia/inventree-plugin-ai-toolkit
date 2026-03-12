@@ -873,6 +873,136 @@
               "fontWeight": "normal"
             }
           ]
+        },
+        {
+          "type": "frame",
+          "id": "FSLFM",
+          "name": "Checkbox/Default",
+          "reusable": true,
+          "width": 18,
+          "height": 18,
+          "cornerRadius": "$radius-xs",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border-strong"
+          },
+          "justifyContent": "center",
+          "alignItems": "center"
+        },
+        {
+          "type": "frame",
+          "id": "1epAn",
+          "name": "Checkbox/Checked",
+          "reusable": true,
+          "width": 18,
+          "height": 18,
+          "fill": "$color-primary",
+          "cornerRadius": "$radius-xs",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "gQiFd",
+              "name": "checkboxCheckedIcon",
+              "width": 12,
+              "height": 12,
+              "iconFontName": "check",
+              "iconFontFamily": "lucide",
+              "fill": "#ffffff"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "5kgfV",
+          "name": "Checkbox Description/Default",
+          "reusable": true,
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ABVQq",
+              "name": "checkboxRow",
+              "gap": "$spacing-sm",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "4UB8Z",
+                  "type": "ref",
+                  "ref": "FSLFM",
+                  "name": "checkboxRowRef"
+                },
+                {
+                  "type": "text",
+                  "id": "NAcRN",
+                  "name": "checkboxRowLabel",
+                  "fill": "$text-primary",
+                  "content": "Checkbox label",
+                  "fontFamily": "Inter",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "h2l3T",
+              "name": "checkboxDescText",
+              "fill": "$text-secondary",
+              "content": "Optional description",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "6euCc",
+          "name": "Checkbox Description/Checked",
+          "reusable": true,
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ynW8Y",
+              "name": "checkboxRowChecked",
+              "gap": "$spacing-sm",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "89yhq",
+                  "type": "ref",
+                  "ref": "1epAn",
+                  "name": "checkboxRowCheckedRef"
+                },
+                {
+                  "type": "text",
+                  "id": "NYMYg",
+                  "name": "checkboxRowCheckedLabel",
+                  "fill": "$text-primary",
+                  "content": "Checkbox label",
+                  "fontFamily": "Inter",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "oeGE5",
+              "name": "checkboxDescCheckedText",
+              "fill": "$text-secondary",
+              "content": "Optional description",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "normal"
+            }
+          ]
         }
       ]
     }
