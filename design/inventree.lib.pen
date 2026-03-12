@@ -1003,6 +1003,236 @@
               "fontWeight": "normal"
             }
           ]
+        },
+        {
+          "type": "ellipse",
+          "id": "HAYqR",
+          "name": "Radio/Default",
+          "reusable": true,
+          "width": 18,
+          "height": 18,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border-strong"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "o9FxG",
+          "name": "Radio/Selected",
+          "reusable": true,
+          "width": 18,
+          "height": 18,
+          "cornerRadius": 9,
+          "stroke": {
+            "align": "inside",
+            "thickness": 2,
+            "fill": "$color-primary"
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "d8cO2",
+              "x": 5,
+              "y": 5,
+              "name": "radioInnerDot",
+              "fill": "$color-primary",
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "psCKX",
+          "name": "Radio Description/Default",
+          "reusable": true,
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "XCRYL",
+              "name": "radioDescDefaultRow",
+              "gap": "$spacing-sm",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "hkBq4",
+                  "type": "ref",
+                  "ref": "HAYqR",
+                  "name": "radioDescDefaultRef"
+                },
+                {
+                  "type": "text",
+                  "id": "NIR2i",
+                  "name": "radioDescDefaultLabel",
+                  "fill": "$text-primary",
+                  "content": "Radio label",
+                  "fontFamily": "Inter",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "PFE7h",
+              "name": "radioDescDefaultDesc",
+              "fill": "$text-secondary",
+              "content": "Optional description",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DL7UB",
+          "name": "Radio Description/Selected",
+          "reusable": true,
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "frame",
+              "id": "VZzMn",
+              "name": "radioDescSelectedRow",
+              "gap": "$spacing-sm",
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "VXJNT",
+                  "type": "ref",
+                  "ref": "o9FxG",
+                  "name": "radioDescSelectedRef"
+                },
+                {
+                  "type": "text",
+                  "id": "WIw9X",
+                  "name": "radioDescSelectedLabel",
+                  "fill": "$text-primary",
+                  "content": "Radio label",
+                  "fontFamily": "Inter",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Udz7A",
+              "name": "radioDescSelectedDesc",
+              "fill": "$text-secondary",
+              "content": "Optional description",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gIrTU",
+          "name": "Switch/Default",
+          "reusable": true,
+          "width": 36,
+          "height": 20,
+          "fill": "$border",
+          "cornerRadius": 10,
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "blx2S",
+              "x": 2,
+              "y": 2,
+              "name": "switchDefaultCircle",
+              "fill": "#ffffff",
+              "width": 16,
+              "height": 16
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "e2Gs0",
+          "name": "Switch/Checked",
+          "reusable": true,
+          "width": 36,
+          "height": 20,
+          "fill": "$color-primary",
+          "cornerRadius": 10,
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "mNgnb",
+              "x": 18,
+              "y": 2,
+              "name": "switchCheckedCircle",
+              "fill": "#ffffff",
+              "width": 16,
+              "height": 16
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "giynP",
+          "name": "Textarea/Default",
+          "reusable": true,
+          "width": 200,
+          "height": 80,
+          "cornerRadius": "$radius-sm",
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "$border"
+          },
+          "layout": "vertical",
+          "padding": 12,
+          "children": [
+            {
+              "type": "text",
+              "id": "bGnsQ",
+              "name": "textareaPlaceholder",
+              "fill": "$text-placeholder",
+              "content": "Placeholder text...",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "yw8q6",
+          "name": "Textarea Group",
+          "reusable": true,
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "XNUNY",
+              "name": "textareaGroupLabel",
+              "fill": "$text-primary",
+              "content": "Label",
+              "fontFamily": "Inter",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "500"
+            },
+            {
+              "id": "nG8Fr",
+              "type": "ref",
+              "ref": "giynP",
+              "name": "textareaGroupRef"
+            }
+          ]
         }
       ]
     }
