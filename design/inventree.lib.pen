@@ -452,6 +452,66 @@
               "fill": "#ffffff"
             }
           ]
+        },
+        {
+          "id": "eXuvs",
+          "type": "ref",
+          "ref": "HZ5mH",
+          "name": "IconButton/Large/Default",
+          "width": 44,
+          "height": 44,
+          "y": 1900,
+          "descendants": {
+            "AndeA": {
+              "width": 18,
+              "height": 18
+            }
+          }
+        },
+        {
+          "id": "zxAka",
+          "type": "ref",
+          "ref": "er57i",
+          "name": "IconButton/Large/Secondary",
+          "width": 44,
+          "height": 44,
+          "y": 2024,
+          "descendants": {
+            "C43g0": {
+              "width": 18,
+              "height": 18
+            }
+          }
+        },
+        {
+          "id": "BSfPi",
+          "type": "ref",
+          "ref": "LkRuO",
+          "name": "IconButton/Large/Outline",
+          "width": 44,
+          "height": 44,
+          "y": 2148,
+          "descendants": {
+            "I01vd": {
+              "width": 18,
+              "height": 18
+            }
+          }
+        },
+        {
+          "id": "ZiJfT",
+          "type": "ref",
+          "ref": "dnY3g",
+          "name": "IconButton/Large/Ghost",
+          "width": 44,
+          "height": 44,
+          "y": 2272,
+          "descendants": {
+            "9wVw6": {
+              "width": 18,
+              "height": 18
+            }
+          }
         }
       ]
     }
