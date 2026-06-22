@@ -31,6 +31,9 @@ dist-dev/
 # IDE files
 .idea/
 
+# Claude AI local settings
+.claude/
+
 # Logs
 *.log
 
