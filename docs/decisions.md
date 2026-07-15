@@ -49,3 +49,17 @@ mixin doesn't fit this workflow.
 
 **Alternatives considered:** DataExportMixin -- rejected because it would
 require forcing our single-assembly workflow into a list-export pattern.
+
+### 2026-07-15 PIVOT: Full documentation rewrite, not reorganization
+
+**Supersedes:** 2026-02-26 -- Reorganize toolkit documentation
+**Original Decision:** Archive stale docs, reorganize survivors into
+reference/planning/root living docs.
+**Changed Condition:** Reorganizing in place still left broken links and
+drifted content (phantom docs, stale architecture.md). Reorganization
+alone doesn't keep docs accurate.
+**Proposed Pivot:** Treat existing docs as raw material only. Rewrite each
+doc as its corresponding v2 feature is actually built, rather than
+reorganizing existing text.
+**Trade-off:** More upfront writing effort; loses some existing wording
+that may have been fine, but ensures docs match reality.
