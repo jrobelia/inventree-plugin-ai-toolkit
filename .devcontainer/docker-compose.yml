@@ -24,7 +24,7 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
     volumes:
-      - ./:/workspace:z
+      - c:\Software Projects\inventree-plugin-ai-toolkit:/workspace:z
       - /tmp/.X11-unix:/tmp/.X11-unix
 
     environment:
