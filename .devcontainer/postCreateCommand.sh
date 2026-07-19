@@ -5,6 +5,7 @@ echo "Running postCreateCommand.sh for InvenTree Plugin AI Toolkit..."
 
 # Avoiding Dubious Ownership in Dev Containers for setup commands that use git
 git config --global --add safe.directory /workspace
+git config --global --add safe.directory /workspace/reference/inventree-source
 
 # Create venv in InvenTree reference
 python3 -m venv /workspace/reference/inventree-source/dev/venv --system-site-packages --upgrade-deps
