@@ -22,7 +22,7 @@ services:
       - 8000:8000
     build:
       context: .
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: Dockerfile
     volumes:
       - ../:/workspace:z
       - /tmp/.X11-unix:/tmp/.X11-unix
