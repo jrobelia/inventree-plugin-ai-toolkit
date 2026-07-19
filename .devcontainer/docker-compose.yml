@@ -21,10 +21,10 @@ services:
     ports:
       - 8000:8000
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
     volumes:
-      - ../:/workspace:z
+      - ./:/workspace:z
       - /tmp/.X11-unix:/tmp/.X11-unix
 
     environment:
