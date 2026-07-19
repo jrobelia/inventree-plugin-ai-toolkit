@@ -1,0 +1,25 @@
+# InvenTree Plugin Development Configuration
+# This file configures InvenTree for local plugin development with hot reload
+# Copy this to reference/inventree-source/dev/config.yaml or use as reference
+
+plugin:
+  # Enable plugin development mode
+  enabled: true
+  
+  # Plugin development server configuration
+  # This allows InvenTree to load plugin frontend from a local dev server
+  dev_servers:
+    # FlatBOMGenerator plugin dev server
+    - name: "inventree-flat-bom-generator"
+      url: "http://localhost:5174"
+      enabled: true
+
+# Development settings
+debug: true
+
+# Allow all origins for development
+cors:
+  allow_all: true
+
+# Plugin directory
+plugin_dir: "/workspace/plugins"

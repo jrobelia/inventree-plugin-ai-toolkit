@@ -39,4 +39,20 @@ invoke dev.setup-dev
 # Install required frontend packages
 invoke int.frontend-install
 
-echo "Devcontainer setup complete. InvenTree is ready at http://localhost:8000"
+# Set up plugin development configuration for FlatBOMGenerator
+echo "Setting up plugin development configuration..."
+cd /workspace/plugins/inventree-flat-bom-generator/frontend
+npm install
+
+echo ""
+echo "=========================================="
+echo "Devcontainer setup complete!"
+echo "=========================================="
+echo "InvenTree server: http://localhost:8000"
+echo ""
+echo "To start FlatBOMGenerator plugin dev server:"
+echo "  cd /workspace/plugins/inventree-flat-bom-generator/frontend"
+echo "  npm run dev"
+echo ""
+echo "Plugin dev server will run on http://localhost:5174"
+echo "=========================================="

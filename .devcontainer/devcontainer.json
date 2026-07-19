@@ -38,10 +38,13 @@
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [5173, 5432, 6379, 8000, 8080],
+  "forwardPorts": [5173, 5174, 5432, 6379, 8000, 8080],
   "portsAttributes": {
     "5173": {
-      "label": "Vite Server"
+      "label": "InvenTree Vite Server"
+    },
+    "5174": {
+      "label": "Plugin Dev Server (FlatBOMGenerator)"
     },
     "5432": {
       "label": "PostgreSQL Database"
