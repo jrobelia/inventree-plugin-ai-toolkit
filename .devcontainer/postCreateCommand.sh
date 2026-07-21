@@ -34,8 +34,13 @@ pip3 install -Ur contrib/container/requirements.txt --require-hashes
 # Run initial InvenTree server setup
 invoke update -s
 
-# Configure dev environment
+# Configure dev environment (ignore git hook errors)
+set +e
 invoke dev.setup-dev
+set -e
+
+# Skip prek install due to git ownership issues in devcontainer
+# Git hooks are not essential for development
 
 # Install required frontend packages
 invoke int.frontend-install
