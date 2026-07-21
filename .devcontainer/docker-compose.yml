@@ -19,7 +19,7 @@ services:
 
   toolkit:
     ports:
-      - 8000:8000
+      - 8001:8000
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
@@ -37,7 +37,7 @@ services:
       INVENTREE_CACHE_HOST: redis
       INVENTREE_CACHE_PORT: 6379
       INVENTREE_PLUGINS_ENABLED: True
-      INVENTREE_SITE_URL: http://localhost:8000
+      INVENTREE_SITE_URL: http://localhost:8001
       INVENTREE_CORS_ORIGIN_ALLOW_ALL: True
       INVENTREE_PY_ENV: /workspace/reference/inventree-source/dev/venv
       INVENTREE_DEVCONTAINER: True
