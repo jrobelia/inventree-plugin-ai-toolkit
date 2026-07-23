@@ -276,7 +276,6 @@ For plugins with frontend code:
 - **docs/roadmap.md** - Toolkit feature wish list
 
 ### Reference Guides
-- **QUICK-REFERENCE.md** - Command cheat sheet
 - **SETUP.md** - Initial setup instructions (devcontainer-based)
 - **docs/reference/SESSION-ONBOARDING.md** - Step-by-step development session process
 - **docs/skills/** - AI-assisted development workflows
