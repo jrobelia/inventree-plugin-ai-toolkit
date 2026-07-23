@@ -12,24 +12,15 @@ This skill guides an AI agent through the process of creating a new InvenTree pl
 
 ## Prerequisites
 
-- Devcontainer is open and running
-- Plugin-creator submodule is initialized
-- User has a clear description of the plugin functionality
+Complete the initial setup in [SETUP.md](../../SETUP.md) before using this skill. This includes:
+- Docker Desktop installed and running
+- VS Code with Dev Containers extension
+- Devcontainer open and running
+- Plugin-creator submodule initialized
+
+For automated command execution (Docker exec), see [SESSION-ONBOARDING.md](../reference/SESSION-ONBOARDING.md#automated-command-execution).
 
 ---
-
-## Automated Command Execution
-
-The AI agent can execute commands inside the devcontainer from the host using Docker exec:
-
-```bash
-docker exec inventree-plugin-ai-toolkit_devcontainer-toolkit-1 bash -c "cd /workspace && command"
-```
-
-This allows the agent to:
-- Run plugin-creator CLI automatically
-- Execute test commands
-- Manage the dev environment without manual terminal access
 
 ## Workflow
 

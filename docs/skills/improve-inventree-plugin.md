@@ -12,23 +12,13 @@ This skill guides an AI agent through the process of making changes to an existi
 
 ## Prerequisites
 
-- Devcontainer is open and running
+Complete the initial setup in [SETUP.md](../../SETUP.md) before using this skill. This includes:
+- Docker Desktop installed and running
+- VS Code with Dev Containers extension
+- Devcontainer open and running
 - Plugin exists in `/workspace/plugins/your-plugin-name`
 
----
-
-## Automated Command Execution
-
-The AI agent can execute commands inside the devcontainer from the host using Docker exec:
-
-```bash
-docker exec inventree-plugin-ai-toolkit_devcontainer-toolkit-1 bash -c "cd /workspace && command"
-```
-
-This allows the agent to:
-- Run test commands automatically
-- Manage the dev environment without manual terminal access
-- Execute the deterministic test chain
+For automated command execution (Docker exec), see [SESSION-ONBOARDING.md](../reference/SESSION-ONBOARDING.md#automated-command-execution).
 
 ---
 
