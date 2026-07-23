@@ -12,6 +12,22 @@ This document provides the exact, reproducible process for InvenTree plugin deve
 
 ---
 
+## Automated Command Execution
+
+For AI-assisted development, commands can be executed inside the devcontainer from the host using Docker exec:
+
+```bash
+docker exec inventree-plugin-ai-toolkit_devcontainer-toolkit-1 bash -c "cd /workspace && command"
+```
+
+This enables automation without manual terminal access:
+- Run tests automatically
+- Start/stop servers
+- Execute the deterministic test chain
+- Manage the dev environment
+
+---
+
 ## Starting a Development Session
 
 ### Step 1: Open the Devcontainer

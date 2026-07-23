@@ -18,6 +18,19 @@ This skill guides an AI agent through the process of creating a new InvenTree pl
 
 ---
 
+## Automated Command Execution
+
+The AI agent can execute commands inside the devcontainer from the host using Docker exec:
+
+```bash
+docker exec inventree-plugin-ai-toolkit_devcontainer-toolkit-1 bash -c "cd /workspace && command"
+```
+
+This allows the agent to:
+- Run plugin-creator CLI automatically
+- Execute test commands
+- Manage the dev environment without manual terminal access
+
 ## Workflow
 
 ### 1. Understand Requirements

@@ -14,8 +14,21 @@ This skill guides an AI agent through the process of making changes to an existi
 
 - Devcontainer is open and running
 - Plugin exists in `/workspace/plugins/your-plugin-name`
-- InvenTree dev server is running
-- Plugin dev server is running (if frontend changes)
+
+---
+
+## Automated Command Execution
+
+The AI agent can execute commands inside the devcontainer from the host using Docker exec:
+
+```bash
+docker exec inventree-plugin-ai-toolkit_devcontainer-toolkit-1 bash -c "cd /workspace && command"
+```
+
+This allows the agent to:
+- Run test commands automatically
+- Manage the dev environment without manual terminal access
+- Execute the deterministic test chain
 
 ---
 
