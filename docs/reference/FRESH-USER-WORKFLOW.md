@@ -1,8 +1,12 @@
 # Fresh User Workflow - Integration Testing Setup
 
+**⚠️ DEPRECATED**: This document describes the legacy PowerShell-based workflow. The toolkit now uses an official InvenTree devcontainer for a consistent, reproducible development environment. See [SETUP.md](../../SETUP.md) for the current devcontainer-based setup and [SESSION-ONBOARDING.md](../../SESSION-ONBOARDING.md) for the development workflow.
+
 **Purpose:** Guide a fresh user from zero to working integration tests  
 **Last Updated:** December 17, 2025  
 **Time Required:** 1-2 hours (one-time setup)
+
+**Current Approach**: Use the devcontainer instead - see [SETUP.md](../../SETUP.md) for instructions.
 
 ---
 

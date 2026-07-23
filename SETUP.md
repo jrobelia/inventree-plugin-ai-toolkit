@@ -90,6 +90,40 @@ These skills provide structured workflows for plugin development with testing an
 
 ---
 
+## Testing
+
+The devcontainer provides a complete testing environment:
+
+**Unit tests:**
+```bash
+cd /workspace/plugins/your-plugin-name
+python -m pytest tests/unit
+```
+
+**Integration tests:**
+```bash
+cd /workspace/plugins/your-plugin-name
+python -m pytest tests/integration
+```
+
+**E2E tests with Playwright (for frontend):**
+```bash
+cd /workspace/plugins/your-plugin-name/frontend
+npm install
+npx playwright install
+npm run test:e2e
+```
+
+**All tests (deterministic chain):**
+```bash
+cd /workspace/plugins/your-plugin-name
+./test-all.sh
+```
+
+See `docs/SESSION-ONBOARDING.md` for complete testing workflow.
+
+---
+
 ## Manual Setup (Alternative)
 
 If you prefer not to use the devcontainer, you can set up the environment manually. However, the devcontainer is strongly recommended for consistency.

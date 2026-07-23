@@ -1,10 +1,14 @@
 # InvenTree Development Environment Setup
 
+**⚠️ DEPRECATED**: This document describes manual InvenTree development environment setup. The toolkit now uses an official InvenTree devcontainer for a consistent, reproducible development environment. See [SETUP.md](../../SETUP.md) for the current devcontainer-based setup.
+
 **Purpose**: Set up InvenTree development environment for real integration testing of plugins
 
 **Audience**: Plugin developers needing integration tests with real InvenTree models  
 **Time**: 1-2 hours (one-time setup)  
 **Benefit**: Reusable testing infrastructure for all plugins in toolkit
+
+**Current Approach**: Use the devcontainer instead - see [SETUP.md](../../SETUP.md) for instructions.
 
 **Related Documentation**:
 - **[TESTING-STRATEGY.md](TESTING-STRATEGY.md)** - When to use unit vs integration tests (read this first!)

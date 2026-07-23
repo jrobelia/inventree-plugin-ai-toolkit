@@ -4,6 +4,8 @@
 **Audience:** Plugin developers (human + AI)  
 **Approach:** Iterative test-driven development (not waterfall, not pure Scrum)
 
+**⚠️ Note**: This document describes the general plugin development philosophy and workflow. For specific AI-assisted workflows, see [docs/skills/](../skills/). For the current devcontainer-based setup, see [SETUP.md](../../SETUP.md).
+
 ---
 
 ## Philosophy
