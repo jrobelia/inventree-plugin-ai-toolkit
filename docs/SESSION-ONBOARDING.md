@@ -113,9 +113,18 @@ cd /workspace/plugins/your-plugin-name
 python -m pytest tests/integration
 ```
 
-**All tests:**
+**E2E tests with Playwright (for frontend):**
 ```bash
-python -m pytest
+cd /workspace/plugins/your-plugin-name/frontend
+npm install
+npx playwright install
+npm run test:e2e
+```
+
+**All tests (deterministic chain):**
+```bash
+cd /workspace/plugins/your-plugin-name
+./test-all.sh
 ```
 
 ### Code Quality
@@ -306,6 +315,24 @@ python -m build
 ruff check . && ruff format .
 npm run lint
 ```
+
+---
+
+## AI-Assisted Development Skills
+
+The toolkit includes structured development workflows in `docs/skills/`:
+
+**Creating a new plugin:**
+- See `docs/skills/new-inventree-plugin.md`
+- Covers plugin-creator usage, configuration, and initial setup
+- Includes verification checklist
+
+**Improving existing plugins:**
+- See `docs/skills/improve-inventree-plugin.md`
+- Provides change verification loop
+- Ensures proper testing before committing
+
+These skills are useful for both AI agents and manual development.
 
 ---
 
