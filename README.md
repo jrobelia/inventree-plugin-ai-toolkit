@@ -282,7 +282,6 @@ For plugins with frontend code:
 - **docs/skills/** - AI-assisted development workflows
   - **new-inventree-plugin.md** - Creating new plugins from scratch
   - **improve-inventree-plugin.md** - Change verification loop for existing plugins
-- **docs/reference/FRESH-USER-WORKFLOW.md** - First-time user walkthrough
 - **docs/reference/DOCUMENTATION-STANDARDS.md** - Documentation naming conventions
 - **docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md** - Complete plugin development lifecycle
 
