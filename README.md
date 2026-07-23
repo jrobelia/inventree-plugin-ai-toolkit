@@ -202,10 +202,22 @@ python -m pytest tests/unit
 
 # Run integration tests (requires InvenTree dev environment)
 python -m pytest tests/integration
+
+# Run all tests (including E2E with Playwright if configured)
+./test-all.sh
 ```
 
 **Integration Testing:**
 The devcontainer provides a full InvenTree development environment with database, so integration tests work out of the box.
+
+**E2E Testing:**
+For plugins with frontend code, Playwright can be used for end-to-end UI testing:
+```bash
+cd frontend
+npm install
+npx playwright install
+npm run test:e2e
+```
 
 See [docs/reference/FRESH-USER-WORKFLOW.md](docs/reference/FRESH-USER-WORKFLOW.md) for complete guide.
 
@@ -266,33 +278,13 @@ For plugins with frontend code:
 ### Reference Guides
 - **QUICK-REFERENCE.md** - Command cheat sheet
 - **SETUP.md** - Initial setup instructions (devcontainer-based)
+- **docs/SESSION-ONBOARDING.md** - Step-by-step development session process
+- **docs/skills/** - AI-assisted development workflows
+  - **new-inventree-plugin.md** - Creating new plugins from scratch
+  - **improve-inventree-plugin.md** - Change verification loop for existing plugins
 - **docs/reference/FRESH-USER-WORKFLOW.md** - First-time user walkthrough
 - **docs/reference/DOCUMENTATION-STANDARDS.md** - Documentation naming conventions
 - **docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md** - Complete plugin development lifecycle
-
-### Using GitHub Copilot (Optional)
-
-This toolkit includes specialized Copilot agents and instruction files for AI assistance.
-
-**Use the Orchestrator agent for feature work:**
-```
-@agent orchestrator [describe what you want to build]
-```
-
-**Use the Debug agent for problems:**
-```
-@agent debug [describe the issue]
-```
-
-**Or ask Copilot directly:**
-
-```
-How do I add a custom panel to the Part page?
-Show me how to create a plugin setting
-Help me debug this error: [paste error]
-```
-
-**Tip:** GitHub Copilot is helpful but not required. All documentation is readable by humans and can guide manual development.
 
 ## Plugin Deployment Methods
 

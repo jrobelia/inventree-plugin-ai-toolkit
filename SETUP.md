@@ -79,6 +79,17 @@ npm run dev
 
 ---
 
+## Plugin Development Skills
+
+The toolkit includes AI-assisted development skills in `docs/skills/`:
+
+- **new-inventree-plugin.md** - Guide for creating new plugins from scratch
+- **improve-inventree-plugin.md** - Change verification loop for existing plugins
+
+These skills provide structured workflows for plugin development with testing and verification steps.
+
+---
+
 ## Manual Setup (Alternative)
 
 If you prefer not to use the devcontainer, you can set up the environment manually. However, the devcontainer is strongly recommended for consistency.
