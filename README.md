@@ -278,7 +278,7 @@ For plugins with frontend code:
 ### Reference Guides
 - **QUICK-REFERENCE.md** - Command cheat sheet
 - **SETUP.md** - Initial setup instructions (devcontainer-based)
-- **docs/SESSION-ONBOARDING.md** - Step-by-step development session process
+- **docs/reference/SESSION-ONBOARDING.md** - Step-by-step development session process
 - **docs/skills/** - AI-assisted development workflows
   - **new-inventree-plugin.md** - Creating new plugins from scratch
   - **improve-inventree-plugin.md** - Change verification loop for existing plugins
