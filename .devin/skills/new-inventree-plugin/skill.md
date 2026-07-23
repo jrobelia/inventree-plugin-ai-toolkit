@@ -1,3 +1,8 @@
+---
+name: new-inventree-plugin
+description: Use when scaffolding a new InvenTree plugin from scratch with the plugin-creator tool. Guides requirements, setup, tests, and documentation.
+---
+
 # New InvenTree Plugin Skill
 
 **Purpose:** Agent-driven scaffolding for new InvenTree plugins
