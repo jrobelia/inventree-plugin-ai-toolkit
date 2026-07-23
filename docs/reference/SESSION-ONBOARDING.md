@@ -118,6 +118,15 @@ python -m pytest tests/integration
 
 Playwright tests run **locally on your host machine** and access the InvenTree dev server in the devcontainer via forwarded ports. Test files live in each plugin's `frontend/e2e/` directory.
 
+For new plugins, copy the Playwright templates from `plugin-templates/frontend/` into your plugin repo:
+
+```bash
+# Copy templates into your plugin
+cp -r /workspace/plugin-templates/frontend/* /workspace/plugins/your-plugin-name/frontend/
+```
+
+Then install dependencies and run tests:
+
 ```bash
 # On host machine (not in devcontainer)
 cd /workspace/plugins/your-plugin-name/frontend
