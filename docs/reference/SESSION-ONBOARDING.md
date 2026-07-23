@@ -43,7 +43,19 @@ In VS Code:
 
 ### Step 2: Start InvenTree Server
 
-In the devcontainer terminal:
+First check if the server is already running:
+
+**Windows (PowerShell):**
+```powershell
+curl -s http://localhost:8001 | Out-Null; if ($?) { "Server running" } else { "Server not running" }
+```
+
+**Linux/Mac (bash):**
+```bash
+curl -s http://localhost:8001 > /dev/null && echo "Server running" || echo "Server not running"
+```
+
+If the server is not running, start it in the devcontainer terminal:
 ```bash
 cd /workspace/reference/inventree-source
 invoke dev.server
