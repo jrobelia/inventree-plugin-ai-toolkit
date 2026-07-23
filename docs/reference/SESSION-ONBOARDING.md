@@ -127,8 +127,18 @@ npx playwright install
 # Windows: No additional steps needed
 # Linux: sudo npx playwright install-deps
 
+# Set credentials from config/plugin-dev-config.yaml
+# Copy .env.example to .env and fill in credentials
+cp .env.example .env
+
 npm run test:e2e
 ```
+
+**Configuration:**
+- Test credentials: Set via environment variables (`INVENTREE_USERNAME`, `INVENTREE_PASSWORD`)
+- Use .env file: Copy `.env.example` to`.env` and fill in credentials
+- Reporter: Uses 'list' reporter (auto-exits, no hanging)
+- Browsers: Chromium and WebKit (Firefox temporarily disabled due to timeout issues)
 
 **Note:** E2E tests require the InvenTree server running in the devcontainer. Start it first:
 ```bash
