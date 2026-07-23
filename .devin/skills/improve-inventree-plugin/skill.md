@@ -1,3 +1,8 @@
+---
+name: improve-inventree-plugin
+description: Use when modifying, extending, or fixing an existing InvenTree plugin. Guides the change verification loop from analysis through commit.
+---
+
 # Improve InvenTree Plugin Skill
 
 **Purpose:** Change verification loop for existing InvenTree plugins
