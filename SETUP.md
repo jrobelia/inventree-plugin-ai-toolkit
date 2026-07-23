@@ -83,7 +83,7 @@ npm run dev
 
 For daily development workflow, testing, building, and deployment, see **[docs/reference/SESSION-ONBOARDING.md](docs/reference/SESSION-ONBOARDING.md)**.
 
-For AI-assisted development workflows, see **[docs/skills/](docs/skills/)**.
+For AI-assisted development workflows, see **[.devin/skills/](.devin/skills/)**.
 
 ---
 
@@ -254,13 +254,8 @@ Once setup is complete:
    - Check [QUICK-REFERENCE.md](QUICK-REFERENCE.md) for command quick reference
    - Browse [docs/reference/](docs/reference/) for setup guides and workflows
 
-2. **Use GitHub Copilot for guided plugin creation**
-   - Copilot automatically discovers `.github/copilot-instructions.md`
-   - Use `@agent orchestrator` for full-pipeline feature work
-   - Example: `@agent orchestrator I want to create a new InvenTree plugin that [describe what it does]`
-
-3. **Explore InvenTree patterns**
-   - `.github/instructions/domain/` contains InvenTree-specific coding patterns
-   - These load automatically when you edit relevant file types
+2. **Use AI-assisted development skills**
+   - See `.devin/skills/new-inventree-plugin/` to scaffold a new plugin
+   - See `.devin/skills/improve-inventree-plugin/` to verify changes to an existing plugin
 
 Happy plugin development!

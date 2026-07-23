@@ -9,7 +9,7 @@
 
 ---
 
-A development toolkit for creating and deploying InvenTree plugins using an official InvenTree devcontainer for a consistent, reproducible development environment. Includes GitHub Copilot instructions to help guide development.
+A development toolkit for creating and deploying InvenTree plugins using an official InvenTree devcontainer for a consistent, reproducible development environment. Includes `.devin/skills/` AI-assisted development workflows.
 
 ## Official InvenTree Documentation
 
@@ -23,7 +23,7 @@ A development toolkit for creating and deploying InvenTree plugins using an offi
 - Provides a devcontainer-based development environment with InvenTree pre-configured
 - Simplifies plugin creation with templates, leveraging InvenTree's plugin-creator tool
 - Configures local frontend development with hot reload for plugins
-- Provides AI assistance for development via GitHub Copilot
+- Provides AI-assisted development workflows via `.devin/skills/`
 - Includes testing infrastructure
 
 **What this toolkit does NOT do:**
@@ -75,33 +75,13 @@ inventree-plugin-ai-toolkit/
 │   ├── Dockerfile             # Container image definition
 │   ├── docker-compose.yml     # Service orchestration
 │   └── postCreateCommand.sh   # Container setup script
-├── .github/
-│   ├── agents/                          # Copilot agent personas
-│   │   ├── orchestrator.agent.md        # Full pipeline management
-│   │   ├── debug.agent.md              # Systematic debugging
-│   │   ├── test.agent.md               # RED phase test writing
-│   │   └── code-review.agent.md        # Quality and spec check
-│   ├── instructions/                    # Always-on coding rules
-│   │   ├── core/                        # Language and practice rules
-│   │   │   ├── agent-behavior           # Communication style
-│   │   │   ├── design-principles        # SOLID, DRY, KISS, YAGNI
-│   │   │   ├── python                   # PEP 8, type hints
-│   │   │   ├── typescript               # Strict mode, React
-│   │   │   └── testing                  # AAA, naming, TDD
-│   │   └── domain/                      # InvenTree-specific patterns
-│   │       ├── django-api               # DRF serializers, views
-│   │       ├── django-testing           # URL 404 gotcha, as_view()
-│   │       ├── inventree-plugin         # Plugin class, mixins
-│   │       ├── inventree-packaging      # pyproject.toml, entry points
-│   │       ├── inventree-custom-states  # Custom states (Admin UI)
-│   │       ├── react-inventree          # Context, Mantine, Vite
-│   │       └── yaml-fixtures            # MPTT fields, BomItem
-│   ├── prompts/                         # On-demand workflows
-│   │   ├── 01-intake through 06-git     # Pipeline stages
-│   │   ├── inventree-plugin-*           # Build, deploy, test
-│   │   ├── inventree-review             # Code review
-│   │   └── debug-solidworks             # SolidWorks debugging
-│   └── copilot-instructions.md          # Auto-discovered entry point
+├── .devin/                              # AI agent workflows and rules
+│   ├── agent.md                         # Cascade agent instructions
+│   ├── rules/                           # Conversation and style rules
+│   ├── skills/                          # AI-assisted development workflows
+│   │   ├── new-inventree-plugin/        # Create a new InvenTree plugin
+│   │   └── improve-inventree-plugin/    # Improve an existing plugin
+│   └── workflows/                       # On-demand agent workflows
 ├── config/
 │   ├── servers.json                      # Your server configurations (gitignored)
 │   ├── servers.json.example              # Template
@@ -263,12 +243,11 @@ For plugins with frontend code:
 
 ## Documentation
 
-### GitHub Copilot Integration
-- **.github/copilot-instructions.md** - Auto-discovered entry point for GitHub Copilot
-- **.github/agents/** - Orchestrator, debug, test, and code-review agents
-- **.github/instructions/core/** - Language and practice rules (Python, TypeScript, testing)
-- **.github/instructions/domain/** - InvenTree-specific patterns (plugins, Django, fixtures)
-- **.github/prompts/** - On-demand workflows (build, deploy, test, review)
+### AI-Assisted Development
+- **.devin/skills/** - AI-assisted development workflows
+  - **new-inventree-plugin** - Create a new InvenTree plugin
+  - **improve-inventree-plugin** - Verify changes to an existing plugin
+- **.devin/workflows/** - On-demand agent workflows
 
 ### Living Documents
 - **docs/architecture.md** - Toolkit module map
@@ -278,9 +257,9 @@ For plugins with frontend code:
 ### Reference Guides
 - **SETUP.md** - Initial setup instructions (devcontainer-based)
 - **docs/reference/SESSION-ONBOARDING.md** - Step-by-step development session process
-- **docs/skills/** - AI-assisted development workflows
-  - **new-inventree-plugin.md** - Creating new plugins from scratch
-  - **improve-inventree-plugin.md** - Change verification loop for existing plugins
+- **.devin/skills/** - AI-assisted development workflows
+  - **new-inventree-plugin/skill.md** - Creating new plugins from scratch
+  - **improve-inventree-plugin/skill.md** - Change verification loop for existing plugins
 - **docs/reference/DOCUMENTATION-STANDARDS.md** - Documentation naming conventions
 - **docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md** - Complete plugin development lifecycle
 

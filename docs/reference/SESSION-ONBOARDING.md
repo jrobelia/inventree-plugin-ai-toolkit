@@ -364,15 +364,15 @@ npm run lint
 
 ## AI-Assisted Development Skills
 
-The toolkit includes structured development workflows in `docs/skills/`:
+The toolkit includes structured development workflows in `.devin/skills/`:
 
 **Creating a new plugin:**
-- See `docs/skills/new-inventree-plugin.md`
+- See `.devin/skills/new-inventree-plugin/skill.md`
 - Covers plugin-creator usage, configuration, and initial setup
 - Includes verification checklist
 
 **Improving existing plugins:**
-- See `docs/skills/improve-inventree-plugin.md`
+- See `.devin/skills/improve-inventree-plugin/skill.md`
 - Provides change verification loop
 - Ensures proper testing before committing
 

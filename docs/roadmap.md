@@ -1,6 +1,6 @@
 # Toolkit Roadmap
 
-**Last updated:** July 23, 2026 (Iteration 2 - in-progress)
+**Last updated:** July 23, 2026 (Iteration 2 - status sync)
 **Purpose:** Feature wish list for the toolkit itself (not individual plugins)
 
 **Note:** Iteration 1 (February 2026) is archived at
@@ -82,6 +82,9 @@ parking-lot stretch goal, not part of the core loop.
   `TEST-PLAN.md`) so the plugin has working local tests from day one.
 - `improve-inventree-plugin` skill: documents the change -> deterministic-
   test loop for existing plugins.
+- Remote deployment to selectable servers: keep `Deploy-Plugin.ps1` driven by
+  `config/servers.json` for staging and production; the devcontainer is for
+  local dev/test only, not a deploy target.
 - Confirm plugin-creator submodule is current with the toolkit's
   documented default answers (DevOps wizard: None).
 
@@ -111,42 +114,36 @@ parking-lot stretch goal, not part of the core loop.
 
 | # | Task | Milestone | Type | Status | Pass/fail condition |
 |---|------|-----------|------|--------|---------------------|
-| 1 | Adopt InvenTree's official devcontainer as the toolkit's dev environment, replacing `Setup-InvenTreeDev.ps1` / `Link-PluginToDev.ps1` | v2.0 | build | open | Devcontainer boots; InvenTree backend runs inside it (`invoke dev.server`); FlatBOMGenerator is linked and active inside the container. |
-| 2 | Configure local frontend dev server for FlatBOMGenerator inside the devcontainer | v2.0 | build | open | Editing `Panel.tsx` hot-reloads in the browser against the devcontainer's InvenTree instance, no build/deploy step needed. |
+| 1 | Adopt InvenTree's official devcontainer as the toolkit's dev environment, replacing `Setup-InvenTreeDev.ps1` / `Link-PluginToDev.ps1` | v2.0 | build | done | Devcontainer boots; InvenTree backend runs inside it (`invoke dev.server`); FlatBOMGenerator is linked and active inside the container. |
+| 2 | Configure local frontend dev server for FlatBOMGenerator inside the devcontainer | v2.0 | build | done | Editing `Panel.tsx` hot-reloads in the browser against the devcontainer's InvenTree instance, no build/deploy step needed. |
 | 3 | Add Playwright test scaffolding to FlatBOMGenerator's frontend, using `invoke dev.setup-test -i` for known data | v2.0 | build | in-progress | A first Playwright test opens the plugin's panel on a part page, asserts visible content, and passes headless. |
 | 4 | Build one deterministic test command chaining preflight + unit + integration + Playwright | v2.0 | build | in-progress | Running the command on a known-good state returns a single pass/fail verdict; a broken devcontainer/dataset/link produces a specific, clear failure -- never a false pass. |
 | 5 | Write `new-inventree-plugin` skill | v2.1 | build | done | Following the skill's steps, an agent scaffolds a plugin via plugin-creator's CLI (DevOps wizard: None), answering all prompts from a supplied plan doc, then applies the toolkit's test-scaffold template so the new plugin has working unit/integration/Playwright tests -- with no human interaction. |
 | 6 | Write `improve-inventree-plugin` skill | v2.1 | build | done | Following the skill's steps, an agent runs the deterministic test command (task #4) before considering any change complete. |
 | 7 | Verify plugin-creator submodule is current | v2.1 | cleanup | open | Submodule pinned to a version matching documented CLI behavior; DevOps wizard question is answered **None** every time (decided -- solo local-first dev doesn't need generated GitHub Actions/GitLab CI). |
-| 8 | Rewrite `README.md` / `SETUP.md` for the devcontainer-based process | v2.2 | cleanup | open | A fresh user following README + SETUP alone reaches a working devcontainer with a linked plugin, no missing steps. |
-| 9 | Write a session-onboarding doc/instruction stating the exact plugin-dev process | v2.2 | cleanup | in-progress | A brand-new chat session, given only the workspace, can state the two entry-point skills and the deterministic test command without the user re-explaining it. |
+| 8 | Rewrite `README.md` / `SETUP.md` for the devcontainer-based process | v2.2 | cleanup | done | A fresh user following README + SETUP alone reaches a working devcontainer with a linked plugin, no missing steps. |
+| 9 | Write a session-onboarding doc/instruction stating the exact plugin-dev process | v2.2 | cleanup | done | A brand-new chat session, given only the workspace, can state the two entry-point skills and the deterministic test command without the user re-explaining it. |
 | 10 | (Stretch) Add GitHub Actions CI running the deterministic test command | v2.2 | build | open | A PR triggers the test command in CI and reports pass/fail on the PR. |
-| 11 | Audit `.github/instructions/` and `.github/prompts/` for token bloat: replace mechanically-checkable rules (formatting, type errors, PowerShell style) with a linter/type-checker/pre-commit hook wired into the deterministic test command; prune or merge anything stale or duplicated by the new skills | v2.2 | cleanup | open | Every remaining instruction file contains only domain knowledge or gotchas that no static tool can catch; everything mechanically checkable is enforced by a linter/type-checker instead of prose. |
+| 11 | Audit `.github/instructions/` and `.github/prompts/` for token bloat: replace mechanically-checkable rules (formatting, type errors, PowerShell style) with a linter/type-checker/pre-commit hook wired into the deterministic test command; prune or merge anything stale or duplicated by the new skills | v2.2 | cleanup | partially done / closed | The `.github` submodule was removed; no `.github/instructions/` or `.github/prompts/` remain to audit. |
 
 ---
 
-## Architectural Impact (for v2.0, next milestone only)
+## Architectural Impact
 
-`docs/architecture.md` will need updates once v2.0 lands:
-- `inventree-dev/` (PowerShell-managed clone) replaced by a
-  `.devcontainer/`-based structure.
-- New Playwright test location documented (likely
-  `frontend/tests/e2e/` or similar, alongside existing
-  `flat_bom_generator/tests/`).
-- The single deterministic test command's name and location added to the
-  Scripts table.
-- `Setup-InvenTreeDev.ps1` and `Link-PluginToDev.ps1` marked as
-  superseded/removed.
+The v2.0 architecture is now reflected in `docs/architecture.md`:
 
-(Not edited now -- this happens during the build pipeline's debrief step
-as v2.0 lands.)
+- `inventree-dev/` (PowerShell-managed clone) replaced by a `.devcontainer/`-based environment.
+- Playwright tests are located in each plugin's `frontend/e2e/`.
+- `test-all.sh` is the per-plugin deterministic test command (run inside the devcontainer).
+- `Setup-InvenTreeDev.ps1` and `Link-PluginToDev.ps1` are removed.
+- `Build-Plugin.ps1` / `Deploy-Plugin.ps1` are the remote-only deployment path, not the local dev loop.
 
 ---
 
 ## Next Action
 
-Run the build pipeline on task #1 next: **adopt InvenTree's official
-devcontainer as the toolkit's dev environment.**
+Continue closing the v2.0 core loop: finish tasks #3 and #4, then verify
+the remote deployment path with `Deploy-Plugin.ps1`.
 
 ---
 
