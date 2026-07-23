@@ -1,0 +1,19 @@
+{
+  "servers": {
+    "dev": {
+      "url": "http://localhost:8001",
+      "username": "admin",
+      "password": "admin",
+      "notes": "Local devcontainer - InvenTree server on forwarded port 8001"
+    }
+  },
+  "defaults": {
+    "author_name": "Jon Robelia",
+    "author_email": "you@example.com",
+    "license": "MIT",
+    "project_url": "https://github.com/jrobelia/inventree-plugin-toolkit"
+  },
+  "paths": {
+    "plugin_creator": "plugin-creator"
+  }
+}

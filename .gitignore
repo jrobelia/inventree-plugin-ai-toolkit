@@ -1,8 +1,5 @@
 # Plugin toolkit .gitignore
 
-# Server configuration (may contain sensitive paths)
-config/servers.json
-
 # Environment files (may contain API keys)
 .env
 config/.env

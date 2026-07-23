@@ -1,5 +1,11 @@
 {
   "servers": {
+    "dev": {
+      "url": "http://localhost:8001",
+      "username": "admin",
+      "password": "admin",
+      "notes": "Local devcontainer - InvenTree server on forwarded port 8001"
+    },
     "staging": {
       "plugin_dir": "/opt/inventree/plugins",
       "url": "https://staging.example.com",
