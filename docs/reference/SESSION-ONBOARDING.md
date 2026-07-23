@@ -127,16 +127,11 @@ npx playwright install
 # Windows: No additional steps needed
 # Linux: sudo npx playwright install-deps
 
-# Set credentials from config/plugin-dev-config.yaml
-# Copy .env.example to .env and fill in credentials
-cp .env.example .env
-
 npm run test:e2e
 ```
 
 **Configuration:**
-- Test credentials: Set via environment variables (`INVENTREE_USERNAME`, `INVENTREE_PASSWORD`)
-- Use .env file: Copy `.env.example` to`.env` and fill in credentials
+- Test credentials: Defaults to `admin/admin` (override with `INVENTREE_USERNAME` and `INVENTREE_PASSWORD` environment variables if needed)
 - Reporter: Uses 'list' reporter (auto-exits, no hanging)
 - Browsers: Chromium and WebKit (Firefox temporarily disabled due to timeout issues)
 
