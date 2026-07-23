@@ -1,6 +1,6 @@
 # Toolkit Roadmap
 
-**Last updated:** July 15, 2026 (Iteration 2)
+**Last updated:** July 23, 2026 (Iteration 2 - in-progress)
 **Purpose:** Feature wish list for the toolkit itself (not individual plugins)
 
 **Note:** Iteration 1 (February 2026) is archived at
@@ -113,13 +113,13 @@ parking-lot stretch goal, not part of the core loop.
 |---|------|-----------|------|--------|---------------------|
 | 1 | Adopt InvenTree's official devcontainer as the toolkit's dev environment, replacing `Setup-InvenTreeDev.ps1` / `Link-PluginToDev.ps1` | v2.0 | build | open | Devcontainer boots; InvenTree backend runs inside it (`invoke dev.server`); FlatBOMGenerator is linked and active inside the container. |
 | 2 | Configure local frontend dev server for FlatBOMGenerator inside the devcontainer | v2.0 | build | open | Editing `Panel.tsx` hot-reloads in the browser against the devcontainer's InvenTree instance, no build/deploy step needed. |
-| 3 | Add Playwright test scaffolding to FlatBOMGenerator's frontend, using `invoke dev.setup-test -i` for known data | v2.0 | build | open | A first Playwright test opens the plugin's panel on a part page, asserts visible content, and passes headless. |
-| 4 | Build one deterministic test command chaining preflight + unit + integration + Playwright | v2.0 | build | open | Running the command on a known-good state returns a single pass/fail verdict; a broken devcontainer/dataset/link produces a specific, clear failure -- never a false pass. |
-| 5 | Write `new-inventree-plugin` skill | v2.1 | build | open | Following the skill's steps, an agent scaffolds a plugin via plugin-creator's CLI (DevOps wizard: None), answering all prompts from a supplied plan doc, then applies the toolkit's test-scaffold template so the new plugin has working unit/integration/Playwright tests -- with no human interaction. |
-| 6 | Write `improve-inventree-plugin` skill | v2.1 | build | open | Following the skill's steps, an agent runs the deterministic test command (task #4) before considering any change complete. |
+| 3 | Add Playwright test scaffolding to FlatBOMGenerator's frontend, using `invoke dev.setup-test -i` for known data | v2.0 | build | in-progress | A first Playwright test opens the plugin's panel on a part page, asserts visible content, and passes headless. |
+| 4 | Build one deterministic test command chaining preflight + unit + integration + Playwright | v2.0 | build | in-progress | Running the command on a known-good state returns a single pass/fail verdict; a broken devcontainer/dataset/link produces a specific, clear failure -- never a false pass. |
+| 5 | Write `new-inventree-plugin` skill | v2.1 | build | done | Following the skill's steps, an agent scaffolds a plugin via plugin-creator's CLI (DevOps wizard: None), answering all prompts from a supplied plan doc, then applies the toolkit's test-scaffold template so the new plugin has working unit/integration/Playwright tests -- with no human interaction. |
+| 6 | Write `improve-inventree-plugin` skill | v2.1 | build | done | Following the skill's steps, an agent runs the deterministic test command (task #4) before considering any change complete. |
 | 7 | Verify plugin-creator submodule is current | v2.1 | cleanup | open | Submodule pinned to a version matching documented CLI behavior; DevOps wizard question is answered **None** every time (decided -- solo local-first dev doesn't need generated GitHub Actions/GitLab CI). |
 | 8 | Rewrite `README.md` / `SETUP.md` for the devcontainer-based process | v2.2 | cleanup | open | A fresh user following README + SETUP alone reaches a working devcontainer with a linked plugin, no missing steps. |
-| 9 | Write a session-onboarding doc/instruction stating the exact plugin-dev process | v2.2 | cleanup | open | A brand-new chat session, given only the workspace, can state the two entry-point skills and the deterministic test command without the user re-explaining it. |
+| 9 | Write a session-onboarding doc/instruction stating the exact plugin-dev process | v2.2 | cleanup | in-progress | A brand-new chat session, given only the workspace, can state the two entry-point skills and the deterministic test command without the user re-explaining it. |
 | 10 | (Stretch) Add GitHub Actions CI running the deterministic test command | v2.2 | build | open | A PR triggers the test command in CI and reports pass/fail on the PR. |
 | 11 | Audit `.github/instructions/` and `.github/prompts/` for token bloat: replace mechanically-checkable rules (formatting, type errors, PowerShell style) with a linter/type-checker/pre-commit hook wired into the deterministic test command; prune or merge anything stale or duplicated by the new skills | v2.2 | cleanup | open | Every remaining instruction file contains only domain knowledge or gotchas that no static tool can catch; everything mechanically checkable is enforced by a linter/type-checker instead of prose. |
 
