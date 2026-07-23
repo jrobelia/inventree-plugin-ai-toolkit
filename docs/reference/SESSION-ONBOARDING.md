@@ -116,7 +116,7 @@ python -m pytest tests/integration
 
 **E2E tests with Playwright (for frontend):**
 
-Playwright tests run **locally on your host machine** and access the InvenTree dev server in the devcontainer via forwarded ports.
+Playwright tests run **locally on your host machine** and access the InvenTree dev server in the devcontainer via forwarded ports. Test files live in each plugin's `frontend/e2e/` directory.
 
 ```bash
 # On host machine (not in devcontainer)
@@ -127,15 +127,22 @@ npx playwright install
 # Windows: No additional steps needed
 # Linux: sudo npx playwright install-deps
 
-# Tests read credentials from config/servers.json (dev server section)
-# Update that file if your dev server uses different credentials or URL
+# 1. Create config/servers.json from the example (if it doesn't exist)
+cp config/servers.json.example config/servers.json
 
+# 2. Edit config/servers.json and set your dev server credentials
+#    (The test reads from config/servers.json dev server section)
+
+# 3. Ensure InvenTree server is running (see note below)
+
+# 4. Run tests
 npm run test:e2e
 ```
 
 **Configuration:**
+- Create `config/servers.json` by copying `config/servers.json.example`
 - Source of truth: `config/servers.json` (dev server section)
-- Tests read directly from config file (no environment variables needed)
+- Set `username`, `password`, and `url` under `servers.dev`
 - Defaults: `admin/admin` and `http://localhost:8001` if config not found
 - Reporter: Uses 'list' reporter (auto-exits, no hanging)
 - Browsers: Chromium and WebKit (Firefox temporarily disabled due to timeout issues)
