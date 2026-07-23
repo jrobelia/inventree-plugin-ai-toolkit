@@ -121,6 +121,12 @@ npx playwright install
 npm run test:e2e
 ```
 
+**Note:** E2E tests require the InvenTree server to be running. Start it first:
+```bash
+cd /workspace/reference/inventree-source
+invoke dev.server
+```
+
 **All tests (deterministic chain):**
 ```bash
 cd /workspace/plugins/your-plugin-name
