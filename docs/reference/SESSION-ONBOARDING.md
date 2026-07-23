@@ -8,12 +8,7 @@ This document provides the exact, reproducible process for InvenTree plugin deve
 
 ---
 
-## Prerequisites
-
-- Docker Desktop installed and running
-- VS Code with Dev Containers extension
-- Git installed
-- Repository cloned and submodules initialized (see SETUP.md)
+**Prerequisites:** Complete the initial setup in [SETUP.md](../../SETUP.md) before starting your first development session.
 
 ---
 
@@ -29,46 +24,24 @@ code .
 In VS Code:
 1. Press `Ctrl+Shift+P`
 2. Run: `Dev Containers: Reopen in Container`
-3. Wait for the container to start (subsequent starts are fast)
-
-**Verify you're in the container:**
-- Terminal prompt should show: `vscode ➜ /workspace`
-- VS Code status bar should show: "Dev Container: InvenTree Plugin AI Toolkit"
 
 ### Step 2: Start InvenTree Server
 
-Open a terminal in VS Code and run:
-
+In the devcontainer terminal:
 ```bash
 cd /workspace/reference/inventree-source
 invoke dev.server
 ```
 
-**Expected output:**
-- Database migrations complete
-- Server starts on http://localhost:8001
-- Terminal shows server logs
-
-**Verify InvenTree is running:**
-- Open browser to http://localhost:8001
-- Log in with admin credentials created during setup
+The InvenTree server will be available at http://localhost:8001 on your host machine.
 
 ### Step 3: Start Plugin Dev Server (Optional)
 
-For plugins with frontend code, open a second terminal:
-
+For frontend development with hot reload:
 ```bash
-cd /workspace/plugins/inventree-flat-bom-generator/frontend
+cd /workspace/plugins/your-plugin/frontend
 npm run dev
 ```
-
-**Expected output:**
-- Vite dev server starts on http://localhost:5174
-- Hot reload enabled for frontend changes
-
-**Verify plugin dev server:**
-- Open browser to http://localhost:5174
-- Should show plugin UI or Vite welcome page
 
 ---
 
@@ -114,18 +87,29 @@ python -m pytest tests/integration
 ```
 
 **E2E tests with Playwright (for frontend):**
+
+Playwright tests run **locally on your host machine** and access the InvenTree dev server in the devcontainer via forwarded ports.
+
 ```bash
+# On host machine (not in devcontainer)
 cd /workspace/plugins/your-plugin-name/frontend
 npm install
 npx playwright install
+
+# Windows: No additional steps needed
+# Linux: sudo npx playwright install-deps
+
 npm run test:e2e
 ```
 
-**Note:** E2E tests require the InvenTree server to be running. Start it first:
+**Note:** E2E tests require the InvenTree server running in the devcontainer. Start it first:
 ```bash
+# In devcontainer terminal
 cd /workspace/reference/inventree-source
 invoke dev.server
 ```
+
+The devcontainer forwards the InvenTree server to http://localhost:8001 on your host machine.
 
 **All tests (deterministic chain):**
 ```bash

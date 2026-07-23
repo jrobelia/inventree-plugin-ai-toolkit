@@ -79,54 +79,11 @@ npm run dev
 
 ---
 
-## Plugin Development Skills
+## Next Steps
 
-The toolkit includes AI-assisted development skills in `docs/skills/`:
+For daily development workflow, testing, building, and deployment, see **[docs/reference/SESSION-ONBOARDING.md](docs/reference/SESSION-ONBOARDING.md)**.
 
-- **new-inventree-plugin.md** - Guide for creating new plugins from scratch
-- **improve-inventree-plugin.md** - Change verification loop for existing plugins
-
-These skills provide structured workflows for plugin development with testing and verification steps.
-
----
-
-## Testing
-
-The devcontainer provides a complete testing environment:
-
-**Unit tests:**
-```bash
-cd /workspace/plugins/your-plugin-name
-python -m pytest tests/unit
-```
-
-**Integration tests:**
-```bash
-cd /workspace/plugins/your-plugin-name
-python -m pytest tests/integration
-```
-
-**E2E tests with Playwright (for frontend):**
-```bash
-cd /workspace/plugins/your-plugin-name/frontend
-npm install
-npx playwright install
-npm run test:e2e
-```
-
-**Note:** E2E tests require the InvenTree server to be running. Start it first:
-```bash
-cd /workspace/reference/inventree-source
-invoke dev.server
-```
-
-**All tests (deterministic chain):**
-```bash
-cd /workspace/plugins/your-plugin-name
-./test-all.sh
-```
-
-See `docs/SESSION-ONBOARDING.md` for complete testing workflow.
+For AI-assisted development workflows, see **[docs/skills/](docs/skills/)**.
 
 ---
 
