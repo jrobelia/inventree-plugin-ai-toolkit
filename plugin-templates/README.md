@@ -4,7 +4,51 @@ This directory contains template files for InvenTree plugins. Since plugins are 
 
 ## Using Templates
 
-Copy the contents of the relevant `frontend/` or backend directories into your plugin repo.
+Copy the contents of the relevant `frontend/` or `backend/` directories into your plugin repo, then replace placeholders like `{{PLUGIN_NAME}}` and `{{MODULE_NAME}}`.
+
+### Backend Tests (pytest)
+
+To add Python backend tests to a plugin:
+
+```bash
+cp -r /workspace/plugin-templates/backend/* /workspace/plugins/your-plugin-name/my_plugin/tests/
+```
+
+Update `tests/conftest.py` if your InvenTree source tree lives elsewhere.
+
+Run tests:
+
+```bash
+cd /workspace/plugins/your-plugin-name
+python -m pytest my_plugin/tests/unit -v
+python -m pytest my_plugin/tests/integration -v
+```
+
+### Frontend Unit Tests (Vitest)
+
+To add frontend unit tests to a plugin:
+
+```bash
+cp -r /workspace/plugin-templates/frontend/src /workspace/plugins/your-plugin-name/frontend/
+```
+
+Ensure your plugin's `frontend/package.json` has the `test` script:
+
+```json
+{
+  "scripts": {
+    "test": "vitest run"
+  }
+}
+```
+
+Run tests:
+
+```bash
+cd /workspace/plugins/your-plugin-name/frontend
+npm install
+npm run test
+```
 
 ### Playwright E2E Tests
 
@@ -37,11 +81,25 @@ And ensure these dev dependencies are present:
 }
 ```
 
+### Running All Tests
+
+Copy the unified test runner template and adjust the placeholders:
+
+```bash
+cp /workspace/plugin-templates/test-all.sh /workspace/plugins/your-plugin-name/test-all.sh
+```
+
+Update `{{PLUGIN_NAME}}` and `{{MODULE_NAME}}` in the file, then make it executable:
+
+```bash
+chmod +x /workspace/plugins/your-plugin-name/test-all.sh
+```
+
 ## Configuration
 
-Tests read dev server credentials and URL from `config/servers.json` (relative to toolkit root). See `config/servers.json.example` for the expected format.
+E2E tests read dev server credentials and URL from `config/servers.json` (relative to toolkit root). See `config/servers.json.example` for the expected format.
 
-Run tests from your host machine, not the devcontainer:
+Run E2E tests from your host machine, not the devcontainer:
 
 ```bash
 cd /workspace/plugins/your-plugin-name/frontend
