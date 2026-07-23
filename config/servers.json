@@ -2,8 +2,8 @@
   "servers": {
     "dev": {
       "url": "http://localhost:8001",
-      "username": "admin",
-      "password": "admin",
+      "username": "vscode",
+      "password": "demo10202",
       "notes": "Local devcontainer - InvenTree server on forwarded port 8001"
     }
   },
