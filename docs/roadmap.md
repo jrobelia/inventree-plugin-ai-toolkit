@@ -1,6 +1,6 @@
 # Toolkit Roadmap
 
-**Last updated:** July 23, 2026 (status review -- v2.0 core loop not yet fully verified)
+**Last updated:** July 24, 2026 (task #3 E2E template made generic; demo-data auto-load parked)
 **Purpose:** Feature wish list for the toolkit itself (not individual plugins)
 
 **Note:** Iteration 1 (February 2026) is archived at
