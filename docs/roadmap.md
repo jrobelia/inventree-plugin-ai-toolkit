@@ -97,6 +97,10 @@ parking-lot stretch goal, not part of the core loop.
   iteration).
 - Any additional official InvenTree plugin-dev tooling not yet surfaced --
   revisit if InvenTree's docs add new tools.
+- Auto-loading a known dataset on devcontainer creation. The demo dataset
+  (`invoke dev.setup-test -i`) currently fails and wipes existing data, so it
+  needs debugging. Longer term, consider a custom toolkit dataset tailored for
+  plugin E2E tests instead of the generic InvenTree demo data.
 
 ---
 
@@ -104,7 +108,7 @@ parking-lot stretch goal, not part of the core loop.
 
 | Milestone | Status | Defining Capability |
 |---|---|---|
-| **v2.0 -- Working Local Dev Loop** | current | Devcontainer and frontend dev server are configured, Playwright scaffolding exists, and `test-all.sh` is in place, but the deterministic test command is not yet preflight-aware and the Playwright test does not yet exercise the plugin panel end-to-end. |
+| **v2.0 -- Working Local Dev Loop** | current | Devcontainer and frontend dev server are configured, Playwright scaffolding exists, and `test-all.sh` is in place, but the deterministic test command is not yet preflight-aware, the Playwright test is still generic, and auto-loading a known dataset is not yet reliable. |
 | **v2.1 -- Agent-Driven Plugin Workflows** | next | Both skills exist and work: an agent can scaffold a new plugin unattended, and can verify a change to an existing plugin with the deterministic test command, no manual staging clicks. |
 | **v2.2 -- Documented & Polished Factory** | future | README/SETUP rewritten to match reality, session-onboarding doc exists, `.github/` audited for token bloat, optional CI wired up. |
 
@@ -116,8 +120,8 @@ parking-lot stretch goal, not part of the core loop.
 |---|------|-----------|------|--------|---------------------|
 | 1 | Adopt InvenTree's official devcontainer as the toolkit's dev environment, replacing `Setup-InvenTreeDev.ps1` / `Link-PluginToDev.ps1` | v2.0 | build | done | `.devcontainer/` replaces the PowerShell setup. It boots a custom Debian/Python image and uses `reference/inventree-source/contrib/container/init.sh`; it does not directly reuse the InvenTree source's own `.devcontainer/` image. FlatBOMGenerator is linked via the `/workspace/plugins` volume mount. |
 | 2 | Configure local frontend dev server for FlatBOMGenerator inside the devcontainer | v2.0 | build | done | `frontend/vite.dev.config.ts` binds port `5174`; `devcontainer.json` forwards `5174`; `postCreateCommand.sh` installs `frontend` dependencies. Hot reload is configured but not yet verified end-to-end against the devcontainer backend. |
-| 3 | Add Playwright test scaffolding to FlatBOMGenerator's frontend, using `invoke dev.setup-test -i` for known data | v2.0 | build | in-progress | `frontend/e2e/` and `playwright.config.cjs` exist, but the example test only logs in and navigates to `/part/` -- it does not open the plugin panel or assert plugin-specific content. `postCreateCommand.sh` also does not run `invoke dev.setup-test -i` to load a known dataset. |
-| 4 | Build one deterministic test command chaining preflight + unit + integration + Playwright | v2.0 | build | in-progress | `test-all.sh` exists in `plugin-templates/` and FlatBOMGenerator, but it has no preflight check for devcontainer health, dataset state, or plugin link. Failures will be generic tool errors, not the specific, clear messages required. |
+| 3 | Add Playwright test scaffolding to the plugin templates, with known data for deterministic E2E tests | v2.0 | build | partially done | `plugin-templates/frontend/e2e/example.spec.cjs` is now a generic login + parts-list test with a skipped plugin-panel template. `postCreateCommand.sh` does not run `invoke dev.setup-test -i` because the demo-data import fails and wipes existing data; auto-loading a known dataset is parked for debugging (see Future Vision). |
+| 4 | Build one deterministic test command chaining preflight + unit + integration + Playwright | v2.0 | build | in-progress | `test-all.sh` exists in `plugin-templates/` and FlatBOMGenerator, but it has no preflight check for devcontainer health, dataset state, or plugin link. Auto-loading a known dataset via `invoke dev.setup-test -i` is parked (see task #3), so the preflight should verify whatever dataset is present. Failures will be generic tool errors, not the specific, clear messages required. |
 | 5 | Write `new-inventree-plugin` skill | v2.1 | build | in-progress | Skill exists, but it still instructs the agent to guide a human through interactive prompts. It does not document the DevOps wizard default of **None**, nor the step of copying the toolkit's `plugin-templates/` test scaffold (`tests/`, `frontend/e2e/`, `TEST-PLAN.md`) onto the plugin after `plugin-creator` runs. |
 | 6 | Write `improve-inventree-plugin` skill | v2.1 | build | in-progress | Skill exists and references `./test-all.sh`, but it hardcodes `flat_bom_generator` in the preflight example and does not tie every change to the deterministic test command from task #4. |
 | 7 | Verify plugin-creator submodule is current | v2.1 | cleanup | open | Submodule is pinned at `1.20.0`. However, `plugin_creator/template/cookiecutter.json` defaults `ci_support` to `github`, and the interactive `get_devops_mode()` prompt defaults to **GitHub Actions**. The documented "answer **None** every time" is not yet enforced. |
@@ -145,7 +149,7 @@ The v2.0 architecture is now reflected in `docs/architecture.md`:
 Close the v2.0 core loop before moving to v2.1:
 
 1. Finish task #4: add a real preflight step to `test-all.sh` that checks the devcontainer is running, the plugin is linked, and the dataset is loaded (`invoke dev.setup-test -i`) before invoking ruff/pytest/Playwright, and emits specific failure messages.
-2. Finish task #3: replace the generic login Playwright test with one that opens the FlatBOMGenerator panel on a part page and asserts plugin-specific content, then wire `invoke dev.setup-test -i` into the devcontainer setup.
+2. Task #3: the generic Playwright test template is in place. Auto-loading a known dataset via `invoke dev.setup-test -i` is parked; the demo-data import fails and wipes existing data, so it needs debugging before it can be wired into `postCreateCommand.sh`.
 3. Clean up task #11: archive or update `docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md` and `plugins/README.md` so they no longer reference `C:\PythonProjects\...`, `inventree-dev/`, or the legacy PowerShell scripts.
 4. Only after #3 and #4 are verified end-to-end, move to v2.1 skills (#5, #6) and the plugin-creator `None` default (#7).
 
