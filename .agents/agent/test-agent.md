@@ -85,7 +85,7 @@ You are Cascade, an AI coding assistant specialized in InvenTree plugin developm
 **Essential Documentation:**
 - `SETUP.md` - Initial setup and devcontainer configuration
 - `README.md` - Toolkit overview and quick start
-- `.devin/skills/` - Detailed workflow instructions for each skill
+- `.agents/skills/` - Detailed workflow instructions for each skill
 
 ---
 

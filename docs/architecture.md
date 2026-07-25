@@ -10,7 +10,7 @@
 ```
 inventree-plugin-ai-toolkit/
 +-- .devcontainer/              Official InvenTree devcontainer configuration
-+-- .devin/                     AI agent workflows and skills
++-- .agents/                     AI agent workflows and skills
 +-- config/                     Server connection settings
 +-- docs/                       Living documents, references, and planning
 +-- reference/                  Reference submodules
@@ -26,14 +26,14 @@ inventree-plugin-ai-toolkit/
 
 ---
 
-## The `.devin/` System
+## The `.agents/` System
 
-AI-assisted workflows live in `.devin/`. The agent entry point is `.devin/agent.md`.
+AI-assisted workflows live in `.agents/skills/`. Devin's entry point for this repo is the root `AGENTS.md`.
 
-- `.devin/skills/new-inventree-plugin/` — scaffold a new plugin via `plugin-creator`
-- `.devin/skills/improve-inventree-plugin/` — verify a change with the deterministic test command
-- `.devin/workflows/` — on-demand agent workflows
-- `.devin/rules/` — conversation and style rules
+- `.agents/skills/new-inventree-plugin/` — scaffold a new plugin via `plugin-creator`
+- `.agents/skills/improve-inventree-plugin/` — verify a change with the deterministic test command
+- `.agents/skills/setup-matt-pocock-skills/` — configure issue tracker, triage labels, and domain docs
+- `.agents/agent/test-agent.md` — legacy Cascade agent configuration (kept for reference)
 
 ---
 

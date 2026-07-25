@@ -9,7 +9,7 @@
 
 ---
 
-A development toolkit for creating and deploying InvenTree plugins using an official InvenTree devcontainer for a consistent, reproducible development environment. Includes `.devin/skills/` AI-assisted development workflows.
+A development toolkit for creating and deploying InvenTree plugins using an official InvenTree devcontainer for a consistent, reproducible development environment. Includes `.agents/skills/` AI-assisted development workflows.
 
 ## Official InvenTree Documentation
 
@@ -23,7 +23,7 @@ A development toolkit for creating and deploying InvenTree plugins using an offi
 - Provides a devcontainer-based development environment with InvenTree pre-configured
 - Simplifies plugin creation with templates, leveraging InvenTree's plugin-creator tool
 - Configures local frontend development with hot reload for plugins
-- Provides AI-assisted development workflows via `.devin/skills/`
+- Provides AI-assisted development workflows via `.agents/skills/`
 - Includes testing infrastructure
 
 **What this toolkit does NOT do:**
@@ -75,13 +75,8 @@ inventree-plugin-ai-toolkit/
 │   ├── Dockerfile             # Container image definition
 │   ├── docker-compose.yml     # Service orchestration
 │   └── postCreateCommand.sh   # Container setup script
-├── .devin/                              # AI agent workflows and rules
-│   ├── agent.md                         # Cascade agent instructions
-│   ├── rules/                           # Conversation and style rules
-│   ├── skills/                          # AI-assisted development workflows
-│   │   ├── new-inventree-plugin/        # Create a new InvenTree plugin
-│   │   └── improve-inventree-plugin/    # Improve an existing plugin
-│   └── workflows/                       # On-demand agent workflows
+├── .agents/                     # AI agent skills
+│   └── skills/                  # AI-assisted development workflows
 ├── config/
 │   ├── servers.json                      # Your server configurations (gitignored)
 │   ├── servers.json.example              # Template
@@ -244,10 +239,10 @@ For plugins with frontend code:
 ## Documentation
 
 ### AI-Assisted Development
-- **.devin/skills/** - AI-assisted development workflows
+- **AGENTS.md** - Devin rules for the toolkit
+- **.agents/skills/** - AI-assisted development workflows
   - **new-inventree-plugin** - Create a new InvenTree plugin
   - **improve-inventree-plugin** - Verify changes to an existing plugin
-- **.devin/workflows/** - On-demand agent workflows
 
 ### Living Documents
 - **docs/architecture.md** - Toolkit module map
@@ -257,7 +252,7 @@ For plugins with frontend code:
 ### Reference Guides
 - **SETUP.md** - Initial setup instructions (devcontainer-based)
 - **docs/reference/SESSION-ONBOARDING.md** - Step-by-step development session process
-- **.devin/skills/** - AI-assisted development workflows
+- **.agents/skills/** - AI-assisted development workflows
   - **new-inventree-plugin/skill.md** - Creating new plugins from scratch
   - **improve-inventree-plugin/skill.md** - Change verification loop for existing plugins
 - **docs/reference/DOCUMENTATION-STANDARDS.md** - Documentation naming conventions

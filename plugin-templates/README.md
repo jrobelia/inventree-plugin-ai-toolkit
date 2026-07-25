@@ -6,6 +6,23 @@ This directory contains template files for InvenTree plugins. Since plugins are 
 
 Copy the contents of the relevant `frontend/` or `backend/` directories into your plugin repo, then replace placeholders like `{{PLUGIN_NAME}}` and `{{MODULE_NAME}}`.
 
+### Agent Rules (`AGENTS.md`)
+
+To add Devin/Cascade agent rules to a new plugin:
+
+```bash
+cp /workspace/plugin-templates/AGENTS.md.template /workspace/plugins/your-plugin-name/AGENTS.md
+```
+
+Then create the matching `docs/agents/` files:
+
+```bash
+mkdir -p /workspace/plugins/your-plugin-name/docs/agents
+# Copy/adapt from an existing plugin or from the toolkit root docs/agents/
+```
+
+Replace `{{PLUGIN_NAME}}` and `{{MODULE_NAME}}` in `AGENTS.md`, and fill in the plugin-specific context.
+
 ### Backend Tests (pytest)
 
 To add Python backend tests to a plugin:
