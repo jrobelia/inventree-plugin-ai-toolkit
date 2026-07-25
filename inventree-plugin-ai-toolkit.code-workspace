@@ -5,8 +5,8 @@
 			"path": "."
 		},
 		{
-			"name": "FlatBOMGenerator Plugin",
-			"path": "plugins/FlatBOMGenerator"
+			"name": "inventree-flat-bom-generator",
+			"path": "plugins/inventree-flat-bom-generator"
 		}
 	],
 	"settings": {

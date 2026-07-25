@@ -46,3 +46,4 @@ git push -u origin main
 - **Don't** put the entire `plugins/` folder in git
 - **Do** put each individual plugin in its own git repo
 - The `.gitignore` in the toolkit root handles this correctly
+- If you add a plugin to the VS Code workspace (`*.code-workspace`), make sure the `path` matches the actual plugin directory name on disk (e.g. `plugins/inventree-flat-bom-generator`, not `plugins/FlatBOMGenerator`)
