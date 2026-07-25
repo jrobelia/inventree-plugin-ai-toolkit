@@ -4,11 +4,14 @@ How the engineering skills should consume this repo's domain documentation when 
 
 ## Before exploring, read these
 
-- **`CONTEXT-MAP.md`** at the repo root — it is the canonical map for the multi-context InvenTree plugin trilogy and the toolkit itself.
+- **`CONTEXT.md`** at the repo root for the toolkit container context.
+- **`CONTEXT-MAP.md`** at the repo root — it is the canonical map for the multi-context InvenTree plugin toolkit.
+- **`docs/reference/inventree-plugins/CONTEXT.md`** when working on a generic InvenTree plugin or tooling that applies to any plugin.
+- **`docs/reference/inventree-plugin-trilogy/02-Domain-Model.md`** (and related trilogy docs) when working on the Flat BOM, Build Order, or Purchase Order plugins.
 - **`docs/adr/`** — read ADRs that touch the area you're about to work on. In this repo, system-wide decisions live here; per-plugin decisions live in `plugins/<name>/docs/adr/`.
 - If `docs/adr/` does not exist yet, fall back to **`docs/decisions.md`** for the append-only decision log.
 
-If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
+If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill creates them lazily when terms or decisions actually get resolved.
 
 ## File structure
 
@@ -16,8 +19,20 @@ Multi-context repo (presence of `CONTEXT-MAP.md` at the root):
 
 ```
 /
-├── CONTEXT-MAP.md                    ← shared glossary and context boundaries
-├── docs/adr/                          ← system-wide decisions (or docs/decisions.md)
+├── CONTEXT.md                         ← toolkit container context
+├── CONTEXT-MAP.md                     ← context map
+├── docs/
+│   ├── adr/                           ← system-wide decisions (or docs/decisions.md)
+│   ├── agents/                        ← agent skill configuration
+│   └── reference/
+│       ├── inventree-plugins/
+│       │   └── CONTEXT.md             ← generic InvenTree plugin context
+│       └── inventree-plugin-trilogy/
+│           ├── 01-Vision-and-Philosophy.md
+│           ├── 02-Domain-Model.md     ← trilogy shared domain
+│           ├── 03-InvenTree-Platform-Reference.md
+│           ├── 04-Architecture-Decisions.md
+│           └── 05-Plugin-Architecture.md
 ├── plugins/
 │   ├── inventree-flat-bom-generator/
 │   │   ├── CONTEXT.md
@@ -33,7 +48,7 @@ Multi-context repo (presence of `CONTEXT-MAP.md` at the root):
 
 ## Use the glossary's vocabulary
 
-When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in `CONTEXT-MAP.md` or the relevant plugin `CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids.
+When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in `CONTEXT.md`, `CONTEXT-MAP.md`, `docs/reference/inventree-plugins/CONTEXT.md`, or the relevant plugin `CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids.
 
 If the concept you need isn't in the glossary yet, that's a signal — either you're inventing language the project doesn't use (reconsider) or there's a real gap (note it for `/domain-modeling`).
 

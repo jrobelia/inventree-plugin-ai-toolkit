@@ -1,8 +1,16 @@
 ## Agent skills
 
-- **Issue tracker:** Track issues/PRDs in GitHub. See `docs/agents/issue-tracker.md`.
-- **Triage labels:** Use the five canonical labels. See `docs/agents/triage-labels.md`.
-- **Domain docs:** Maintain `CONTEXT.md` and `CONTEXT-MAP.md` and `docs/adr/` for system-wide decisions. See `docs/agents/domain.md`.
+### Issue tracker
+
+Track issues/PRDs in GitHub. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the five canonical labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context: root `CONTEXT.md`/`CONTEXT-MAP.md`, shared reference contexts, and per-plugin `CONTEXT.md`/`docs/adr/`. See `docs/agents/domain.md`.
 
 ### Skill discipline
 A skill is a mode (planning, research, grilling, implementation). While a skill is active, obey it literally and default to **planning and asking**, not doing.
