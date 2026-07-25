@@ -7,6 +7,14 @@
 		{
 			"name": "inventree-flat-bom-generator",
 			"path": "plugins/inventree-flat-bom-generator"
+		},
+		{
+			"name": "inventree-cogs-suite-plugin",
+			"path": "plugins/inventree-cogs-suite-plugin"
+		},
+		{
+			"name": "inventree-build-tree-generator",
+			"path": "plugins/inventree-build-tree-generator"
 		}
 	],
 	"settings": {
