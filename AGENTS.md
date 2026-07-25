@@ -49,3 +49,7 @@ A skill is a mode (planning, research, grilling, implementation). While a skill 
 - Do not chain git commands with `&&`, `;`, or pipelines in a single `Exec` call.
 - The permission UI matches the whole command string; chaining forces an all-or-nothing allow/deny decision on every git command in the chain.
 - If a sequence is needed (e.g. `git add` then `git commit`), run `git add` first, wait for the user response, then run `git commit` separately.
+
+## Chat/file references
+
+Do not use `<ref_file>` or `<ref_snippet>` XML citation tags. They render as broken `cci:4://file://` links in Devin Desktop / Windsurf when Windows paths contain spaces. Use plain backtick paths (e.g. `C:\Software Projects\inventree-plugin-ai-toolkit\CONTEXT.md`) instead.
