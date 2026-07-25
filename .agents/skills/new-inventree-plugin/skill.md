@@ -41,7 +41,7 @@ Ask the user to describe:
 ### 2. Run Plugin-Creator
 
 ```bash
-cd /workspace/plugin-creator
+cd /workspace/reference/plugin-creator
 python plugin_creator/main.py
 ```
 

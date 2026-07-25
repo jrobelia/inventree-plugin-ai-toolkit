@@ -13,7 +13,9 @@ inventree-plugin-ai-toolkit/
 +-- .devin/                     AI agent workflows and skills
 +-- config/                     Server connection settings
 +-- docs/                       Living documents, references, and planning
-+-- plugin-creator/             Git submodule -- InvenTree's official scaffolding tool
++-- reference/                  Reference submodules
++--   plugin-creator/           Git submodule -- InvenTree's official scaffolding tool
++--   inventree-source/         Git submodule -- InvenTree source code
 +-- plugin-templates/           Test-scaffold templates for new plugins
 +-- plugins/                    Your plugin projects (each is its own git repo)
 +-- scripts/                    PowerShell helpers for remote build/deploy and scaffolding

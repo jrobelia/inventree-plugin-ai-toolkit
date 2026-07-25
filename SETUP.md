@@ -36,7 +36,7 @@ git submodule update --init --recursive
 
 This initializes:
 - `reference/inventree-source` - InvenTree source code for development
-- `plugin-creator` - Plugin scaffolding tool
+- `reference/plugin-creator` - Plugin scaffolding tool
 
 ### 3. Open in VS Code with Devcontainer
 
@@ -104,9 +104,9 @@ If you prefer not to use the devcontainer, you can set up the environment manual
 2. **Set up InvenTree development environment** - Follow [InvenTree's official dev setup guide](https://docs.inventree.org/en/latest/developer/)
 3. **Install plugin-creator dependencies:**
    ```bash
-   cd plugin-creator
+   cd reference/plugin-creator
    pip install -e .
-   cd ..
+   cd ../..
    ```
 4. **Configure your servers** (see below)
 
@@ -165,8 +165,8 @@ inventree-plugin-ai-toolkit/
 ├── plugins/                    # Your plugin projects
 │   └── inventree-flat-bom-generator/ # Example plugin
 ├── reference/                  # Reference submodules
-│   └── inventree-source/      # InvenTree source code (submodule)
-├── plugin-creator/            # Plugin scaffolding tool (submodule)
+│   ├── inventree-source/      # InvenTree source code (submodule)
+│   └── plugin-creator/        # Plugin scaffolding tool (submodule)
 └── scripts/                    # Legacy PowerShell scripts (deprecated)
 ```
 
@@ -201,10 +201,10 @@ git pull origin stable
 cd ../..
 
 # Update plugin-creator
-git submodule update --remote plugin-creator
+git submodule update --remote reference/plugin-creator
 
 # Commit the updates
-git add reference/inventree-source plugin-creator
+git add reference/inventree-source reference/plugin-creator
 git commit -m "Update submodules"
 ```
 

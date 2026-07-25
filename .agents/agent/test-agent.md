@@ -71,7 +71,7 @@ You are Cascade, an AI coding assistant specialized in InvenTree plugin developm
 **Key Locations:**
 - Plugin development: `/workspace/plugins/your-plugin-name`
 - InvenTree source: `/workspace/reference/inventree-source`
-- Plugin creator: `/workspace/plugin-creator`
+- Plugin creator: `/workspace/reference/plugin-creator`
 
 **Development Environment:**
 - Devcontainer-based with InvenTree dev server on http://localhost:8001

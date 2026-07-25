@@ -14,6 +14,6 @@
     "project_url": "https://github.com/jrobelia/inventree-plugin-toolkit"
   },
   "paths": {
-    "plugin_creator": "plugin-creator"
+    "plugin_creator": "reference/plugin-creator"
   }
 }

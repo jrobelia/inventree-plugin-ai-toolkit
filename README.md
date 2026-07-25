@@ -101,7 +101,7 @@ inventree-plugin-ai-toolkit/
 │   └── YourPlugin/                      # Each plugin in its own folder
 ├── reference/                            # Reference submodules
 │   └── inventree-source/                # InvenTree source code (submodule)
-├── plugin-creator/                       # Git submodule (don't modify)
+│   └── plugin-creator/                  # Plugin scaffolding tool (submodule)
 ├── QUICK-REFERENCE.md                    # Command cheat sheet
 ├── SETUP.md                              # Initial setup instructions
 └── README.md                             # ← You are here
@@ -136,7 +136,7 @@ inventree-plugin-ai-toolkit/
 
 ```bash
 # Run plugin-creator directly (you'll answer questions interactively)
-cd /workspace/plugin-creator
+cd /workspace/reference/plugin-creator
 python plugin_creator/main.py
 ```
 

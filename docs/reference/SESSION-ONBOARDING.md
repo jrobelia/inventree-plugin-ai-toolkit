@@ -78,7 +78,7 @@ npm run dev
 ### Creating a New Plugin
 
 ```bash
-cd /workspace/plugin-creator
+cd /workspace/reference/plugin-creator
 python plugin_creator/main.py
 ```
 

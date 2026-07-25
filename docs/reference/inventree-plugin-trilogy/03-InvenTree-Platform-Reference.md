@@ -15,7 +15,7 @@
 
 Two different version pins show up across the source docs:
 - `BUILD-ORDER-GENERATOR-UX.md`: verified against `reference/inventree-source`
-  at stable **1.4.2** and `plugin-creator` at **1.20.0** (both bumped July 17, 2026).
+  at stable **1.4.2** and `reference/plugin-creator` at **1.20.0** (both bumped July 17, 2026).
 - `BUILD-ORDER-GENERATOR-ROW-UX...md`: verified against cloned
   `github.com/inventree/InvenTree` and `github.com/inventree/plugin-creator`
   (unpinned in that doc) plus **`@inventreedb/ui@1.4.5`** pulled via `npm pack`.

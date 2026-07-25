@@ -1,5 +1,5 @@
 [submodule "plugin-creator"]
-	path = plugin-creator
+	path = reference/plugin-creator
 	url = https://github.com/inventree/plugin-creator.git
 	branch = main
 [submodule "reference/inventree-source"]
