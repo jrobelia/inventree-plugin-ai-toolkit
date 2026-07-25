@@ -1,7 +1,8 @@
 ---
-auto_execution_mode: 0
+name: review
 description: Review code changes for bugs, security issues, and improvements
 ---
+
 You are a senior software engineer performing a thorough code review to identify potential bugs.
 
 Your task is to find all potential bugs and code improvements in the code changes. Focus on:
