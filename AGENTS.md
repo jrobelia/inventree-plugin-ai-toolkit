@@ -52,4 +52,10 @@ A skill is a mode (planning, research, grilling, implementation). While a skill 
 
 ## Chat/file references
 
-Do not use `<ref_file>` or `<ref_snippet>` XML citation tags. They render as broken `cci:4://file://` links in Devin Desktop / Windsurf when Windows paths contain spaces. Use plain backtick paths (e.g. `C:\Software Projects\inventree-plugin-ai-toolkit\CONTEXT.md`) instead.
+Do not use `<ref_file>` or `<ref_snippet>` XML citation tags. They are rendered as `cci://file://...` links by Devin Desktop / Windsurf, but those links are broken when Windows paths contain spaces (possible Devin Desktop / Windsurf bug; no exact known issue, but see Exafunction/codeium#327 for a related Windows file-link problem).
+
+Use plain backtick paths instead. Safe forms:
+- Simple filenames relative to the repo root: `AGENTS.md`
+- Absolute Windows paths: `C:\Software Projects\inventree-plugin-ai-toolkit\CONTEXT.md`
+
+Avoid forward-slash relative paths like `docs/agents/domain.md`; the IDE auto-links those and produces the same broken `cci:` links.
