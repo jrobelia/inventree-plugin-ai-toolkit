@@ -31,6 +31,9 @@ dist-dev/
 # Claude AI local settings
 .claude/
 
+# Devin local overrides (not portable)
+.devin/config.local.json
+
 # Logs
 *.log
 

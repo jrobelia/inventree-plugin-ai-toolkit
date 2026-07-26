@@ -45,9 +45,12 @@ A skill is a mode (planning, research, grilling, implementation). While a skill 
 
 ## Tooling and permissions
 
-- Run `git` commands one at a time in separate `Exec` calls.
-- Do not chain git commands with `&&`, `;`, or pipelines in a single `Exec` call.
-- The permission UI matches the whole command string; chaining forces an all-or-nothing allow/deny decision on every git command in the chain.
+### Git
+
+- One `Exec` call = one `git` command. No exceptions. (Enforced by `.devin/hooks/git_guard.py`; per-subcommand approval scopes in `.devin/config.json`.)
+- The command string must be exactly `git <command> [args]` and nothing else. Do not run `git` alongside any other command, `git` or otherwise.
+- Do not chain with `&&`, `;`, `|`, line breaks, subshells, or command substitution.
+- The permission UI matches the whole command string; combining commands forces an all-or-nothing allow/deny decision on multiple git operations.
 - If a sequence is needed (e.g. `git add` then `git commit`), run `git add` first, wait for the user response, then run `git commit` separately.
 
 ## Chat/file references
