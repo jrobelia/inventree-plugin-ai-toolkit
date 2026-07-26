@@ -14,7 +14,7 @@ Applies to every plugin under `plugins/`. It covers:
 - Build and deployment workflow.
 
 It does **not** cover:
-- The trilogy-specific domain model (see [`inventree-plugin-trilogy/02-Domain-Model.md`](../inventree-plugin-trilogy/02-Domain-Model.md)).
+- The BOM/Build/Buy suite-specific domain model (see [`inventree-bom-build-buy-suite/CONTEXT.md`](../inventree-bom-build-buy-suite/CONTEXT.md)).
 - The internal implementation details of any individual plugin (see `plugins/<name>/CONTEXT.md`).
 
 ## Key concepts

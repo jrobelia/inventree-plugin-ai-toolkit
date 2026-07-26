@@ -1,13 +1,13 @@
 # 04 — Architecture Decisions
 
-> **Status:** Extraction pass — consolidated from `PLUGIN-TRILOGY.md`,
+> **Status:** Extraction pass — consolidated from `suite source docs`,
 > `BUILD-ORDER-GENERATOR-UX.md`, `BUILD-ORDER-GENERATOR-ROW-UX-AND-TREE-RENDERING.md`,
 > and `INTERNAL-FAB-AND-SCOPE-BOUNDARIES.md`.
 > **Scope note:** This log captures *decisions* — what was chosen, what was
 > rejected, and why. Raw technical facts about InvenTree/SDK internals
 > (endpoint names, component locations, plugin behaviors) that informed
 > these decisions are **not** duplicated here — they belong in
-> `03-InvenTree-Platform-Reference.md` (next extraction pass). Where a
+> `PLATFORM-REFERENCE.md` (next extraction pass). Where a
 > decision leans heavily on a platform fact, this log references it briefly
 > without re-deriving it.
 > **Status field key:** Accepted / Rejected / Declined / Open (not yet decided).
@@ -21,20 +21,20 @@
 **Status:** Accepted
 Each plugin is its own repo/codebase. Extract a shared `inventree-bom-toolkit`
 only if a third plugin proves the need — not preemptively.
-*Source: PLUGIN-TRILOGY.md*
+*Source: suite source docs*
 
-### ADR-002 — Plugin 2 lives on the Build Order detail page, not the Part page
+### ADR-002 — Build Order Generator lives on the Build Order detail page, not the Part page
 **Status:** Accepted
 A parent BO already has a defined build quantity and project code; a
 Part-page version would require guessing a hypothetical quantity.
-*Source: PLUGIN-TRILOGY.md; UX.md ("Where It Lives")*
+*Source: suite source docs; UX.md ("Where It Lives")*
 
 ### ADR-003 — LCA-merged nodes combine by default; split is an override
 **Status:** Accepted
 Reduces BO count (a stated core goal). Combined node parents to the common
 ancestor, not to either consuming branch — required by the DB's parent FK
 constraint, not a style choice.
-*Source: PLUGIN-TRILOGY.md; UX.md*
+*Source: suite source docs; UX.md*
 
 ### ADR-004 — Stock coverage splits across Allocate/Build/Buy per node
 **Status:** Accepted (⚠️ v2+ scope — see ADR-029)
@@ -43,7 +43,7 @@ node. The Commit Decision model allows any mix, written atomically per node.
 **v1 MVP does not include this** — v1 only bulk-creates Build Orders;
 Allocate/Buy happen via InvenTree's native toolbar afterward, not via this
 mechanism.
-*Source: PLUGIN-TRILOGY.md; UX.md*
+*Source: suite source docs; UX.md*
 
 ### ADR-005 — No persisted "Save Draft" state
 **Status:** Accepted
@@ -85,11 +85,11 @@ noted that this plugin's tree traversal is the natural place to add it
 later, but not building a parallel data source to get there sooner.
 *Source: UX.md*
 
-### ADR-009 — Plugin 2's Buy action is ad-hoc/single-node; bulk purchasing is Plugin 3's job
-**Status:** Accepted (⚠️ the Buy action itself is v2+ scope — see ADR-029; the boundary principle with Plugin 3 holds regardless)
-Boundary decision. The one required sync point: Plugin 3's shortfall calc
-must read live open POs the same way Plugin 2's netting does, so it
-doesn't re-propose a line Plugin 2 already bought ad-hoc. No special
+### ADR-009 — Build Order Generator's Buy action is ad-hoc/single-node; bulk purchasing is Purchase List Generator's job
+**Status:** Accepted (⚠️ the Buy action itself is v2+ scope — see ADR-029; the boundary principle with Purchase List Generator holds regardless)
+Boundary decision. The one required sync point: Purchase List Generator's shortfall calc
+must read live open POs the same way Build Order Generator's netting does, so it
+doesn't re-propose a line Build Order Generator already bought ad-hoc. No special
 coordination code — both just read live InvenTree data. **v1 note:** with
 no plugin-built Buy action in v1, this sync point only becomes live once
 Buy ships in v2 — worth remembering it's not yet load-bearing.
@@ -104,15 +104,15 @@ action are the same feature, described independently in two source docs
 written at different points. Treat ADR-029 as the canonical statement of
 what this actually is; this entry is preserved as the earlier framing of
 the same decision, not a separate one to build.
-*Source: UX.md; PLUGIN-TRILOGY.md*
+*Source: UX.md; suite source docs*
 
 ### ADR-011 — Project-code match is a separate informational column, not a toggle
 **Status:** Accepted
 Rejected alternative: a toggle that filters the `on_order` column itself
 down to project-matched POs. Rejected because it would make the row's
 authoritative Outstanding number depend on a display setting. See
-`02-Domain-Model.md` for the fuller resolution (Plugin 2 = informational
-only; Plugin 3 = this becomes the crucial mechanism).
+`suite CONTEXT.md` for the fuller resolution (Build Order Generator = informational
+only; Purchase List Generator = this becomes the crucial mechanism).
 *Source: ROW-UX.md Part 1*
 
 ### ADR-012 — Tree uses checkbox multi-select + bulk-toolbar-action pattern
@@ -184,7 +184,7 @@ simultaneously — not yet resolved.
 This is the resolving decision for what was previously an ambiguous
 boundary between Plugins 1/2/3. `purchasable` marks a part as *capable* of
 being bought; it says nothing about whether a source has actually been
-committed. Plugin 2 only treats "no default supplier set" as a build
+committed. Build Order Generator only treats "no default supplier set" as a build
 candidate, regardless of the purchasable flag's state.
 *Source: INTERNAL-FAB.md*
 
@@ -199,11 +199,11 @@ shops.
 **Open:** does the collapsed-node rollup badge math need to reflect the
 filtered view, or always show the unfiltered full computation? Not resolved.
 
-### ADR-020 — Internal-fab handled as a Plugin-3 supplier bucket, not new Plugin 2 metadata
+### ADR-020 — Internal-fab handled as a Purchase List Generator supplier bucket, not new Build Order Generator metadata
 **Status:** Accepted
 No new custom field, no new object type. An internal "supplier" record is
-grouped by Plugin 3's existing group-by-supplier logic like any other
-supplier; what's company-specific is only what Plugin 3 does with that one
+grouped by Purchase List Generator's existing group-by-supplier logic like any other
+supplier; what's company-specific is only what Purchase List Generator does with that one
 bucket (write an internal PO line instead of a real one).
 *Source: INTERNAL-FAB.md*
 
@@ -212,7 +212,7 @@ bucket (write an internal PO line instead of a real one).
 Proposed a three-way dispatch field (`BUILD`/`INTERNAL_FAB`/`PURCHASED`)
 evaluated inside a forked event-driven plugin. Rejected: event-driven
 automation directly contradicts the human-in-the-loop Commit Decision
-model that's Plugin 2's core design principle.
+model that's Build Order Generator's core design principle.
 *Source: INTERNAL-FAB.md*
 
 ### ADR-022 — [Rejected] Dedicated `Internal_Fab_Batch` object with a "Release Batch" control
@@ -227,11 +227,11 @@ Conflicts directly with ADR-001. Nothing about internal-fab scope changes
 that calculus.
 *Source: INTERNAL-FAB.md (reaffirms ADR-001)*
 
-### ADR-024 — [Rejected] A fourth Commit Decision action ("Work Order"/internal PO) inside Plugin 2
+### ADR-024 — [Rejected] A fourth Commit Decision action ("Work Order"/internal PO) inside Build Order Generator
 **Status:** Rejected
-Superseded by the simpler realization (ADR-020): Plugin 2 doesn't need to
+Superseded by the simpler realization (ADR-020): Build Order Generator doesn't need to
 distinguish internal from external suppliers at all. The display filter
-(ADR-019) is sufficient on Plugin 2's side; sourcing is entirely Plugin 3's
+(ADR-019) is sufficient on Build Order Generator's side; sourcing is entirely Purchase List Generator's
 concern.
 *Source: INTERNAL-FAB.md*
 
@@ -247,7 +247,7 @@ after-the-fact human review. Declined for four reasons:
 2. LCA merging would become post-hoc cleanup (human notices duplicate BOs,
    manually consolidates) instead of being prevented before creation.
 3. Would require a second, independent netting/traversal implementation
-   living in the forked plugin — a drift risk against Plugin 2's engine.
+   living in the forked plugin — a drift risk against Build Order Generator's engine.
 4. The proposal's own stated problem (lack of visibility) is better solved
    by visibility-first design (see the tree, then decide) than an invisible
    background process with a viewer bolted on after.
@@ -257,7 +257,7 @@ after-the-fact human review. Declined for four reasons:
 **Status:** Accepted, revisit if requested
 LCA placement, combine/split — no drag-and-drop or manual override of the
 computed tree structure itself in v1.
-*Source: PLUGIN-TRILOGY.md (Open Questions, resolved)*
+*Source: suite source docs (Open Questions, resolved)*
 
 ### ADR-027 — Tree always reflects live state; no explicit "resync" action
 **Status:** Accepted
@@ -267,10 +267,10 @@ load. Applies to LCA-combined nodes too — a later Commit Decision tops up
 the existing combined BO rather than creating a second one.
 *Source: UX.md ("After You Commit")*
 
-### ADR-028 — Plugin 4 deferred; a read-only mode of Plugin 2's tree likely covers it
+### ADR-028 — Plugin 4 deferred; a read-only mode of Build Order Generator's tree likely covers it
 **Status:** Accepted (deferred scope)
-Defer building a standalone BO Hierarchy Display plugin until Plugin 2
-exists. If Plugin 2's tree component is solid, extending it with an
+Defer building a standalone BO Hierarchy Display plugin until Build Order Generator
+exists. If Build Order Generator's tree component is solid, extending it with an
 existing-BOs-only read-only mode (hide Build/Allocate/Buy controls and
 Commit Decision, keep badges/indentation/rollups/LCA handling identical)
 should cover Plugin 4's use case without a separate codebase — only build
@@ -280,21 +280,21 @@ even before full Allocate/Buy polish — specifically as a way to validate
 the tree-rendering foundation in isolation, not just as a bonus once
 everything else is done.
 **Open fork this doesn't resolve:** the shared-component bet may only hold
-for *visual rendering*, not *fetch strategy*. Plugin 2's MVP wants eager,
+for *visual rendering*, not *fetch strategy*. Build Order Generator's MVP wants eager,
 one-call, whole-tree fetching — right for a bounded, mostly-Draft
 opportunity tree. A pure status-viewer over an **already fully-built**
 tree (months of completed nested builds) could be large enough that
 eager-fetch-everything is the wrong default there. Same visual component,
 possibly different fetch strategy underneath — not resolved, deliberately
 left as an open fork rather than assumed compatible.
-*Source: PLUGIN-TRILOGY.md ("Plugin 4"); ROW-UX.md Part 4*
+*Source: suite source docs ("Plugin 4"); ROW-UX.md Part 4*
 
-### ADR-029 — The MVP *is* the answer to Plugin 2's actual problem; Commit Decision is an enhancement layer on top
+### ADR-029 — The MVP *is* the answer to Build Order Generator's actual problem; Commit Decision is an enhancement layer on top
 **Status:** Accepted — confirmed with the project owner
 **This is the single most important scope clarification in the whole log,
 and it was missing from earlier passes of this document.**
 
-`ROW-UX.md` Part 2 explicitly and narrowly defines Plugin 2's actual v1 as
+`ROW-UX.md` Part 2 explicitly and narrowly defines Build Order Generator's actual v1 as
 four things: (1) a full descendant-tree view, one screen; (2)
 BO-opportunity identification (Existing/Draft, Outstanding); (3) checkbox
 multi-select across the whole tree; (4) **one bulk "Create Build Orders"
@@ -303,7 +303,7 @@ all selected BOs in one go. Nothing else.
 
 **Reframing, per the project owner:** this MVP isn't a cut-down stand-in
 for some larger "real" plugin — it's the direct, complete answer to the
-problem Plugin 2 exists to solve, stated plainly in `UX.md`'s own opening:
+problem Build Order Generator exists to solve, stated plainly in `UX.md`'s own opening:
 *"InvenTree only lets you create one child Build Order at a time, and
 there is no view that shows the full set of child BOs a parent BO needs."*
 A full tree view plus one bulk BO-creation action is a whole, shippable
@@ -342,13 +342,13 @@ InvenTree's own screens for the rest.
 A child Build Order can only be created if its immediate parent BO already
 exists as a real InvenTree object or is explicitly selected in the same
 bulk-create action. If neither is true, the tool surfaces a hard error and
-refuses to proceed. Plugin 2 does not silently create an ancestor the user
+refuses to proceed. Build Order Generator does not silently create an ancestor the user
 did not ask for. This preserves "Free review order, enforced write order"
 while ensuring every BO the plugin writes reflects a deliberate human
 choice. Future spikes may explore alternative ancestor-creation UX, but v1
 ships with this fail-fast behavior.
 *Source: discussion with project owner; corrects the parenthetical in
-`01-Vision-and-Philosophy.md` Principle 7 and `02-Domain-Model.md`
+`VISION.md` Principle 7 and `suite CONTEXT.md`
 "Creation Order Constraint".*
 
 ---
@@ -357,13 +357,13 @@ ships with this fail-fast behavior.
 - **ADR-016's reopened question** — Draft→Existing state when no single atomic commit exists (possible third state)
 - **ADR-017's sub-question** — cap on simultaneous expanded Allocate/Buy rows
 - **ADR-019's sub-question** — rollup badge math under the build-candidates-only filter
-- Plugin 3's entry point (Part page vs. BO page vs. feature-of-Plugin-2 vs. standalone) — still genuinely undecided, leaning BO-page (Option B) per PLUGIN-TRILOGY.md but not committed
+- Purchase List Generator's entry point (Part page vs. BO page vs. feature of Build Order Generator vs. standalone) — still genuinely undecided, leaning BO-page (Option B) per suite source docs but not committed
 - Depth/node-count threshold that triggers "stopped at depth N" large-tree handling
 - Bulk Commit's full behavior at scale (ADR-010 only covers the deferred-first-version scope)
-- Whether Plugin 1 should gain project-aware on-order filtering before Plugin 3 ships (flagged in Domain Model's Project Scope entry)
-- **ADR-028's open fork** — whether Plugin 4's read-only mode should inherit Plugin 2's eager-fetch strategy or use a different (likely lazy) one for already-large existing-BO trees
+- Whether Flat BOM Generator should gain project-aware on-order filtering before Purchase List Generator ships (flagged in Domain Model's Project Scope entry)
+- **ADR-028's open fork** — whether Plugin 4's read-only mode should inherit Build Order Generator's eager-fetch strategy or use a different (likely lazy) one for already-large existing-BO trees
 
-## Platform Facts Referenced Above — Full Detail in `03-InvenTree-Platform-Reference.md`
+## Platform Facts Referenced Above — Full Detail in `PLATFORM-REFERENCE.md`
 
 The raw technical facts behind several ADRs above now have their own
 authoritative home rather than living only inside ADR rationale:

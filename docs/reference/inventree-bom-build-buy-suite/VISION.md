@@ -1,8 +1,8 @@
 # 01 — Vision and Philosophy
 
 > **Status:** Extraction pass — principles distilled from all four source
-> docs, cross-checked against `02-Domain-Model.md` and
-> `04-Architecture-Decisions.md` for consistency.
+> docs, cross-checked against `suite CONTEXT.md` and
+> `ARCHITECTURE-DECISIONS.md` for consistency.
 > **Purpose:** The project's constitution. When a future design question
 > comes up that isn't yet covered by the Domain Model or an ADR, this is
 > the document that should settle which direction is *in character* for
@@ -55,7 +55,7 @@ three-part Allocate/Build/Buy split — it's written to real InvenTree data
 immediately. Nothing valuable is ever allowed to exist only in the
 plugin's in-memory state, where a refresh could lose it. *(The three-part
 split describes the enhancement layer added on top of v1 — see
-`04-Architecture-Decisions.md` ADR-029. The v1 MVP's single bulk "Create
+`ARCHITECTURE-DECISIONS.md` ADR-029. The v1 MVP's single bulk "Create
 Build Orders" action is the same principle in a simpler form: nothing is
 held in the plugin's own state past the moment of the confirm click.)*
 
@@ -105,7 +105,7 @@ those; don't rebuild the rest.
 ### 10. Company-specific logic lives in the plugin that owns the decision
 When a feature turns out to be company-specific (internal-fab routing),
 the fix isn't a hidden setting bolted onto a general-purpose plugin — it's
-recognizing which plugin's actual job the decision belongs to (Plugin 3
+recognizing which plugin's actual job the decision belongs to (Purchase List Generator
 owns supplier routing) and keeping the general-purpose plugins (1, 2)
 free of that concept entirely. One concept, one owning plugin.
 
@@ -167,6 +167,6 @@ way a considered per-node decision does, or whether "human approves 40
 nodes with one click" is already a meaningfully different trust model than
 "human approves one node at a time" — even though both are technically
 human-initiated. **This isn't a future concern to revisit later — per
-`04-Architecture-Decisions.md` ADR-029, bulk checkbox-select-then-create is
+`ARCHITECTURE-DECISIONS.md` ADR-029, bulk checkbox-select-then-create is
 the actual v1 MVP mechanism, not a v2 refinement.** Worth thinking through
 now, before v1 ships, not after.

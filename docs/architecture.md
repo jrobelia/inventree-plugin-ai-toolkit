@@ -75,6 +75,7 @@ Each plugin lives in `plugins/` and follows this structure:
 ```
 plugins/YourPlugin/
 +-- __init__.py                 Package init with PLUGIN_VERSION
++-- CONTEXT.md                  Plugin domain glossary
 +-- ARCHITECTURE.md             Plugin-specific architecture doc
 +-- README.md                   User-facing features and installation
 +-- pyproject.toml              Python packaging and dependencies
@@ -87,6 +88,7 @@ plugins/YourPlugin/
 |     src/Panel.tsx               Main panel component
 |     e2e/                        Playwright end-to-end tests
 +-- docs/                       Plugin planning and reference docs
+|     adr/                        Plugin-specific decisions
 ```
 
 ---

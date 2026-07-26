@@ -4,8 +4,8 @@
 > and `BUILD-ORDER-GENERATOR-ROW-UX-AND-TREE-RENDERING.md`.
 > **Purpose:** Raw, source-verified technical facts about InvenTree and its
 > plugin SDK. This is the "what's actually true about the platform" doc —
-> no business logic, no decisions (those are in `04-Architecture-Decisions.md`),
-> no domain terms (those are in `02-Domain-Model.md`). Re-verify against
+> no business logic, no decisions (those are in `ARCHITECTURE-DECISIONS.md`),
+> no domain terms (those are in `suite CONTEXT.md`). Re-verify against
 > current source before relying on anything here if InvenTree has been
 > upgraded since the version baseline below.
 

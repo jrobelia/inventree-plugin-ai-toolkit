@@ -7,7 +7,7 @@ How the engineering skills should consume this repo's domain documentation when 
 - **`CONTEXT.md`** at the repo root for the toolkit container context.
 - **`CONTEXT-MAP.md`** at the repo root — it is the canonical map for the multi-context InvenTree plugin toolkit.
 - **`docs/reference/inventree-plugins/CONTEXT.md`** when working on a generic InvenTree plugin or tooling that applies to any plugin.
-- **`docs/reference/inventree-plugin-trilogy/02-Domain-Model.md`** (and related trilogy docs) when working on the Flat BOM, Build Order, or Purchase Order plugins.
+- **`C:\Software Projects\inventree-plugin-ai-toolkit\docs\reference\inventree-bom-build-buy-suite\CONTEXT.md`** (and related suite docs) when working on the Flat BOM, Build Order, or Purchase List plugins.
 - **`docs/adr/`** — read ADRs that touch the area you're about to work on. In this repo, system-wide decisions live here; per-plugin decisions live in `plugins/<name>/docs/adr/`.
 - If `docs/adr/` does not exist yet, fall back to **`docs/decisions.md`** for the append-only decision log.
 
@@ -27,12 +27,13 @@ Multi-context repo (presence of `CONTEXT-MAP.md` at the root):
 │   └── reference/
 │       ├── inventree-plugins/
 │       │   └── CONTEXT.md             ← generic InvenTree plugin context
-│       └── inventree-plugin-trilogy/
-│           ├── 01-Vision-and-Philosophy.md
-│           ├── 02-Domain-Model.md     ← trilogy shared domain
-│           ├── 03-InvenTree-Platform-Reference.md
-│           ├── 04-Architecture-Decisions.md
-│           └── 05-Plugin-Architecture.md
+│       └── inventree-bom-build-buy-suite/
+│           ├── VISION.md
+│           ├── CONTEXT.md             ← BOM/Build/Buy suite shared domain
+│           ├── PLATFORM-REFERENCE.md
+│           ├── ARCHITECTURE-DECISIONS.md
+│           ├── BOUNDARIES.md
+│           └── BUILD-ORDER.md
 ├── plugins/
 │   ├── inventree-flat-bom-generator/
 │   │   ├── CONTEXT.md

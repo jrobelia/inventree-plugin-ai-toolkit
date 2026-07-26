@@ -15,6 +15,10 @@
 		{
 			"name": "inventree-build-tree-generator",
 			"path": "plugins/inventree-build-tree-generator"
+		},
+		{
+			"name": "inventree-purchase-list-generator",
+			"path": "plugins/inventree-purchase-list-generator"
 		}
 	],
 	"settings": {
