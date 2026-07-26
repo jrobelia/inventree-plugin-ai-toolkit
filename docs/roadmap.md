@@ -1,6 +1,6 @@
 # Toolkit Roadmap
 
-**Last updated:** July 24, 2026 (task #3 E2E template made generic; demo-data auto-load parked)
+**Last updated:** July 25, 2026 (task #11 stale docs/scripts cleaned; task #8 cross-reference fixed)
 **Purpose:** Feature wish list for the toolkit itself (not individual plugins)
 
 **Note:** Iteration 1 (February 2026) is archived at
@@ -125,10 +125,10 @@ parking-lot stretch goal, not part of the core loop.
 | 5 | Write `new-inventree-plugin` skill | v2.1 | build | in-progress | Skill exists, but it still instructs the agent to guide a human through interactive prompts. It does not document the DevOps wizard default of **None**, nor the step of copying the toolkit's `plugin-templates/` test scaffold (`tests/`, `frontend/e2e/`, `TEST-PLAN.md`) onto the plugin after `plugin-creator` runs. |
 | 6 | Write `improve-inventree-plugin` skill | v2.1 | build | in-progress | Skill exists and references `./test-all.sh`, but it hardcodes `flat_bom_generator` in the preflight example and does not tie every change to the deterministic test command from task #4. |
 | 7 | Verify plugin-creator submodule is current | v2.1 | cleanup | open | Submodule is pinned at `1.20.0`. However, `plugin_creator/template/cookiecutter.json` defaults `ci_support` to `github`, and the interactive `get_devops_mode()` prompt defaults to **GitHub Actions**. The documented "answer **None** every time" is not yet enforced. |
-| 8 | Rewrite `README.md` / `SETUP.md` for the devcontainer-based process | v2.2 | cleanup | done | README and SETUP are rewritten around the devcontainer workflow. Some stale cross-references remain (e.g., `docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md` still points to `docs/skills/`). |
+| 8 | Rewrite `README.md` / `SETUP.md` for the devcontainer-based process | v2.2 | cleanup | done | README and SETUP are rewritten around the devcontainer workflow. Stale cross-references (e.g., `docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md` pointing to `docs/skills/` and `plugins/README.md` referencing legacy PowerShell scripts) have been cleaned up. |
 | 9 | Write a session-onboarding doc/instruction stating the exact plugin-dev process | v2.2 | cleanup | done | `docs/reference/SESSION-ONBOARDING.md` exists and lists the entry points, but it tells users to run E2E tests from the host while `test-all.sh` runs them from inside the devcontainer -- a workflow tension to resolve. |
 | 10 | (Stretch) Add GitHub Actions CI running the deterministic test command | v2.2 | build | open | A PR triggers the test command in CI and reports pass/fail on the PR. |
-| 11 | Audit `.github/instructions/` and `.github/prompts/` for token bloat: replace mechanically-checkable rules (formatting, type errors, PowerShell style) with a linter/type-checker/pre-commit hook wired into the deterministic test command; prune or merge anything stale or duplicated by the new skills | v2.2 | cleanup | partially done | Toolkit root `.github/` is gone, but stale docs (`docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md`, `plugins/README.md`) still reference `C:\PythonProjects\...`, `inventree-dev/`, and the legacy PowerShell scripts. Legacy scripts `scripts/Test-Plugin.ps1` and `scripts/Test-Frontend.ps1` still contain broken `inventree-dev` paths. |
+| 11 | Audit `.github/instructions/` and `.github/prompts/` for token bloat: replace mechanically-checkable rules (formatting, type errors, PowerShell style) with a linter/type-checker/pre-commit hook wired into the deterministic test command; prune or merge anything stale or duplicated by the new skills | v2.2 | cleanup | done | Toolkit root `.github/` is gone. `docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md` and `plugins/README.md` no longer reference `C:\PythonProjects\...`, `inventree-dev/`, or the legacy PowerShell test scripts. `scripts/Test-Plugin.ps1` and `scripts/Test-Frontend.ps1` have been removed. |
 
 ---
 
@@ -148,10 +148,9 @@ The v2.0 architecture is now reflected in `docs/architecture.md`:
 
 Close the v2.0 core loop before moving to v2.1:
 
-1. Finish task #4: add a real preflight step to `test-all.sh` that checks the devcontainer is running, the plugin is linked, and the dataset is loaded (`invoke dev.setup-test -i`) before invoking ruff/pytest/Playwright, and emits specific failure messages.
+1. Finish task #4: add a real preflight step to `test-all.sh` that checks the devcontainer is running, the plugin is linked, and the dataset is present before invoking ruff/pytest/Playwright, and emits specific failure messages. (`invoke dev.setup-test -i` is parked under task #3 until the demo-data import is debugged.)
 2. Task #3: the generic Playwright test template is in place. Auto-loading a known dataset via `invoke dev.setup-test -i` is parked; the demo-data import fails and wipes existing data, so it needs debugging before it can be wired into `postCreateCommand.sh`.
-3. Clean up task #11: archive or update `docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md` and `plugins/README.md` so they no longer reference `C:\PythonProjects\...`, `inventree-dev/`, or the legacy PowerShell scripts.
-4. Only after #3 and #4 are verified end-to-end, move to v2.1 skills (#5, #6) and the plugin-creator `None` default (#7).
+3. Only after #3 and #4 are verified end-to-end, move to v2.1 skills (#5, #6) and the plugin-creator `None` default (#7).
 
 ---
 

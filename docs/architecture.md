@@ -44,11 +44,9 @@ All scripts assume you run them from the toolkit root.
 | Script | Purpose |
 |---|---|
 | `test-all.sh` (per plugin) | Deterministic chain: preflight check → unit → integration → Playwright (run inside the devcontainer) |
-| `New-Plugin.ps1` | Host-only helper that wraps `plugin-creator` (legacy, prefer `plugin_creator/main.py` in the devcontainer) |
+| `New-Plugin.ps1` | Host-only helper that wraps `plugin-creator` (legacy; prefer `create-inventree-plugin` or `python -m plugin_creator.cli` in the devcontainer) |
 | `Build-Plugin.ps1` | Host-only helper to build the `.whl` + frontend bundle before remote deployment |
 | `Deploy-Plugin.ps1` | Deploy a built `.whl` to a selectable remote server from `config/servers.json` via SSH/SCP |
-| `Test-Plugin.ps1` | **Superseded** — legacy unit/integration test runner |
-| `Test-Frontend.ps1` | **Superseded** — legacy frontend test runner |
 | `Setup-InvenTreeDev.ps1` | **Removed** — replaced by `.devcontainer/` |
 | `Link-PluginToDev.ps1` | **Removed** — replaced by `.devcontainer/` |
 
