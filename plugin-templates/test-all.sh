@@ -117,6 +117,8 @@ echo "✓ Unit tests passed"
 echo ""
 echo "Step 3: Running Python integration tests..."
 echo "----------------------------------------"
+PYTHONPATH="$INVENTREE_HOME/src/backend/InvenTree:$PYTHONPATH" \
+DJANGO_SETTINGS_MODULE=InvenTree.settings \
 python -m pytest {{MODULE_NAME}}/tests/integration -v
 echo "✓ Integration tests passed"
 
@@ -135,6 +137,7 @@ echo "Step 5: Running E2E tests with Playwright..."
 echo "----------------------------------------"
 echo "Note: Server and dataset were verified by preflight checks."
 cd frontend
+npm run build
 npm run test:e2e
 cd ..
 echo "✓ E2E tests passed"
