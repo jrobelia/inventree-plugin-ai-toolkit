@@ -52,6 +52,8 @@ A skill is a mode (planning, research, grilling, implementation). While a skill 
 - Do not chain with `&&`, `;`, `|`, line breaks, subshells, or command substitution.
 - The permission UI matches the whole command string; combining commands forces an all-or-nothing allow/deny decision on multiple git operations.
 - If a sequence is needed (e.g. `git add` then `git commit`), run `git add` first, wait for the user response, then run `git commit` separately.
+- Write commit messages inline with repeated `-m` flags so the user can read them in the approval prompt. Never write a scratch message file and use `-F`.
+- The `Exec` working directory always resets to the toolkit root, so `cd` does not persist. To work in a plugin repo use `git -C plugins\<repo-name> <subcommand>` with that exact repo-relative form; `.devin/config.json` auto-approves `status`, `diff`, `log`, and `add` for it. Anything else prompts, which is intended.
 
 ## Chat/file references
 
