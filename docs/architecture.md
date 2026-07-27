@@ -12,14 +12,16 @@ inventree-plugin-ai-toolkit/
 +-- .devcontainer/              Docker Compose + Dockerfile dev environment (see `.devcontainer/README.md` for CLI usage)
 +-- .agents/                     AI agent workflows and skills
 +-- config/                     Server connection settings
-+-- docs/                       Living documents, references, and planning
++-- docs/                       Living documents and references
 +-- reference/                  Reference submodules
 +--   plugin-creator/           Git submodule -- InvenTree's official scaffolding tool
 +--   inventree-source/         Git submodule -- InvenTree source code
 +-- plugin-templates/           Test-scaffold templates for new plugins
 +-- plugins/                    Your plugin projects (each is its own git repo)
-+-- scripts/                    PowerShell helpers for remote build/deploy and scaffolding
-+-- QUICK-REFERENCE.md          Copy-paste command cheat sheet
++-- scripts/                    Host helpers and devcontainer test runner
++-- AGENTS.md                   Agent interaction rules and cross-plugin discipline
++-- CONTEXT-MAP.md              Shared domain vocabulary map
++-- CONTEXT.md                  Toolkit purpose and boundaries
 +-- README.md                   User-facing introduction
 +-- SETUP.md                    First-time installation guide
 ```

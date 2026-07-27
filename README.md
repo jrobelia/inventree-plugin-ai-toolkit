@@ -85,19 +85,15 @@ inventree-plugin-ai-toolkit/
 │   ├── architecture.md                  # Toolkit module map (living doc)
 │   ├── decisions.md                     # Append-only decision log
 │   ├── roadmap.md                       # Toolkit feature wish list
-│   ├── reference/                       # How things work today
-│   │   ├── FRESH-USER-WORKFLOW.md       # Zero to working tests
-│   │   ├── DOCUMENTATION-STANDARDS.md   # File naming conventions
-│   │   └── PLUGIN-DEVELOPMENT-WORKFLOW.md # Full dev lifecycle
-│   ├── planning/                        # What we want to do next
-│   │   └── TEST-SCRIPT-IMPROVEMENTS.md  # Test script backlog
-│   └── archive/                         # Superseded docs (gitignored)
+│   └── reference/                       # How things work today
+│       ├── DOCUMENTATION-STANDARDS.md   # File naming conventions
+│       ├── PLUGIN-DEVELOPMENT-WORKFLOW.md # Full dev lifecycle
+│       └── SESSION-ONBOARDING.md        # Day-to-day development workflow
 ├── plugins/                              # Your plugin projects go here
 │   └── YourPlugin/                      # Each plugin in its own folder
 ├── reference/                            # Reference submodules
 │   └── inventree-source/                # InvenTree source code (submodule)
 │   └── plugin-creator/                  # Plugin scaffolding tool (submodule)
-├── QUICK-REFERENCE.md                    # Command cheat sheet
 ├── SETUP.md                              # Initial setup instructions
 └── README.md                             # ← You are here
 ```
@@ -194,7 +190,7 @@ npx playwright install
 npm run test:e2e
 ```
 
-See [docs/reference/FRESH-USER-WORKFLOW.md](docs/reference/FRESH-USER-WORKFLOW.md) for complete guide.
+See [docs/reference/SESSION-ONBOARDING.md](docs/reference/SESSION-ONBOARDING.md) for the day-to-day workflow.
 
 ### 4. Deploy to Server
 
@@ -293,7 +289,7 @@ For professional plugins with proper structure:
 
 **Manual development:**
 - See **docs/reference/** for setup guides and workflows
-- Check **QUICK-REFERENCE.md** for command cheat sheet
+- Check **docs/reference/SESSION-ONBOARDING.md** for the day-to-day workflow
 - Review [InvenTree Plugin Documentation](https://docs.inventree.org/en/latest/plugins/)
 
 **Note:** The Copilot instructions are designed to help AI assistants provide better suggestions, but all information is available in human-readable documentation.

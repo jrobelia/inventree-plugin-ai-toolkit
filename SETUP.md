@@ -265,7 +265,7 @@ Once setup is complete:
 
 1. **Learn the toolkit structure**
    - Read [docs/architecture.md](docs/architecture.md) for the module map
-   - Check [QUICK-REFERENCE.md](QUICK-REFERENCE.md) for command quick reference
+   - Check [docs/reference/SESSION-ONBOARDING.md](docs/reference/SESSION-ONBOARDING.md) for the day-to-day workflow
    - Browse [docs/reference/](docs/reference/) for setup guides and workflows
 
 2. **Use AI-assisted development skills**
