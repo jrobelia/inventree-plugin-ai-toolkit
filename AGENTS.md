@@ -47,7 +47,7 @@ A skill is a mode (planning, research, grilling, implementation). While a skill 
 
 ### Git
 
-- One `Exec` call = one `git` command. No exceptions. (Enforced by `.devin/hooks/git_guard.py`; per-subcommand approval scopes in `.devin/config.json`.)
+- One `Exec` call = one `git` command. No exceptions. (Per-subcommand approval scopes live in `.devin/config.json`. The `git_guard.py` PreToolUse hook that used to enforce this is archived under `.devin/archive/`.)
 - The command string must be exactly `git <command> [args]` and nothing else. Do not run `git` alongside any other command, `git` or otherwise.
 - Do not chain with `&&`, `;`, `|`, line breaks, subshells, or command substitution.
 - The permission UI matches the whole command string; combining commands forces an all-or-nothing allow/deny decision on multiple git operations.
