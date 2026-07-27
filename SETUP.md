@@ -11,7 +11,7 @@ This toolkit helps you create, develop, and deploy InvenTree plugins efficiently
 ## Prerequisites
 
 - **Docker Desktop** installed and running
-- **VS Code** with the **Dev Containers** extension
+- **VS Code** with the **Dev Containers** extension (optional; you can also use plain `docker compose`)
 - **Git** installed
 - **(Optional)** SSH access to your InvenTree server for deployment
 
@@ -56,6 +56,20 @@ The devcontainer automatically:
 - Installs plugin frontend dependencies
 - Creates admin user for development
 
+### Alternative: Start the devcontainer from the terminal
+
+If you prefer not to use VS Code, the same `.devcontainer` configuration works with Docker Compose:
+
+```bash
+cd inventree-plugin-ai-toolkit
+docker compose -f .devcontainer/docker-compose.yml up -d
+
+# First-time setup only
+docker compose -f .devcontainer/docker-compose.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
+```
+
+See `.devcontainer/README.md` for the full CLI workflow.
+
 ### 4. Access InvenTree
 
 Once the container is built:
@@ -68,7 +82,7 @@ Once the container is built:
 **Start InvenTree server:**
 ```bash
 cd /workspace/reference/inventree-source
-invoke dev.server
+invoke dev.server -a 0.0.0.0:8001
 ```
 
 **Start plugin dev server (for frontend development):**

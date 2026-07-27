@@ -14,10 +14,16 @@ This document provides the exact, reproducible process for InvenTree plugin deve
 
 ## Automated Command Execution
 
-For AI-assisted development, commands can be executed inside the devcontainer from the host using Docker exec:
+For AI-assisted development, commands can be executed inside the devcontainer from the host using Docker Compose:
 
 ```bash
-docker exec inventree-plugin-ai-toolkit_devcontainer-toolkit-1 bash -c "cd /workspace && command"
+docker compose -f .devcontainer/docker-compose.yml exec -u vscode toolkit bash -c "cd /workspace && command"
+```
+
+If you are using the VS Code-managed container with the older `inventree-plugin-ai-toolkit_devcontainer-toolkit-1` name, the equivalent is:
+
+```bash
+docker exec -u vscode inventree-plugin-ai-toolkit_devcontainer-toolkit-1 bash -c "cd /workspace && command"
 ```
 
 This enables automation without manual terminal access:
@@ -32,6 +38,8 @@ This enables automation without manual terminal access:
 
 ### Step 1: Open the Devcontainer
 
+**With VS Code:**
+
 ```bash
 cd inventree-plugin-ai-toolkit
 code .
@@ -40,6 +48,16 @@ code .
 In VS Code:
 1. Press `Ctrl+Shift+P`
 2. Run: `Dev Containers: Reopen in Container`
+
+**From the terminal (no VS Code required):**
+
+```bash
+cd inventree-plugin-ai-toolkit
+docker compose -f .devcontainer/docker-compose.yml up -d
+
+# First-time setup only
+docker compose -f .devcontainer/docker-compose.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
+```
 
 ### Step 2: Start InvenTree Server
 
@@ -58,7 +76,7 @@ curl -s http://localhost:8001 > /dev/null && echo "Server running" || echo "Serv
 If the server is not running, start it in the devcontainer terminal:
 ```bash
 cd /workspace/reference/inventree-source
-invoke dev.server
+invoke dev.server -a 0.0.0.0:8001
 ```
 
 The InvenTree server will be available at http://localhost:8001 on your host machine.
@@ -160,7 +178,7 @@ npm run test:e2e
 ```bash
 # In devcontainer terminal
 cd /workspace/reference/inventree-source
-invoke dev.server
+invoke dev.server -a 0.0.0.0:8001
 ```
 
 The devcontainer forwards the InvenTree server to http://localhost:8001 on your host machine.
@@ -263,7 +281,7 @@ This creates a `.whl` file in `dist/` directory.
 ### Stopping Servers
 
 **Stop InvenTree server:**
-- Press `Ctrl+C` in the terminal running `invoke dev.server`
+- Press `Ctrl+C` in the terminal running `invoke dev.server -a 0.0.0.0:8001`
 
 **Stop plugin dev server:**
 - Press `Ctrl+C` in the terminal running `npm run dev`
@@ -338,7 +356,7 @@ invoke dev.reset-db
 ```bash
 code .  # Open in VS Code
 # Dev Containers: Reopen in Container
-cd /workspace/reference/inventree-source && invoke dev.server
+cd /workspace/reference/inventree-source && invoke dev.server -a 0.0.0.0:8001
 cd /workspace/plugins/your-plugin/frontend && npm run dev
 ```
 

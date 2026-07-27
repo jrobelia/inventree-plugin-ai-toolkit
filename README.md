@@ -231,7 +231,7 @@ Deployment requires manual configuration of your servers in `config/servers.json
 
 For plugins with frontend code:
 
-1. Start InvenTree server: `cd /workspace/reference/inventree-source && invoke dev.server`
+1. Start InvenTree server: `cd /workspace/reference/inventree-source && invoke dev.server -a 0.0.0.0:8001`
 2. Start plugin dev server: `cd /workspace/plugins/YourPlugin/frontend && npm run dev`
 3. Edit frontend code - changes automatically reload
 4. Access plugin UI at http://localhost:8001

@@ -9,7 +9,7 @@
 
 ```
 inventree-plugin-ai-toolkit/
-+-- .devcontainer/              Official InvenTree devcontainer configuration
++-- .devcontainer/              Docker Compose + Dockerfile dev environment (see `.devcontainer/README.md` for CLI usage)
 +-- .agents/                     AI agent workflows and skills
 +-- config/                     Server connection settings
 +-- docs/                       Living documents, references, and planning

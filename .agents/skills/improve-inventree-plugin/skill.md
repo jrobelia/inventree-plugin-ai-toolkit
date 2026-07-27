@@ -107,7 +107,7 @@ cd ..
 ### 5. Manual Verification
 
 **Backend changes:**
-- Restart InvenTree server: `cd /workspace/reference/inventree-source && invoke dev.server`
+- Restart InvenTree server: `cd /workspace/reference/inventree-source && invoke dev.server -a 0.0.0.0:8001`
 - Log in to http://localhost:8001
 - Navigate to plugin functionality
 - Test the changed feature
