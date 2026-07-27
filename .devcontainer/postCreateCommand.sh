@@ -27,6 +27,9 @@ python3 -m pip install --upgrade pip
 # Ensure the correct invoke is available
 pip3 install --ignore-installed --upgrade invoke Pillow
 
+# Install lint/test tooling used by test-all.sh
+pip3 install ruff
+
 # Install base level packages from InvenTree reference
 cd /workspace/reference/inventree-source
 pip3 install -Ur contrib/container/requirements.txt --require-hashes
@@ -49,6 +52,9 @@ invoke int.frontend-install
 echo "Setting up plugin development configuration..."
 cd /workspace/plugins/inventree-flat-bom-generator/frontend
 npm install
+
+# Install Playwright browsers for E2E tests
+npx playwright install chromium webkit
 
 echo ""
 echo "=========================================="

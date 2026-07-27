@@ -18,8 +18,13 @@ services:
       - 6379
 
   toolkit:
+    # Keep the container alive for docker exec. VS Code overrideCommand: true
+    # ignores this, so it only applies to plain Docker Compose usage.
+    command: sleep infinity
     ports:
-      - 8001:8000
+      # Expose the InvenTree dev server on the same port inside and outside
+      # the container so http://localhost:8001 works from both host and tests.
+      - 8001:8001
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
