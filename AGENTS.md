@@ -54,6 +54,9 @@ A skill is a mode (planning, research, grilling, implementation). While a skill 
 - If a sequence is needed (e.g. `git add` then `git commit`), run `git add` first, wait for the user response, then run `git commit` separately.
 - Write commit messages inline with repeated `-m` flags so the user can read them in the approval prompt. Never write a scratch message file and use `-F`.
 - The `Exec` working directory always resets to the toolkit root, so `cd` does not persist. To work in a plugin repo use `git -C plugins\<repo-name> <subcommand>` with that exact repo-relative form; `.devin/config.json` auto-approves `status`, `diff`, `log`, and `add` for it. Anything else prompts, which is intended.
+- Use `git add -A` or `git add .` instead of listing specific file paths. The permission prefix matcher and the Windsurf linkifier both struggle with multi-argument paths that contain spaces or forward slashes.
+- `git push` is most reliable as bare `git push` when an upstream is set. Explicit `git push origin <branch>` forms can hang the approval UI because Windsurf tries to turn the branch name or remote URL into a `cci:` file link.
+- The `.devin/config.json` `ask` list was removed because `ask` permission cards did not render in Windsurf. Destructive git commands now fall back to the default prompt, which does render.
 
 ## Chat/file references
 
@@ -64,3 +67,5 @@ Use plain backtick paths instead. Safe forms:
 - Absolute Windows paths: `C:\Software Projects\inventree-plugin-ai-toolkit\CONTEXT.md`
 
 Avoid forward-slash relative paths like `docs/agents/domain.md`; the IDE auto-links those and produces the same broken `cci:` links.
+
+This also applies to command strings and assistant thoughts: if Windsurf tries to auto-link a path inside a `Command git` card or a thought, the malformed `cci:` link can freeze the approval prompt before it appears. Keep command strings free of absolute paths and forward-slash relative paths; use repo-relative backslash paths or simple filenames.
