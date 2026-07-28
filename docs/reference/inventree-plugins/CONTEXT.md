@@ -32,6 +32,7 @@ It does **not** cover:
 - [`DOCUMENTATION-STANDARDS.md`](./DOCUMENTATION-STANDARDS.md) — naming and structure for plugin docs.
 - [`PLUGIN-DEVELOPMENT-WORKFLOW.md`](./PLUGIN-DEVELOPMENT-WORKFLOW.md) — iterative TDD workflow.
 - [`SESSION-ONBOARDING.md`](./SESSION-ONBOARDING.md) — reproducible steps for each dev session.
+- [`reference/README.md`](../../reference/README.md) — InvenTree core source code and example plugins used as implementation reference.
 
 ## Decisions
 

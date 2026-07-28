@@ -8,7 +8,7 @@ This is the context map for the InvenTree Plugin AI Toolkit. The toolkit root co
 - [Shared InvenTree Plugin Context](./docs/reference/inventree-plugins/CONTEXT.md) — generic plugin structure, mixins, workflow, and documentation standards that apply to any InvenTree plugin
 - [BOM/Build/Buy Suite — Shared Domain](./docs/reference/inventree-bom-build-buy-suite/CONTEXT.md) — canonical glossary and boundary definitions for the Flat BOM, Build Order, and Purchase List plugins
   - Vision and philosophy: [`VISION.md`](./docs/reference/inventree-bom-build-buy-suite/VISION.md)
-  - Architecture decisions: [`ARCHITECTURE-DECISIONS.md`](./docs/reference/inventree-bom-build-buy-suite/ARCHITECTURE-DECISIONS.md)
+  - Architecture decisions: [`docs/adr/`](./docs/reference/inventree-bom-build-buy-suite/docs/adr/) (canonical), extraction pass archive: [`ARCHITECTURE-DECISIONS.md`](./docs/reference/inventree-bom-build-buy-suite/ARCHITECTURE-DECISIONS.md)
   - Plugin ownership boundaries: [`BOUNDARIES.md`](./docs/reference/inventree-bom-build-buy-suite/BOUNDARIES.md)
   - InvenTree platform reference: [`PLATFORM-REFERENCE.md`](./docs/reference/inventree-bom-build-buy-suite/PLATFORM-REFERENCE.md)
   - Build Order Generator spec: [`BUILD-ORDER.md`](./docs/reference/inventree-bom-build-buy-suite/BUILD-ORDER.md)
@@ -16,6 +16,7 @@ This is the context map for the InvenTree Plugin AI Toolkit. The toolkit root co
 - [Build Order Generator](./plugins/inventree-build-tree-generator/CONTEXT.md) — child Build Order planning and bulk creation; lives on the Build Order detail page
 - [Purchase List Generator](./plugins/inventree-purchase-list-generator/) (`inventree-purchase-list-generator`) — shortfall purchasing and supplier routing; placeholder plugin directory
 - [COGS Suite](./plugins/inventree-cogs-suite-plugin/) — landed/rolled cost tracking, specific-identification inventory accounting, and purchase-order finalization; not part of the BOM/Build/Buy suite
+- [Reference source and examples](./reference/README.md) — `reference/inventree-source` (InvenTree core source) and `reference/plugin-creator` (plugin scaffold tool) used as live implementation reference
 
 ## Relationships
 

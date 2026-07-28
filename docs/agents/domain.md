@@ -10,6 +10,7 @@ How the engineering skills should consume this repo's domain documentation when 
 - **`C:\Software Projects\inventree-plugin-ai-toolkit\docs\reference\inventree-bom-build-buy-suite\CONTEXT.md`** (and related suite docs) when working on the Flat BOM, Build Order, or Purchase List plugins.
 - **`docs/adr/`** — read ADRs that touch the area you're about to work on. In this repo, system-wide decisions live here; per-plugin decisions live in `plugins/<name>/docs/adr/`.
 - If `docs/adr/` does not exist yet, fall back to **`docs/decisions.md`** for the append-only decision log.
+- **`reference/README.md`** and the `reference/inventree-source` submodule when you need to look at the InvenTree source code or example plugin implementations as reference.
 
 If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill creates them lazily when terms or decisions actually get resolved.
 

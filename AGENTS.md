@@ -41,6 +41,7 @@ A skill is a mode (planning, research, grilling, implementation). While a skill 
 - Each plugin has its own `AGENTS.md` and `docs/agents/`; respect them when working inside a plugin directory.
 - Shared domain language lives in `CONTEXT-MAP.md` and `C:\Software Projects\inventree-plugin-ai-toolkit\docs\reference\inventree-bom-build-buy-suite\`.
 - Agent skills live in `.agents/skills/` at the toolkit root.
+- `reference/` contains the `inventree-source` and `plugin-creator` submodules; use them as live source code and pattern reference when implementing plugins.
 - Use the devcontainer for consistent development and testing.
 
 ## Tooling and permissions
