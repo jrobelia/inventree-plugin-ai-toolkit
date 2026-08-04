@@ -1,6 +1,6 @@
 # InvenTree Plugin Toolkit - Setup Guide
 
-**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2026-07-22
+**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2026-08-04
 
 ---
 
@@ -62,10 +62,10 @@ If you prefer not to use VS Code, the same `.devcontainer` configuration works w
 
 ```bash
 cd inventree-plugin-ai-toolkit
-docker compose -f .devcontainer/docker-compose.yml up -d
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml up -d
 
 # First-time setup only
-docker compose -f .devcontainer/docker-compose.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
 ```
 
 See `.devcontainer/README.md` for the full CLI workflow.

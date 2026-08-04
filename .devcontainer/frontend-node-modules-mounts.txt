@@ -1,0 +1,1 @@
+/workspace/plugins/inventree-flat-bom-generator/frontend/node_modules

@@ -66,10 +66,26 @@ set -e
 # Install required frontend packages.
 invoke int.frontend-install
 
-# Set up plugin development configuration for FlatBOMGenerator.
-echo "Setting up plugin development configuration..."
-cd /workspace/plugins/inventree-flat-bom-generator/frontend
-npm install
+# Install frontend dependencies for every plugin that has a frontend package.
+# Each plugin's frontend/node_modules is a named Docker volume mounted over the
+# workspace bind mount, so packages live on a real Linux filesystem and stay
+# owned by the vscode user.
+echo "Installing plugin frontend dependencies..."
+for package_json in /workspace/plugins/*/frontend/package.json; do
+    [ -f "$package_json" ] || continue
+    frontend_dir=$(dirname "$package_json")
+    plugin_name=$(basename "$(dirname "$frontend_dir")")
+    echo "Installing frontend dependencies for $plugin_name..."
+    cd "$frontend_dir"
+    if [ -f package-lock.json ]; then
+        npm ci
+    else
+        # No lock file yet; create it once and then it can be tracked as the
+        # source of truth for future `npm ci` runs.
+        npm install
+    fi
+    cd - >/dev/null
+done
 
 # Install Playwright browsers and system dependencies for E2E tests.
 # Browsers live in the vscode user cache and are shared across plugin frontends.

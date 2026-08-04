@@ -5,7 +5,7 @@
 [![Devcontainer](https://img.shields.io/badge/Devcontainer-Ready-green.svg)](https://code.visualstudio.com/docs/devcontainers/containers)
 [![AI Assisted](https://img.shields.io/badge/AI%20Assisted-Optional-purple.svg)](https://github.com/features/copilot)
 
-**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2026-07-22
+**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2026-08-04
 
 ---
 
@@ -74,6 +74,9 @@ inventree-plugin-ai-toolkit/
 │   ├── devcontainer.json       # VS Code devcontainer settings
 │   ├── Dockerfile             # Container image definition
 │   ├── docker-compose.yml     # Service orchestration
+│   ├── docker-compose.frontend-volumes.yml  # Generated node_modules overlay
+│   ├── frontend-node-modules-mounts.txt     # Generated mount-point list
+│   ├── generate-frontend-volumes.py         # Generator for the overlay files
 │   └── postCreateCommand.sh   # Container setup script
 ├── .agents/                     # AI agent skills
 │   └── skills/                  # AI-assisted development workflows
