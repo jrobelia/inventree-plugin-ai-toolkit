@@ -8,10 +8,11 @@ set -e
 PLUGIN_DIR="${1:-/workspace/plugins/inventree-flat-bom-generator}"
 SERVER_LOG=/tmp/inventree-server.log
 
-. /workspace/reference/inventree-source/dev/venv/bin/activate
+# Activate the named-volume venv, not the old bind-mounted dev/venv.
+source /inventree-data/venv/bin/activate
 
-cd /workspace/reference/inventree-source/src/backend/InvenTree
-python manage.py runserver 0.0.0.0:8001 --noreload -v 0 > "$SERVER_LOG" 2>&1 &
+cd /workspace/reference/inventree-source
+invoke dev.server -a 0.0.0.0:8001 > "$SERVER_LOG" 2>&1 &
 SERVER_PID=$!
 
 trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT

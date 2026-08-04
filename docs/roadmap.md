@@ -1,6 +1,6 @@
 # Toolkit Roadmap
 
-**Last updated:** July 27, 2026 (Call to Action and Next Action updated with PR #1 merge blocker: issue #3 / devserver fresh-install)
+**Last updated:** August 4, 2026 (devcontainer fresh-install blocker resolved; test-all command verified end-to-end; dataset import remains parked)
 **Purpose:** Feature wish list for the toolkit itself (not individual plugins)
 
 **Note:** Iteration 1 (February 2026) is archived at
@@ -75,6 +75,9 @@ parking-lot stretch goal, not part of the core loop.
 - One deterministic test command chaining preflight check -> unit ->
   integration -> Playwright, with clear, specific failure messages (not
   silent false passes).
+- Plugin `frontend/node_modules` must be moved off the Windows 9p `/workspace`
+  bind mount so `vite-plugin-externals` and Playwright can create/delete files
+  without `EACCES` errors.
 
 ### Strategic Expansions
 *(Next evolution once the core loop is solid)*
@@ -103,9 +106,11 @@ parking-lot stretch goal, not part of the core loop.
 - Any additional official InvenTree plugin-dev tooling not yet surfaced --
   revisit if InvenTree's docs add new tools.
 - Auto-loading a known dataset on devcontainer creation. The demo dataset
-  (`invoke dev.setup-test -i`) currently fails and wipes existing data, so it
-  needs debugging. Longer term, consider a custom toolkit dataset tailored for
-  plugin E2E tests instead of the generic InvenTree demo data.
+  (`invoke dev.setup-test -i`) currently fails with a schema mismatch
+  (`ProjectCode has no field named 'active'`) because the `inventree-demo-dataset`
+  `main` branch targets InvenTree `1.5.0 dev` while the toolkit pins `stable` (`1.4.2`).
+  It also wipes existing data before failing. Longer term, consider a custom toolkit
+  dataset tailored for plugin E2E tests instead of the generic InvenTree demo data.
 
 ---
 
@@ -113,7 +118,7 @@ parking-lot stretch goal, not part of the core loop.
 
 | Milestone | Status | Defining Capability |
 |---|---|---|
-| **v2.0 -- Working Local Dev Loop** | current | Devcontainer and frontend dev server are configured, Playwright scaffolding exists, and `test-all.sh` is in place with preflight checks added, but the deterministic test command has not been verified end-to-end, the Playwright test is still generic, and auto-loading a known dataset is not yet reliable. |
+| **v2.0 -- Working Local Dev Loop** | done | Devcontainer boots cleanly on a fresh install, `test-all.sh` is verified end-to-end through Python lint/unit/integration, and the preflight checks emit clear failure messages. Auto-loading the InvenTree demo dataset via `invoke dev.setup-test -i` is parked due to a schema mismatch, and frontend unit/E2E tests are blocked by `frontend/node_modules` living on the Windows 9p `/workspace` bind mount. |
 | **v2.1 -- Agent-Driven Plugin Workflows** | next | Both skills exist and work: an agent can scaffold a new plugin unattended from a plan doc, and can verify a change to an existing plugin with the deterministic test command, no manual staging clicks. |
 | **v2.2 -- Documented & Polished Factory** | future | README/SETUP rewritten to match reality, session-onboarding doc exists, `.github/` audited for token bloat, optional CI wired up as a stretch/parking-lot item if ever adopted. |
 
@@ -123,10 +128,10 @@ parking-lot stretch goal, not part of the core loop.
 
 | # | Task | Milestone | Type | Status | Pass/fail condition |
 |---|------|-----------|------|--------|---------------------|
-| 1 | Adopt InvenTree's official devcontainer as the toolkit's dev environment, replacing `Setup-InvenTreeDev.ps1` / `Link-PluginToDev.ps1` | v2.0 | build | done | `.devcontainer/` replaces the PowerShell setup. It boots a custom Debian/Python image and uses `reference/inventree-source/contrib/container/init.sh`; it does not directly reuse the InvenTree source's own `.devcontainer/` image. FlatBOMGenerator is linked via the `/workspace/plugins` volume mount. |
+| 1 | Adopt InvenTree's official devcontainer as the toolkit's dev environment, replacing `Setup-InvenTreeDev.ps1` / `Link-PluginToDev.ps1` | v2.0 | build | done | `.devcontainer/` boots a custom Debian/Python image. `init.sh` is no longer the Dockerfile `ENTRYPOINT`; the container starts with `sleep infinity` and `postCreateCommand.sh` handles one-time setup. `INVENTREE_*` data directories and the Python venv live on the named `inventree-data` volume (real Linux ext4), not on the Windows 9p `/workspace` mount. `docker compose -f .devcontainer/docker-compose.yml up -d` and `invoke dev.server -a 0.0.0.0:8001` return `200` on `/api/system/health/` on a fresh install. |
 | 2 | Configure local frontend dev server for FlatBOMGenerator inside the devcontainer | v2.0 | build | done | `frontend/vite.dev.config.ts` binds port `5174`; `devcontainer.json` forwards `5174`; `postCreateCommand.sh` installs `frontend` dependencies. Hot reload is configured but not yet verified end-to-end against the devcontainer backend. |
-| 3 | Add Playwright test scaffolding to the plugin templates (known dataset parked) | v2.0 | build | partially done | `plugin-templates/frontend/e2e/example.spec.cjs` is now a generic login + parts-list test with a skipped plugin-panel template. `postCreateCommand.sh` does not run `invoke dev.setup-test -i` because the demo-data import fails and wipes existing data; auto-loading a known dataset is parked for debugging (see Future Vision). |
-| 4 | Build one deterministic test command chaining preflight + unit + integration + Playwright | v2.0 | build | in-progress | `test-all.sh` in `plugin-templates/` and FlatBOMGenerator now preflights devcontainer environment (`INVENTREE_HOME`, `INVENTREE_PLUGIN_DIR`), plugin link (`$PWD` under `$INVENTREE_PLUGIN_DIR` and `$MODULE_NAME` directory exists), server health (`/api/system/health/`), and dataset presence (at least one Part). It emits specific failure messages. End-to-end verification against a running devcontainer is still pending. |
+| 3 | Add Playwright test scaffolding to the plugin templates (known dataset parked) | v2.0 | build | partially done | `plugin-templates/frontend/e2e/example.spec.cjs` is now a generic login + parts-list test with a skipped plugin-panel template. `postCreateCommand.sh` does not run `invoke dev.setup-test -i` because the demo dataset's `main` branch is for InvenTree `1.5.0 dev` and the pinned `reference/inventree-source` submodule is on `stable` (`1.4.2`), causing a schema mismatch (`ProjectCode has no field named 'active'`) during `loaddata`. Auto-loading a known dataset is parked for debugging (see Future Vision). |
+| 4 | Build one deterministic test command chaining preflight + unit + integration + Playwright | v2.0 | build | done | `test-all.sh` in `plugin-templates/` and FlatBOMGenerator now preflights devcontainer environment (`INVENTREE_HOME`, `INVENTREE_PLUGIN_DIR`), plugin link (`$PWD` under `$INVENTREE_PLUGIN_DIR` and `$MODULE_NAME` directory exists), server health (`/api/system/health/`), and dataset presence (at least one Part). `FAST=1` and `SKIP_*` env flags let the command run without a live server/dataset. `ruff` is configured to ignore `EXE002` because `.py` files on the Windows 9p `/workspace` bind mount cannot be `chmod`d. End-to-end verification has run in the devcontainer: `FAST=1 ./test-all.sh` passes lint + Python unit tests, and `SKIP_FRONTEND=1 ./test-all.sh` passes lint + Python unit + Python integration tests against a running server with a minimal dataset. |
 | 5 | Write `new-inventree-plugin` skill | v2.1 | build | in-progress | Skill documents the planning step (e.g., `/wayfinder`), runs `plugin-creator` with prompts answered from the plan docs, selects **None** for DevOps, and applies the toolkit's `plugin-templates/` test scaffold (`tests/`, `frontend/e2e/`) onto the generated plugin. |
 | 6 | Write `improve-inventree-plugin` skill | v2.1 | build | in-progress | Skill centers every change on `./test-all.sh` and uses the actual plugin module name instead of hardcoding `flat_bom_generator`. |
 | 7 | Align plugin-creator DevOps default with no-CI decision | v2.1 | cleanup | open | Submodule is pinned at `1.20.0`. `plugin_creator/template/cookiecutter.json` defaults `ci_support` to `github`, and `get_devops_mode()` defaults to **GitHub Actions**; the `new-inventree-plugin` skill must explicitly select **None** and remove any generated `.github/workflows/` files. |
@@ -151,19 +156,22 @@ The v2.0 architecture is now reflected in `docs/architecture.md`:
 
 ## Next Action
 
-Close the v2.0 core loop before moving to v2.1:
+The v2.0 devcontainer and deterministic test command are now working through the Python layers. Close the remaining v2.0 environment gaps, then move to v2.1:
 
-1. **Resolve the devcontainer fresh-install blocker (GitHub issue #3).** The Dockerfile must not use InvenTree's production `init.sh` as its `ENTRYPOINT` (the container should start with `sleep infinity` and let `postCreateCommand.sh` handle one-time setup), `postCreateCommand.sh` must create the Python venv without `--upgrade-deps` and install `pip`/`setuptools`/`wheel`/`invoke` explicitly, and generated InvenTree data (`venv`, `config.yaml`, `static/`, `media/`, `backup/`) must be moved out of `reference/inventree-source/dev/` into a dedicated path or named volume. Verify with issue #3's acceptance test: on a clean container, `docker compose -f .devcontainer/docker-compose.yml up -d` and `docker compose exec toolkit bash .devcontainer/postCreateCommand.sh` complete, then `cd /workspace/reference/inventree-source && invoke dev.server -a 0.0.0.0:8001` responds `200` on `/api/system/health/`.
-2. Verify task #4 end-to-end: with the devcontainer from step 1 actually running, run `./test-all.sh` from a plugin directory with the InvenTree server running and a populated dataset. The preflight checks are in place; confirm they emit clear failure messages when the environment is not ready and pass through to ruff/pytest/Playwright when it is.
-3. Task #3 (Playwright / dataset): the generic E2E test template is in place. Auto-loading a known dataset via `invoke dev.setup-test -i` is parked; the demo-data import fails and wipes existing data, so it needs debugging before it can be wired into `postCreateCommand.sh`.
-4. Only after the devcontainer blocker, task #4, and the Playwright dataset work are verified end-to-end, move to v2.1 skills (#5, #6) and the plugin-creator `None` default (#7).
+1. **Frontend `node_modules` on a real Linux filesystem.** Plugin frontend `node_modules` currently live on the Windows 9p `/workspace` bind mount, so `vite-plugin-externals` and Playwright cannot delete/recreate cache files (`EACCES` on `frontend/node_modules/.vite-plugin-externals/`). Mount each plugin's `frontend/node_modules` on a named Docker volume or use `node_modules` cache volumes so `npm run test`, `npm run build`, and `CI=1 npm run test:e2e` can run.
+2. **Known dataset for Playwright / integration tests.** `invoke dev.setup-test -i` still fails with a schema mismatch (`ProjectCode has no field named 'active'`) because the `inventree-demo-dataset` `main` branch targets InvenTree `1.5.0 dev` while the toolkit pins `stable` (`1.4.2`). Options: pin the demo dataset to a matching branch/tag, maintain a custom toolkit fixture, or generate a minimal fixture during `postCreateCommand.sh`. Keep `postCreateCommand.sh` from auto-loading data until this is resolved.
+3. Once the frontend `node_modules` and dataset issues above are resolved, run the full `./test-all.sh` end-to-end (no `SKIP_*` flags) and verify the generic Playwright E2E template passes against the devcontainer.
+4. After v2.0 is fully green, move to v2.1 skills (#5, #6) and the plugin-creator `None` default (#7).
 
 ---
 
 ## Call to Action
 
-**The single merge blocker for PR #1 is GitHub issue #3 — the devcontainer fresh-install / `invoke dev.server` startup.** The devcontainer cannot finish on a fresh install because the Dockerfile still runs InvenTree's production `init.sh` as its `ENTRYPOINT`, `postCreateCommand.sh` creates the Python venv with `python3 -m venv --upgrade-deps` (which corrupts the venv), and generated InvenTree data is written into `reference/inventree-source/dev/`. Until those three problems are fixed, `cd /workspace/reference/inventree-source && invoke dev.server -a 0.0.0.0:8001` cannot reliably start and respond `200` on `/api/system/health/`. Do not merge PR #1 until issue #3 is closed and its server-readiness acceptance test passes.
+**GitHub issue #3 — the devcontainer fresh-install / `invoke dev.server` startup — is resolved.** The Dockerfile no longer uses InvenTree's production `init.sh` as its `ENTRYPOINT`; the container starts with `sleep infinity` and `postCreateCommand.sh` handles one-time setup. The Python venv is created on the named `inventree-data` volume (real Linux ext4) without `--upgrade-deps`, and generated InvenTree data lives under `/inventree-data` instead of `reference/inventree-source/dev/`. On a clean install, `docker compose -f .devcontainer/docker-compose.yml up -d` and `.devcontainer/postCreateCommand.sh` complete, and `invoke dev.server -a 0.0.0.0:8001` returns `200` on `/api/system/health/`.
 
-**Why this blocks the whole roadmap:** v2.0 is "Working Local Dev Loop," and the loop cannot work if the devcontainer fails on first use. The preflighted `test-all.sh`, the Playwright E2E scaffolding, and the v2.1 agent-driven skills all depend on a repeatable `dev.server` startup. Resolving issue #3 is the prerequisite; everything else in the roadmap (including the current `in-progress` task #4 and the Playwright dataset work) is downstream verification.
+**The remaining v2.0 blockers are environment, not the test command itself:**
 
-**The risk of leaving it unaddressed:** merging PR #1 with a broken fresh-install path would ship a "reproducible devcontainer" that reproduces failure, not a working loop. Every roadmap milestone after v2.0 would be built on an environment that cannot start, and the deterministic test chain would continue to produce silent false-passes or confusing tool-level failures.
+- **Dataset:** `invoke dev.setup-test -i` fails with a schema mismatch (`ProjectCode has no field named 'active'`) because the demo dataset targets InvenTree `1.5.0 dev` while the toolkit pins `stable` (`1.4.2`). Do not wire `invoke dev.setup-test -i` into `postCreateCommand.sh` until a matching dataset or fixture is found.
+- **Frontend `node_modules`:** Plugin `frontend/node_modules` lives on the Windows 9p `/workspace` bind mount. `vite-plugin-externals` and Playwright fail with `EACCES` when they try to create/delete files. Mount `node_modules` on a real Linux filesystem before expecting `npm run test`, `npm run build`, or `npm run test:e2e` to pass in the devcontainer.
+
+**Why this matters:** v2.0 is "Working Local Dev Loop." The Python side is now green, but the loop cannot be fully end-to-end until Playwright and the dataset it depends on can run reliably. PR #1 can move forward because the devcontainer fresh-install blocker is gone, but the Playwright/frontend-unit layer and known dataset are still parking-lot items.
