@@ -1,65 +1,141 @@
 # InvenTree Plugin Toolkit - Setup Guide
 
-**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2025-12-10
+**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2026-07-22
 
 ---
 
-This toolkit helps you create, develop, and deploy InvenTree plugins efficiently.
+This toolkit helps you create, develop, and deploy InvenTree plugins efficiently using a devcontainer-based development environment.
 
 ---
 
 ## Prerequisites
 
-- **Python 3.8+** installed
-- **Node.js 18+** and npm (for frontend development)
-- **PowerShell 5.1+** (Windows) or PowerShell Core (cross-platform)
+- **Docker Desktop** installed and running
+- **VS Code** with the **Dev Containers** extension (optional; you can also use plain `docker compose`)
 - **Git** installed
-- **(Optional)** SSH access to your InvenTree server
+- **(Optional)** SSH access to your InvenTree server for deployment
 
 ---
 
-## Initial Setup
+## Quick Start (Devcontainer Setup)
+
+The toolkit uses an official InvenTree devcontainer for a consistent, reproducible development environment.
 
 ### 1. Clone the Repository
 
-```powershell
+```bash
 git clone <your-repo-url> inventree-plugin-ai-toolkit
 cd inventree-plugin-ai-toolkit
 ```
 
-### 2. Initialize plugin-creator Submodule
+### 2. Initialize Submodules
 
-The toolkit uses [plugin-creator](https://github.com/inventree/plugin-creator) as a submodule to ensure you always have the latest version.
-
-```powershell
-# Initialize and update the submodule
-git submodule init
-git submodule update
-```
-
-This will clone plugin-creator into the correct location automatically.
-
-**Alternative:** If you cloned without `--recurse-submodules`, run:
-```powershell
+```bash
 git submodule update --init --recursive
 ```
 
-### 3. Install plugin-creator Dependencies
+This initializes:
+- `reference/inventree-source` - InvenTree source code for development
+- `reference/plugin-creator` - Plugin scaffolding tool
 
-```powershell
-cd plugin-creator
-pip install -e .
-cd ..
+### 3. Open in VS Code with Devcontainer
+
+```bash
+code .
 ```
 
-### 4. Configure Your Servers
+In VS Code:
+1. Press `Ctrl+Shift+P`
+2. Run: `Dev Containers: Reopen in Container`
+3. Wait for the container to build (first build takes 5-10 minutes)
+
+The devcontainer automatically:
+- Installs Python 3.11, Node.js, and required dependencies
+- Sets up InvenTree development environment
+- Configures PostgreSQL and Redis databases
+- Installs plugin frontend dependencies
+- Creates admin user for development
+
+### Alternative: Start the devcontainer from the terminal
+
+If you prefer not to use VS Code, the same `.devcontainer` configuration works with Docker Compose:
+
+```bash
+cd inventree-plugin-ai-toolkit
+docker compose -f .devcontainer/docker-compose.yml up -d
+
+# First-time setup only
+docker compose -f .devcontainer/docker-compose.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
+```
+
+See `.devcontainer/README.md` for the full CLI workflow.
+
+### 4. Access InvenTree
+
+Once the container is built:
+- InvenTree server: http://localhost:8001
+- Default credentials: Use the admin user created during setup
+- Plugin dev server: http://localhost:5174 (for frontend development)
+
+### 5. Start Development Servers
+
+**Start InvenTree server:**
+```bash
+cd /workspace/reference/inventree-source
+invoke dev.server -a 0.0.0.0:8001
+```
+
+**Start plugin dev server (for frontend development):**
+```bash
+cd /workspace/plugins/inventree-flat-bom-generator/frontend
+npm run dev
+```
+
+---
+
+## Next Steps
+
+For daily development workflow, testing, building, and deployment, see **[docs/reference/SESSION-ONBOARDING.md](docs/reference/SESSION-ONBOARDING.md)**.
+
+For AI-assisted development workflows, see **[.agents/skills/](.agents/skills/)**.
+
+---
+
+## Manual Setup (Alternative)
+
+If you prefer not to use the devcontainer, you can set up the environment manually. However, the devcontainer is strongly recommended for consistency.
+
+### Manual Prerequisites
+
+- **Python 3.8+** installed
+- **Node.js 18+** and npm (for frontend development)
+- **PostgreSQL** database server
+- **Redis** server
+
+### Manual Setup Steps
+
+1. **Clone and initialize submodules** (same as above)
+2. **Set up InvenTree development environment** - Follow [InvenTree's official dev setup guide](https://docs.inventree.org/en/latest/developer/)
+3. **Install plugin-creator dependencies:**
+   ```bash
+   cd reference/plugin-creator
+   pip install -e .
+   cd ../..
+   ```
+4. **Configure your servers** (see below)
+
+---
+
+## Server Configuration
+
+### Configure Deployment Servers
 
 Copy the example configuration:
-```powershell
-Copy-Item config\servers.json.example config\servers.json
+```bash
+cp config/servers.json.example config/servers.json
 ```
 
-Edit `config\servers.json` with your server details:
+Edit `config/servers.json` with your server details:
 ```json
 {
   "servers": {
@@ -79,44 +155,8 @@ Edit `config\servers.json` with your server details:
 }
 ```
 
----
-
-## Updating plugin-creator
-
-To get the latest version of plugin-creator:
-
-```powershell
-# Update submodule to latest commit
-git submodule update --remote plugin-creator
-
-# Or update all submodules
-git submodule update --remote
-
-# Commit the update
-git add plugin-creator
-git commit -m "Update plugin-creator to latest version"
-```
-
----
-
-## Plugin-creator Location
-
-The toolkit expects plugin-creator at: `plugin-creator/` (inside the toolkit directory)
-
-This is configured in `config\servers.json`:
-```json
-{
-  "paths": {
-    "plugin_creator": "plugin-creator"
-  }
-}
-```
-
-**Why as a submodule?**
-- Always get the latest official version
-- Easy updates via `git submodule update --remote`
-- Consistent across all team members
-- Separated from your custom code
+**For local servers:** Use regular paths like `C:\\InvenTree\\plugins`
+**For network servers:** Use UNC paths like `\\\\server\\share\\inventree\\plugins`
 
 ---
 
@@ -126,14 +166,22 @@ After setup, you should have:
 
 ```
 inventree-plugin-ai-toolkit/
+├── .devcontainer/              # Devcontainer configuration
+│   ├── devcontainer.json       # VS Code devcontainer settings
+│   ├── Dockerfile             # Container image definition
+│   ├── docker-compose.yml     # Service orchestration
+│   └── postCreateCommand.sh   # Container setup script
 ├── config/
 │   ├── servers.json          # Your server configs (gitignored)
-│   └── servers.json.example  # Template
-├── copilot/                  # AI assistant resources
-├── docs/                     # Documentation
-├── plugins/                  # Your plugin projects
-├── scripts/                  # PowerShell automation
-└── plugin-creator/           # Git submodule (don't modify)
+│   ├── servers.json.example  # Template
+│   └── plugin-dev-config.yaml # Plugin development configuration
+├── docs/                      # Documentation
+├── plugins/                    # Your plugin projects
+│   └── inventree-flat-bom-generator/ # Example plugin
+├── reference/                  # Reference submodules
+│   ├── inventree-source/      # InvenTree source code (submodule)
+│   └── plugin-creator/        # Plugin scaffolding tool (submodule)
+└── scripts/                    # Legacy PowerShell scripts (deprecated)
 ```
 
 ---
@@ -144,7 +192,7 @@ inventree-plugin-ai-toolkit/
    - Already in `.gitignore`
    
 2. **SSH Keys:** Use key-based authentication, not passwords
-   ```powershell
+   ```bash
    # Generate SSH key if needed
    ssh-keygen -t ed25519 -C "inventree-deployment"
    
@@ -156,54 +204,57 @@ inventree-plugin-ai-toolkit/
 
 ---
 
-## Verify Setup
+## Updating Submodules
 
-Test that everything works:
+To get the latest versions:
 
-```powershell
-# Check plugin-creator is accessible
-python plugin-creator\plugin_creator\main.py --version
+```bash
+# Update InvenTree source
+cd reference/inventree-source
+git pull origin stable
+cd ../..
 
-# Create a test plugin
-.\scripts\New-Plugin.ps1
-# Follow prompts to create "TestPlugin"
+# Update plugin-creator
+git submodule update --remote reference/plugin-creator
 
-# Build it
-.\scripts\Deploy-Plugin.ps1 -Plugin "TestPlugin" -Server staging
+# Commit the updates
+git add reference/inventree-source reference/plugin-creator
+git commit -m "Update submodules"
 ```
-
-If this works, your setup is complete! 🎉
 
 ---
 
 ## Troubleshooting
 
-### "plugin-creator not found"
+### Devcontainer Issues
 
-```powershell
-# Initialize submodule
+**"No space left on device"**
+- Free up disk space in WSL/Docker Desktop
+- Remove unused Docker images: `docker system prune -a`
+
+**"Workspace does not exist"**
+- Rebuild the container: `Dev Containers: Rebuild Container`
+
+**"invoke command not found"**
+- Ensure you're running commands inside the devcontainer terminal
+- Look for `vscode ➜ /workspace` in the terminal prompt
+
+### Manual Setup Issues
+
+**"plugin-creator not found"**
+```bash
 git submodule init
 git submodule update
 ```
 
-### "Permission denied (SSH)"
-
-```powershell
+**"Permission denied (SSH)"**
+```bash
 # Test SSH connection
 ssh -i ~/.ssh/your-key user@server
 
 # Check key permissions (should be 600)
 chmod 600 ~/.ssh/your-key  # Linux/Mac
 icacls ~/.ssh/your-key /inheritance:r /grant:r "${env:USERNAME}:R"  # Windows
-```
-
-### "Module not found" errors
-
-```powershell
-# Reinstall plugin-creator
-cd plugin-creator
-pip install -e . --force-reinstall
-cd ..
 ```
 
 ---
@@ -214,16 +265,11 @@ Once setup is complete:
 
 1. **Learn the toolkit structure**
    - Read [docs/architecture.md](docs/architecture.md) for the module map
-   - Check [QUICK-REFERENCE.md](QUICK-REFERENCE.md) for command quick reference
+   - Check [docs/reference/SESSION-ONBOARDING.md](docs/reference/SESSION-ONBOARDING.md) for the day-to-day workflow
    - Browse [docs/reference/](docs/reference/) for setup guides and workflows
 
-2. **Use GitHub Copilot for guided plugin creation**
-   - Copilot automatically discovers `.github/copilot-instructions.md`
-   - Use `@agent orchestrator` for full-pipeline feature work
-   - Example: `@agent orchestrator I want to create a new InvenTree plugin that [describe what it does]`
-
-3. **Explore InvenTree patterns**
-   - `.github/instructions/domain/` contains InvenTree-specific coding patterns
-   - These load automatically when you edit relevant file types
+2. **Use AI-assisted development skills**
+   - See `.agents/skills/new-inventree-plugin/` to scaffold a new plugin
+   - See `.agents/skills/improve-inventree-plugin/` to verify changes to an existing plugin
 
 Happy plugin development!

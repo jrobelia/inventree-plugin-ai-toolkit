@@ -23,13 +23,20 @@ plugins/
 
 ## Creating a New Plugin
 
-From the toolkit root, run:
+From a terminal inside the devcontainer, run the plugin-creator CLI:
 
-```powershell
-.\scripts\New-Plugin.ps1
+```bash
+cd /workspace/plugins
+create-inventree-plugin
 ```
 
-The new plugin will automatically be created in this directory.
+If `create-inventree-plugin` is not installed, install it first:
+
+```bash
+pip install -e /workspace/reference/plugin-creator
+```
+
+After `plugin-creator` finishes, copy the toolkit's test scaffold from `plugin-templates/` into the new plugin so unit, integration, and Playwright tests are wired from day one.
 
 ## Git Repositories
 
@@ -46,3 +53,4 @@ git push -u origin main
 - **Don't** put the entire `plugins/` folder in git
 - **Do** put each individual plugin in its own git repo
 - The `.gitignore` in the toolkit root handles this correctly
+- If you add a plugin to the VS Code workspace (`*.code-workspace`), make sure the `path` matches the actual plugin directory name on disk (e.g. `plugins/inventree-flat-bom-generator`, not `plugins/FlatBOMGenerator`)

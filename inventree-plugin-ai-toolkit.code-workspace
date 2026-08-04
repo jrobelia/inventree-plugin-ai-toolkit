@@ -5,8 +5,20 @@
 			"path": "."
 		},
 		{
-			"name": "FlatBOMGenerator Plugin",
-			"path": "plugins/FlatBOMGenerator"
+			"name": "inventree-flat-bom-generator",
+			"path": "plugins/inventree-flat-bom-generator"
+		},
+		{
+			"name": "inventree-cogs-suite-plugin",
+			"path": "plugins/inventree-cogs-suite-plugin"
+		},
+		{
+			"name": "inventree-build-tree-generator",
+			"path": "plugins/inventree-build-tree-generator"
+		},
+		{
+			"name": "inventree-purchase-list-generator",
+			"path": "plugins/inventree-purchase-list-generator"
 		}
 	],
 	"settings": {
