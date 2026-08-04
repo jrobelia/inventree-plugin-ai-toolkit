@@ -1,6 +1,6 @@
 # Plugin Development Session Onboarding
 
-**Audience:** Developers | **Category:** Workflow Guide | **Purpose:** Step-by-step plugin development process | **Last Updated:** 2026-07-22
+**Audience:** Developers | **Category:** Workflow Guide | **Purpose:** Step-by-step plugin development process | **Last Updated:** 2026-08-04
 
 ---
 
@@ -355,7 +355,7 @@ lsof -i :8001  # Linux/Mac
 **Issue:** Module not found
 ```bash
 # Ensure virtual environment is activated
-source /workspace/reference/inventree-source/dev/venv/bin/activate
+source /inventree-data/venv/bin/activate
 ```
 
 **Issue:** Database errors

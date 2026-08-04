@@ -1,6 +1,7 @@
 # InvenTree Plugin Development Configuration
 # This file configures InvenTree for local plugin development with hot reload
-# Copy this to reference/inventree-source/dev/config.yaml or use as reference
+# Generated data lives on /inventree-data, so merge this into /inventree-data/config.yaml
+# or use it as a reference when editing the active config in the devcontainer.
 
 plugin:
   # Enable plugin development mode
