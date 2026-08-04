@@ -21,6 +21,11 @@ ENV INVENTREE_SECRET_KEY_FILE="${INVENTREE_DATA_DIR}/secret_key.txt"
 ENV INVENTREE_OIDC_PRIVATE_KEY_FILE="${INVENTREE_DATA_DIR}/oidc.pem"
 ENV INVENTREE_PY_ENV="${INVENTREE_DATA_DIR}/venv"
 
+# Put the venv on PATH so scripts and exec shells use it by default.
+# The directory does not yet exist at image build time; it will be created
+# on the named volume by postCreateCommand.sh.
+ENV PATH="${INVENTREE_PY_ENV}/bin:${PATH}"
+
 # Required for running playwright within devcontainer
 ENV DISPLAY=:0
 ENV LIBGL_ALWAYS_INDIRECT=1

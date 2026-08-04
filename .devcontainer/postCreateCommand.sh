@@ -48,6 +48,9 @@ python -m pip install --upgrade pip setuptools wheel
 # Ensure the correct invoke is available for the InvenTree task runner.
 python -m pip install invoke Pillow
 
+# Install lint/test tooling needed by the plugin test-all.sh scripts.
+python -m pip install ruff
+
 # Install base level packages from InvenTree reference.
 cd "$INVENTREE_HOME"
 python -m pip install -Ur contrib/container/requirements.txt --require-hashes
