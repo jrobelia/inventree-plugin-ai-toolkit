@@ -6,14 +6,13 @@
   "service": "toolkit",
   "overrideCommand": true,
   "workspaceFolder": "/workspace",
-
   // Configure tool-specific properties.
   "customizations": {
     // Configure properties specific to VS Code.
     "vscode": {
       // Set *default* container specific settings.json values on container create.
       "settings": {
-        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/reference/inventree-source/dev/venv/bin/python",
+        "python.defaultInterpreterPath": "/inventree-data/venv/bin/python",
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": false,
         "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
@@ -25,7 +24,6 @@
         "python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
         "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
       },
-
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
         "ms-python.python",
@@ -36,9 +34,15 @@
       ]
     }
   },
-
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [5173, 5174, 5432, 6379, 8001, 8080],
+  "forwardPorts": [
+    5173,
+    5174,
+    5432,
+    6379,
+    8001,
+    8080
+  ],
   "portsAttributes": {
     "5173": {
       "label": "InvenTree Vite Server"
@@ -59,32 +63,27 @@
       "label": "mkdocs server"
     }
   },
-
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": ".devcontainer/postCreateCommand.sh",
-
   // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode",
   "containerUser": "vscode",
-
   "remoteEnv": {
     // Python config
     "PIP_USER": "no",
-
     // InvenTree paths (pointing to reference submodule)
     "INVENTREE_HOME": "${containerWorkspaceFolder}/reference/inventree-source",
-    "INVENTREE_DATA_DIR": "${containerWorkspaceFolder}/reference/inventree-source/dev",
-    "INVENTREE_STATIC_ROOT": "${containerWorkspaceFolder}/reference/inventree-source/dev/static",
-    "INVENTREE_MEDIA_ROOT": "${containerWorkspaceFolder}/reference/inventree-source/dev/media",
-    "INVENTREE_BACKUP_DIR": "${containerWorkspaceFolder}/reference/inventree-source/dev/backup",
+    "INVENTREE_DATA_DIR": "/inventree-data",
+    "INVENTREE_STATIC_ROOT": "/inventree-data/static",
+    "INVENTREE_MEDIA_ROOT": "/inventree-data/media",
+    "INVENTREE_BACKUP_DIR": "/inventree-data/backup",
     "INVENTREE_PLUGIN_DIR": "${containerWorkspaceFolder}/plugins",
-    "INVENTREE_CONFIG_FILE": "${containerWorkspaceFolder}/reference/inventree-source/dev/config.yaml",
-    "INVENTREE_SECRET_KEY_FILE": "${containerWorkspaceFolder}/reference/inventree-source/dev/secret_key.txt",
-    "INVENTREE_OIDC_PRIVATE_KEY_FILE": "${containerWorkspaceFolder}/reference/inventree-source/dev/oidc.pem",
-
+    "INVENTREE_CONFIG_FILE": "/inventree-data/config.yaml",
+    "INVENTREE_SECRET_KEY_FILE": "/inventree-data/secret_key.txt",
+    "INVENTREE_OIDC_PRIVATE_KEY_FILE": "/inventree-data/oidc.pem",
     // used to load the venv into the PATH and activate it
     // Ref: https://stackoverflow.com/a/56286534
-    "VIRTUAL_ENV": "${containerWorkspaceFolder}/reference/inventree-source/dev/venv",
-    "PATH": "${containerWorkspaceFolder}/reference/inventree-source/dev/venv/bin:${containerEnv:PATH}"
+    "VIRTUAL_ENV": "/inventree-data/venv",
+    "PATH": "/inventree-data/venv/bin:${containerEnv:PATH}"
   }
 }

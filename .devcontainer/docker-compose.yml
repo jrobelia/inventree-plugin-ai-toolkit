@@ -30,6 +30,7 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - ../:/workspace:z
+      - inventree-data:/inventree-data
       - /tmp/.X11-unix:/tmp/.X11-unix
 
     environment:
@@ -44,7 +45,8 @@ services:
       INVENTREE_PLUGINS_ENABLED: True
       INVENTREE_SITE_URL: http://localhost:8001
       INVENTREE_CORS_ORIGIN_ALLOW_ALL: True
-      INVENTREE_PY_ENV: /workspace/reference/inventree-source/dev/venv
+      INVENTREE_DATA_DIR: /inventree-data
+      INVENTREE_PY_ENV: /inventree-data/venv
       INVENTREE_DEVCONTAINER: True
 
     depends_on:
@@ -52,3 +54,4 @@ services:
 
 volumes:
   dev-db:
+  inventree-data:
