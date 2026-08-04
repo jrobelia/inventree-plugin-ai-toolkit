@@ -15,17 +15,28 @@ const configPath = path.resolve(__dirname, '../../../../config/servers.json');
 
 let username = 'admin';
 let password = 'admin';
-let baseURL = 'http://localhost:8001';
 
 try {
   const config = require(configPath);
   if (config?.servers?.dev) {
     username = config.servers.dev.username || username;
     password = config.servers.dev.password || password;
-    baseURL = config.servers.dev.url || baseURL;
   }
 } catch (error) {
   console.log('config/servers.json not found; using default dev credentials');
+}
+
+/**
+ * Return the first visible locator matching one of the provided selectors.
+ */
+async function findVisibleLocator(page, selectors) {
+  for (const selector of selectors) {
+    const locator = page.locator(selector).first();
+    if (await locator.isVisible().catch(() => false)) {
+      return locator;
+    }
+  }
+  return null;
 }
 
 /**
@@ -36,19 +47,40 @@ async function login(page) {
   await page.goto('/web/');
   await page.waitForLoadState('networkidle');
 
-  // The SPA redirects unauthenticated users to the login route.
-  const usernameInput = page.locator('input[name="username"]').first();
-  const passwordInput = page.locator('input[name="password"]').first();
-  const submitButton = page.locator('button[type="submit"]').first();
+  const usernameInput = await findVisibleLocator(page, [
+    'input[name="username"]',
+    'input[type="text"]',
+    '#username',
+  ]);
 
-  await usernameInput.waitFor({ state: 'visible', timeout: 10000 });
+  const passwordInput = await findVisibleLocator(page, [
+    'input[name="password"]',
+    'input[type="password"]',
+    '#password',
+  ]);
+
+  if (!usernameInput || !passwordInput) {
+    throw new Error('Could not find username or password input on login page');
+  }
+
   await usernameInput.fill(username);
   await passwordInput.fill(password);
+
+  const submitButton = await findVisibleLocator(page, [
+    'button[type="submit"]',
+    'button:has-text("Login")',
+    'button:has-text("Sign In")',
+  ]);
+
+  if (!submitButton) {
+    throw new Error('Could not find login submit button');
+  }
+
   await submitButton.click();
 
   // Wait until we are no longer on the login page.
   await page.waitForURL((url) => !url.pathname.includes('/login'), {
-    timeout: 30000
+    timeout: 30000,
   });
 }
 

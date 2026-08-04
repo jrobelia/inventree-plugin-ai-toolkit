@@ -1,6 +1,6 @@
 ---
 name: new-inventree-plugin
-description: Use when scaffolding a new InvenTree plugin from scratch with the plugin-creator tool. Guides requirements, setup, tests, and documentation.
+description: Use when scaffolding a new InvenTree plugin from scratch. Starts with planning (wayfinder), runs plugin-creator with no CI, applies the toolkit test scaffold, and verifies.
 ---
 
 # New InvenTree Plugin Skill
@@ -11,7 +11,7 @@ description: Use when scaffolding a new InvenTree plugin from scratch with the p
 
 ## Overview
 
-This skill guides an AI agent through the process of creating a new InvenTree plugin from scratch using the plugin-creator tool.
+This skill guides an AI agent through creating a new InvenTree plugin from scratch. The agent first reaches a clear plan, then runs `plugin-creator`, explicitly opts out of CI, applies the toolkit's `plugin-templates/` test scaffold, and verifies the result.
 
 ---
 
@@ -19,9 +19,9 @@ This skill guides an AI agent through the process of creating a new InvenTree pl
 
 Complete the initial setup in [SETUP.md](../../SETUP.md) before using this skill. This includes:
 - Docker Desktop installed and running
-- VS Code with Dev Containers extension
+- VS Code with Dev Containers extension (or the CLI docker compose path)
 - Devcontainer open and running
-- Plugin-creator submodule initialized
+- `reference/plugin-creator` submodule initialized
 
 For automated command execution (Docker exec), see [SESSION-ONBOARDING.md](../reference/SESSION-ONBOARDING.md#automated-command-execution).
 
@@ -29,80 +29,125 @@ For automated command execution (Docker exec), see [SESSION-ONBOARDING.md](../re
 
 ## Workflow
 
-### 1. Understand Requirements
+### 1. Plan the Plugin
 
-Ask the user to describe:
-- Plugin purpose and functionality
-- Required mixins (e.g., EventMixin, NavigationMixin)
-- Frontend requirements (React UI, panels, buttons)
-- API endpoints needed
-- Database models (if any)
+Do **not** run `plugin-creator` until the plugin's purpose and shape are clear. If the user has not already produced a plan doc, invoke `/wayfinder` (or an equivalent planning mode) to produce one.
 
-### 2. Run Plugin-Creator
+The plan doc must include enough information to answer every `plugin-creator` prompt:
+
+- Plugin name (kebab-case)
+- Human-readable name and description
+- Author / license
+- Required InvenTree mixins (e.g., EventMixin, NavigationMixin, UserInterfaceMixin, SettingsMixin)
+- Frontend needs: panels, dashboard items, buttons, spotlight actions, etc.
+- Whether the plugin is **headless** (no React frontend) or **UI/hybrid** (has a `frontend/` package)
+- API endpoints and DRF serializers (if any)
+- Database models and plugin settings (if any)
+- Test fixtures or part IDs the E2E tests will need
+
+Only proceed once the user confirms the plan is complete enough to scaffold.
+
+### 2. Determine the Module Name
+
+From the plan, determine the Python module name. This is usually the `package_name` produced by `plugin-creator` (the directory inside the plugin root that will contain `__init__.py` and `core.py`).
+
+Use `<MODULE_NAME>` in all commands below.
+
+### 3. Run plugin-creator
 
 ```bash
 cd /workspace/reference/plugin-creator
 python plugin_creator/main.py
 ```
 
-Guide the user through the interactive prompts:
-- Plugin name (kebab-case)
-- Human-readable name
-- Description
-- Author information
-- License (default: MIT)
-- Mixins selection
-- Frontend inclusion (yes/no)
+Answer the interactive prompts **from the plan doc**, not by asking the user again.
 
-### 3. Configure Plugin Development
+When you reach the DevOps / CI prompt, explicitly select **None**. The upstream default is **GitHub Actions**, so move the selection to **None** and confirm. This should prevent `.github/workflows/` from being generated.
 
-After plugin creation:
-```bash
-cd /workspace/plugins/your-plugin-name
-```
-
-**Backend setup:**
-- Review generated `core.py` structure
-- Add required mixins to plugin class
-- Configure plugin settings in `__init__.py`
-
-**Frontend setup (if included):**
-- Review generated React components
-- Configure Vite for development
-- Test hot reload: `cd frontend && npm run dev`
-
-### 4. Set Up Code Quality
+If `plugin-creator` generates CI files anyway (for example, because `cookiecutter.json` defaults `ci_support` to `github`), remove them before continuing:
 
 ```bash
-# Python
-python -m venv .venv
-source .venv/bin/activate
-pip install pre-commit
-pre-commit install
-
-# Frontend
-cd frontend
-npm install
+rm -rf /workspace/plugins/<plugin-name>/.github/workflows
+rmdir /workspace/plugins/<plugin-name>/.github 2>/dev/null || true
 ```
 
-### 5. Initial Test
+### 4. Apply the Toolkit Test-Scaffold Template
+
+`plugin-creator` does not generate a `tests/` folder. Apply the toolkit's test scaffold on top of the generated plugin:
 
 ```bash
-# Unit tests
-python -m pytest tests/unit
+PLUGIN_DIR="/workspace/plugins/<plugin-name>"
+MOD="<MODULE_NAME>"
 
-# Frontend lint
-npm run lint
+# Unified deterministic test runner
+cp /workspace/plugin-templates/test-all.sh "$PLUGIN_DIR/test-all.sh"
+sed -i "s/{{PLUGIN_NAME}}/<plugin-name>/g; s/{{MODULE_NAME}}/$MOD/g" "$PLUGIN_DIR/test-all.sh"
+chmod +x "$PLUGIN_DIR/test-all.sh"
+
+# Backend tests and fixtures (always)
+cp -r /workspace/plugin-templates/backend/* "$PLUGIN_DIR/$MOD/"
+
+# Frontend scaffold (only for UI or hybrid plugins)
+# Skip this block if the plan has no UserInterfaceMixin and no frontend.
+if grep -q "UserInterfaceMixin" "$PLUGIN_DIR/$MOD/core.py" 2>/dev/null || [ -d "$PLUGIN_DIR/frontend" ]; then
+  cp -r /workspace/plugin-templates/frontend/e2e "$PLUGIN_DIR/frontend/"
+  cp /workspace/plugin-templates/frontend/playwright.config.cjs "$PLUGIN_DIR/frontend/playwright.config.cjs"
+  mkdir -p "$PLUGIN_DIR/frontend/src/utils"
+  cp /workspace/plugin-templates/frontend/src/utils/example.test.ts "$PLUGIN_DIR/frontend/src/utils/example.test.ts"
+fi
+
+# Agent rules
+cp /workspace/plugin-templates/AGENTS.md.template "$PLUGIN_DIR/AGENTS.md"
+sed -i "s/{{PLUGIN_NAME}}/<plugin-name>/g; s/{{MODULE_NAME}}/$MOD/g" "$PLUGIN_DIR/AGENTS.md"
 ```
 
-### 6. Document Plugin
+> If `plugin-creator` generated files with the same names, do not overwrite them; ask the user which version to keep.
 
-Update `README.md` with:
-- Plugin purpose
-- Features
-- Installation instructions
-- Usage examples
-- Configuration options
+### 5. Install Dependencies and Run Initial Checks
+
+```bash
+cd "$PLUGIN_DIR"
+
+# Python backend
+python -m pip install -e .
+
+# Frontend (only for UI or hybrid plugins)
+if [ -d "frontend" ]; then
+  cd frontend
+  npm install
+  cd ..
+fi
+
+# Static checks
+ruff check "$MOD"
+ruff format --check "$MOD"
+if [ -d "frontend" ]; then
+  npm run lint --prefix frontend
+fi
+
+# Fast unit tests (no InvenTree server required)
+python -m pytest "$MOD/tests/unit" -v
+if [ -d "frontend" ]; then
+  npm run test --prefix frontend
+fi
+
+# Note: Playwright browsers are installed by .devcontainer/postCreateCommand.sh.
+# Only install them on the host if you are running E2E tests interactively outside the container.
+```
+
+Integration and E2E tests require the InvenTree dev server and a populated dataset. Once those are ready, run the full deterministic chain:
+
+```bash
+cd "$PLUGIN_DIR"
+./test-all.sh
+```
+
+### 6. Document the Plugin
+
+- Update `README.md` with purpose, features, installation, and usage.
+- Create `CONTEXT.md` with the plugin's domain glossary.
+- Create `docs/adr/` when you make non-obvious decisions.
+- Add the plugin to the toolkit's `CONTEXT-MAP.md` if it belongs to a shared domain.
 
 ---
 
@@ -110,51 +155,56 @@ Update `README.md` with:
 
 ### Adding a Custom Panel
 
-1. Create panel component in `frontend/src/`
-2. Register in plugin's `setup.py` or core
-3. Add navigation entry if using NavigationMixin
+1. Create the panel component in `frontend/src/`.
+2. Register it in the plugin's `core.py` or `setup.py`.
+3. Add a navigation entry if using `NavigationMixin`.
 
 ### Adding an API Endpoint
 
-1. Create endpoint in `api.py` or `views.py`
-2. Add URL routing in `api/urls.py`
-3. Create serializer if needed
-4. Write unit test
+1. Create endpoint code in `api.py` or `views.py`.
+2. Add URL routing in `api/urls.py` or `urls.py`.
+3. Create a serializer if needed.
+4. Write a unit test in `<MODULE_NAME>/tests/unit/`.
 
 ### Adding Database Models
 
-1. Create model in `models.py`
-2. Create migration
-3. Register with InvenTree admin if needed
+1. Create the model in `models.py`.
+2. Create and run a migration.
+3. Register with InvenTree admin if needed.
+4. Write an integration test in `<MODULE_NAME>/tests/integration/`.
 
 ---
 
 ## Verification Checklist
 
-- [ ] Plugin-creator ran successfully
-- [ ] Plugin directory created in `/workspace/plugins/`
-- [ ] Plugin class configured with required mixins
-- [ ] Frontend hot reload working (if applicable)
-- [ ] Code quality tools installed (pre-commit, biome)
-- [ ] Unit tests pass
-- [ ] README.md updated
-- [ ] Plugin loads in InvenTree (test in devcontainer)
+- [ ] Plan doc exists and is approved by the user.
+- [ ] `plugin-creator` ran successfully with DevOps set to **None**.
+- [ ] No `.github/workflows/` were generated (or they were removed).
+- [ ] Plugin directory created in `/workspace/plugins/`.
+- [ ] `test-all.sh` copied from `plugin-templates/` and placeholders replaced.
+- [ ] Backend `tests/` copied from `plugin-templates/`.
+- [ ] For UI/hybrid plugins: frontend `e2e/` and `playwright.config.cjs` copied from `plugin-templates/`.
+- [ ] For headless plugins: no `frontend/` directory and `test-all.sh` skips frontend steps.
+- [ ] `ruff check` and `ruff format --check` pass.
+- [ ] For UI/hybrid plugins: `npm run lint` passes.
+- [ ] Unit tests pass (`pytest <MODULE_NAME>/tests/unit`, and `npm run test` for UI plugins).
+- [ ] Plugin loads in InvenTree (test in devcontainer).
+- [ ] `README.md` and `CONTEXT.md` updated.
 
 ---
 
 ## Troubleshooting
 
 **Plugin not appearing in InvenTree:**
-- Check plugin is in correct directory
-- Verify plugin is enabled in InvenTree settings
-- Check InvenTree logs for errors
+- Check the plugin is in `/workspace/plugins/` and linked under `$INVENTREE_PLUGIN_DIR`.
+- Verify the plugin is enabled in InvenTree settings.
+- Check InvenTree server logs for import errors.
 
 **Frontend not loading:**
-- Verify plugin dev server is running
-- Check CORS configuration
-- Check browser console for errors
+- Verify the plugin dev server is running (`npm run dev` in `frontend/`).
+- Check browser console for CORS or JavaScript errors.
 
 **Tests failing:**
-- Ensure virtual environment is activated
-- Check dependencies are installed
-- Verify test fixtures are correct
+- Ensure `INVENTREE_HOME` and `INVENTREE_PLUGIN_DIR` are set inside the devcontainer.
+- Check `test-all.sh` preflight output for the exact missing piece (server, dataset, plugin link).
+- Verify test fixtures match the actual data in the devcontainer.

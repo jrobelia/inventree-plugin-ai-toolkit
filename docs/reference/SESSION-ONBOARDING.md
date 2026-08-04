@@ -134,7 +134,7 @@ python -m pytest tests/integration
 
 **E2E tests with Playwright (for frontend):**
 
-Playwright tests run **locally on your host machine** and access the InvenTree dev server in the devcontainer via forwarded ports. Test files live in each plugin's `frontend/e2e/` directory.
+E2E tests run in the devcontainer and access the InvenTree dev server at `http://localhost:8001`. The `test-all.sh` script runs them headless with `CI=1` so the container does not need a display. The HTML report and video artifacts are written to `frontend/playwright-report/` and `frontend/test-results/` and are visible on the host because the devcontainer volume-mounts the workspace.
 
 For new plugins, copy the Playwright templates from `plugin-templates/frontend/` into your plugin repo:
 
@@ -143,27 +143,44 @@ For new plugins, copy the Playwright templates from `plugin-templates/frontend/`
 cp -r /workspace/plugin-templates/frontend/* /workspace/plugins/your-plugin-name/frontend/
 ```
 
-Then install dependencies and run tests:
+Then install dependencies in the devcontainer:
 
 ```bash
-# On host machine (not in devcontainer)
+# In devcontainer terminal
+cd /workspace/plugins/your-plugin-name/frontend
+npm install
+```
+
+Run E2E as part of the full deterministic chain:
+
+```bash
+cd /workspace/plugins/your-plugin-name
+./test-all.sh
+```
+
+Or run E2E alone in the devcontainer:
+
+```bash
+cd /workspace/plugins/your-plugin-name/frontend
+CI=1 npm run test:e2e
+```
+
+**Interactive frontend development on the host**
+
+If you want to see the browser live, use the host path (where the display and browser live):
+
+```bash
 cd /workspace/plugins/your-plugin-name/frontend
 npm install
 npx playwright install
+npm run test:e2e       # opens the HTML report if a test fails
+npm run test:e2e:ui    # opens the Playwright UI for live debugging
+```
 
-# Windows: No additional steps needed
-# Linux: sudo npx playwright install-deps
+To force the HTML report to open after every run, set `PLAYWRIGHT_HTML_OPEN=always`:
 
-# 1. Create config/servers.json from the example (if it doesn't exist)
-cp config/servers.json.example config/servers.json
-
-# 2. Edit config/servers.json and set your dev server credentials
-#    (The test reads from config/servers.json dev server section)
-
-# 3. Ensure InvenTree server is running (see note below)
-
-# 4. Run tests
-npm run test:e2e
+```bash
+PLAYWRIGHT_HTML_OPEN=always npm run test:e2e
 ```
 
 **Configuration:**
@@ -171,7 +188,7 @@ npm run test:e2e
 - Source of truth: `config/servers.json` (dev server section)
 - Set `username`, `password`, and `url` under `servers.dev`
 - Defaults: `admin/admin` and `http://localhost:8001` if config not found
-- Reporter: Uses 'list' reporter (auto-exits, no hanging)
+- Reporter: `list` plus `html` (opens `on-failure` unless `CI=1` or `PLAYWRIGHT_HTML_OPEN` is set)
 - Browsers: Chromium and WebKit (Firefox temporarily disabled due to timeout issues)
 
 **Note:** E2E tests require the InvenTree server running in the devcontainer. Start it first:

@@ -116,13 +116,22 @@ chmod +x /workspace/plugins/your-plugin-name/test-all.sh
 
 E2E tests read dev server credentials and URL from `config/servers.json` (relative to toolkit root). See `config/servers.json.example` for the expected format.
 
-Run E2E tests from your host machine, not the devcontainer:
+E2E tests run inside the devcontainer as part of `test-all.sh` (or directly via `CI=1 npm run test:e2e` in the container). The HTML report and video artifacts are written to `frontend/playwright-report/` and `frontend/test-results/` and are accessible on the host through the devcontainer volume mount.
+
+For interactive frontend debugging on the host (where the browser and display live):
 
 ```bash
 cd /workspace/plugins/your-plugin-name/frontend
 npm install
 npx playwright install
-npm run test:e2e
+npm run test:e2e       # opens the HTML report automatically if a test fails
+npm run test:e2e:ui    # opens the Playwright UI for live debugging
+```
+
+To force the HTML report to open after every run, set `PLAYWRIGHT_HTML_OPEN=always`:
+
+```bash
+PLAYWRIGHT_HTML_OPEN=always npm run test:e2e
 ```
 
 See `docs/reference/SESSION-ONBOARDING.md` for full setup instructions.
