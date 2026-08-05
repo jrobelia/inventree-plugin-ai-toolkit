@@ -77,6 +77,14 @@ for package_json in /workspace/plugins/*/frontend/package.json; do
     plugin_name=$(basename "$(dirname "$frontend_dir")")
     echo "Installing frontend dependencies for $plugin_name..."
     cd "$frontend_dir"
+    # The named volume for this node_modules is mounted over the workspace bind
+    # mount and may initially be owned by root. Ensure it is owned by the
+    # container user before npm writes into it.
+    mkdir -p node_modules
+    sudo chown -R "$(id -u):$(id -g)" node_modules
+    # Vite build output lands in a sibling package's static/ directory, which is
+    # on the workspace bind mount and may also be root-owned. Make it writable.
+    find "$(dirname "$frontend_dir")" -maxdepth 2 -type d -name static -not -path "$frontend_dir/*" -exec sudo chown -R "$(id -u):$(id -g)" {} +
     if [ -f package-lock.json ]; then
         npm ci
     else
