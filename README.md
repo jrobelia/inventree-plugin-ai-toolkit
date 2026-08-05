@@ -5,7 +5,7 @@
 [![Devcontainer](https://img.shields.io/badge/Devcontainer-Ready-green.svg)](https://code.visualstudio.com/docs/devcontainers/containers)
 [![AI Assisted](https://img.shields.io/badge/AI%20Assisted-Optional-purple.svg)](https://github.com/features/copilot)
 
-**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2026-08-04
+**Audience:** Users and AI Agents | **Category:** Overview | **Purpose:** Toolkit introduction and feature summary | **Last Updated:** 2026-08-05
 
 ---
 
@@ -239,9 +239,12 @@ For plugins with frontend code:
 
 ### AI-Assisted Development
 - **AGENTS.md** - Devin rules for the toolkit
-- **.agents/skills/** - AI-assisted development workflows
+- **.devin/skills/** - Devin-specific AI-assisted development workflows
   - **new-inventree-plugin** - Create a new InvenTree plugin
   - **improve-inventree-plugin** - Verify changes to an existing plugin
+  - **build-inventree-plugin** - Build a packaged wheel and frontend bundle
+  - **test-inventree-plugin** - Run the deterministic test chain
+  - **deploy-inventree-plugin** - Deploy a built wheel to staging or production
 
 ### Living Documents
 - **docs/architecture.md** - Toolkit module map
@@ -251,9 +254,12 @@ For plugins with frontend code:
 ### Reference Guides
 - **SETUP.md** - Initial setup instructions (devcontainer-based)
 - **docs/reference/SESSION-ONBOARDING.md** - Step-by-step development session process
-- **.agents/skills/** - AI-assisted development workflows
-  - **new-inventree-plugin/skill.md** - Creating new plugins from scratch
-  - **improve-inventree-plugin/skill.md** - Change verification loop for existing plugins
+- **.devin/skills/** - Devin-specific AI-assisted development workflows
+  - **new-inventree-plugin/SKILL.md** - Creating new plugins from scratch
+  - **improve-inventree-plugin/SKILL.md** - Change verification loop for existing plugins
+  - **build-inventree-plugin/SKILL.md** - Build a packaged wheel and frontend bundle
+  - **test-inventree-plugin/SKILL.md** - Run the deterministic test chain
+  - **deploy-inventree-plugin/SKILL.md** - Deploy a built wheel to staging or production
 - **docs/reference/DOCUMENTATION-STANDARDS.md** - Documentation naming conventions
 - **docs/reference/PLUGIN-DEVELOPMENT-WORKFLOW.md** - Complete plugin development lifecycle
 

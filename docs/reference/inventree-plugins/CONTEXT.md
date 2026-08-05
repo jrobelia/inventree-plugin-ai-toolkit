@@ -28,7 +28,7 @@ It does **not** cover:
   - **Hybrid plugin:** Uses `UserInterfaceMixin` plus backend mixins. Gets both frontend and backend test layers.
 - **Vertical slice:** One feature implemented end-to-end (user story → test → implementation → API → UI → docs).
 - **Devcontainer:** The Docker-based environment that hosts InvenTree and the plugins for development.
-- **Deterministic test chain:** The sequence of unit, integration, and E2E tests run before considering a feature done. `test-all.sh` is the canonical local runner and adapts its layers to the plugin type.
+- **Deterministic test chain:** The sequence of unit, integration, and E2E tests run before considering a feature done. `scripts/run-test-all.sh` is the canonical toolkit-level runner; it checks for a healthy InvenTree server, starts one if needed, and then calls the plugin's `test-all.sh`. The `.devin/skills/test-inventree-plugin/SKILL.md` skill is the agent entry point.
 
 ## Related reference docs
 

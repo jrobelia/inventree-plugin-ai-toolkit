@@ -17,7 +17,12 @@
         "password": "",
         "key_file": ""
       },
-      "notes": "Test server - deploy here first for testing"
+      "compose_dir": "/opt/inventree",
+      "service_name": "inventree-server",
+      "data_dir": "/opt/inventree/inventree-data",
+      "container_data_path": "/home/inventree/data",
+      "docker_command": "docker compose",
+      "notes": "Test server - deploy here first for testing. For Deploy-Plugin.ps1, ssh.host is required. The optional compose_dir/service_name/data_dir/docker_command override auto-detection."
     },
     "production": {
       "plugin_dir": "/opt/inventree/plugins",
@@ -30,7 +35,12 @@
         "password": "",
         "key_file": ""
       },
-      "notes": "Live production server - deploy with caution"
+      "compose_dir": "/opt/inventree",
+      "service_name": "inventree-server",
+      "data_dir": "/opt/inventree/inventree-data",
+      "container_data_path": "/home/inventree/data",
+      "docker_command": "docker compose",
+      "notes": "Live production server - deploy with caution. For Deploy-Plugin.ps1, ssh.host is required. The optional compose_dir/service_name/data_dir/docker_command override auto-detection."
     }
   },
   "defaults": {

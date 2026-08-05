@@ -1,6 +1,6 @@
 # InvenTree Plugin Toolkit - Setup Guide
 
-**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2026-08-04
+**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2026-08-05
 
 ---
 
@@ -269,7 +269,7 @@ Once setup is complete:
    - Browse [docs/reference/](docs/reference/) for setup guides and workflows
 
 2. **Use AI-assisted development skills**
-   - See `.agents/skills/new-inventree-plugin/` to scaffold a new plugin
-   - See `.agents/skills/improve-inventree-plugin/` to verify changes to an existing plugin
+   - See `.devin/skills/new-inventree-plugin/` to scaffold a new plugin
+   - See `.devin/skills/improve-inventree-plugin/` to verify changes to an existing plugin
 
 Happy plugin development!

@@ -333,10 +333,10 @@ export default function BOMCostPanel({ context }) {
 ### 2.6 Deploy & Validate
 
 ```powershell
-# Build plugin
-.\scripts\Build-Plugin.ps1 -Plugin "YourPlugin"
+# Build plugin (inside the devcontainer)
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode -T toolkit bash -c "cd /workspace && bash scripts/build-plugin.sh /workspace/plugins/YourPlugin"
 
-# Deploy to staging
+# Deploy to staging (from the Windows host)
 .\scripts\Deploy-Plugin.ps1 -Plugin "YourPlugin" -Server staging
 ```
 
@@ -463,6 +463,8 @@ def test_large_bom_performance(self):
 ```powershell
 .\scripts\Deploy-Plugin.ps1 -Plugin "YourPlugin" -Server production
 ```
+
+For `production`, the script asks for typed `yes` confirmation and requires staging to be verified first.
 
 ---
 
@@ -612,15 +614,16 @@ def test_large_bom_performance(self):
 **The toolkit supports this workflow:**
 
 ### Planning Phase
-- `.agents/skills/new-inventree-plugin/skill.md` - New plugin scaffolding workflow
-- `.agents/skills/improve-inventree-plugin/skill.md` - Improve existing plugin workflow
+- `.devin/skills/new-inventree-plugin/SKILL.md` - New plugin scaffolding workflow
+- `.devin/skills/improve-inventree-plugin/SKILL.md` - Improve existing plugin workflow
 - `docs/reference/SESSION-ONBOARDING.md` - Daily dev/test loop in the devcontainer
 
 ### Development Phase
 - `create-inventree-plugin` (run from `/workspace/plugins`) - Create skeleton
-- `./test-all.sh` (inside the plugin directory) - Run the deterministic test chain
-- `scripts/Build-Plugin.ps1` - Compile plugin
-- `scripts/Deploy-Plugin.ps1` - Deploy to staging/production
+- `bash scripts/run-test-all.sh /workspace/plugins/your-plugin-name` (toolkit root or devcontainer) - Run the deterministic test chain; starts the server only if needed
+- `.devin/skills/test-inventree-plugin/SKILL.md` - Agent entry point for running plugin tests
+- `scripts/build-plugin.sh` (inside the devcontainer) - Compile plugin into a `.whl`
+- `scripts/Deploy-Plugin.ps1` (from the Windows host) - Deploy a built `.whl` to staging/production
 
 ### Learning Phase
 - `reference/` folder - Example plugins and tooling
@@ -646,4 +649,4 @@ def test_large_bom_performance(self):
 
 ---
 
-_Last Updated: December 18, 2025_
+_Last Updated: 2026-08-05_
