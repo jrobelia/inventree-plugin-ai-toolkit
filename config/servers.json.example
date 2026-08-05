@@ -4,7 +4,7 @@
       "url": "http://localhost:8001",
       "username": "admin",
       "password": "admin",
-      "notes": "Local devcontainer - InvenTree server on forwarded port 8001 (must match the admin password set by .devcontainer/postCreateCommand.sh)"
+      "notes": "Local devcontainer - InvenTree server on forwarded port 8001. `postCreateCommand.sh` reads these credentials and ensures the user exists with this password, so the E2E test and the dev admin account stay in sync."
     },
     "staging": {
       "plugin_dir": "/opt/inventree/plugins",

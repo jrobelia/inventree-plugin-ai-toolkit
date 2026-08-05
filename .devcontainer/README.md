@@ -74,3 +74,4 @@ Commit the generated `docker-compose.frontend-volumes.yml` and `frontend-node-mo
 - Port `8001` is mapped `8001:8001` so `localhost:8001` is the same URL inside and outside the container.
 - For VS Code usage, see `../SETUP.md`.
 - The demo dataset branch is derived from `INVENTREE_SW_VERSION` in `reference/inventree-source`. When you bump the InvenTree submodule to a new major/minor version, update the derivation in `postCreateCommand.sh` (or pin to a known commit) and verify `invoke dev.setup-test -i` still loads cleanly.
+- The dev test user is created/updated from `config/servers.json` (`servers.dev.username`/`servers.dev.password`) so the E2E test and the InvenTree admin account always match. If the file is missing, it falls back to `admin`/`admin`.

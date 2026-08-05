@@ -75,22 +75,43 @@ demo_branch="${inventree_major}.${inventree_minor}.x"
 echo "Loading demo dataset for InvenTree $inventree_version (branch: $demo_branch)..."
 invoke dev.setup-test -i -b "$demo_branch" -p /inventree-data/demo-dataset
 
-# The demo-dataset admin user may have an unknown password. Set it to the
-# documented dev credentials so tests can log in without extra configuration.
-echo "Setting dev admin credentials..."
-python - <<'PY'
-import os, sys
+# Ensure the dev test user exists and has the expected password. The E2E tests
+# read the same credentials from /workspace/config/servers.json, so use that
+# file as the source of truth. Fall back to admin/admin if the file is missing.
+SERVER_CONFIG="${SERVER_CONFIG:-/workspace/config/servers.json}"
+echo "Configuring dev test user from $SERVER_CONFIG (with admin/admin fallback)..."
+SERVER_CONFIG="$SERVER_CONFIG" python - <<'PY'
+import json, os, sys
+from pathlib import Path
+
 sys.path.insert(0, os.path.join(os.environ['INVENTREE_HOME'], 'src', 'backend', 'InvenTree'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'InvenTree.settings')
 import django
 django.setup()
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+config_path = Path(os.environ.get('SERVER_CONFIG', '/workspace/config/servers.json'))
+
+try:
+    cfg = json.loads(config_path.read_text(encoding='utf-8'))
+    dev = cfg.get('servers', {}).get('dev', {})
+    username = dev.get('username') or 'admin'
+    password = dev.get('password') or 'admin'
+except (FileNotFoundError, json.JSONDecodeError):
+    username, password = 'admin', 'admin'
+
 u, _ = User.objects.get_or_create(
-    username='admin',
-    defaults={'email': 'admin@demo.inventree.org', 'is_superuser': True, 'is_staff': True}
+    username=username,
+    defaults={'email': f'{username}@demo.inventree.org', 'is_superuser': True, 'is_staff': True, 'is_active': True}
 )
-u.set_password('admin')
+# The dev test user needs staff/superuser rights so E2E tests can navigate parts.
+u.is_superuser = True
+u.is_staff = True
+u.is_active = True
+u.set_password(password)
 u.save()
+print(f'Dev test user configured: {username}')
 PY
 
 # Install required frontend packages.
