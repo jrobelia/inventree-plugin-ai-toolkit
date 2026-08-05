@@ -4,7 +4,7 @@
       "url": "http://localhost:8001",
       "username": "admin",
       "password": "admin",
-      "notes": "Local devcontainer - InvenTree server on forwarded port 8001"
+      "notes": "Local devcontainer - InvenTree server on forwarded port 8001 (must match the admin password set by .devcontainer/postCreateCommand.sh)"
     },
     "staging": {
       "plugin_dir": "/opt/inventree/plugins",

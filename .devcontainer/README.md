@@ -10,7 +10,7 @@ This folder defines the reproducible development environment for the toolkit. It
 - `frontend-node-modules-mounts.txt` — Generated list of `frontend/node_modules` container paths, used by the Dockerfile to pre-create mount points.
 - `generate-frontend-volumes.py` — Host-side generator that produces the two generated files above from `plugins/*/frontend/package.json`.
 - `devcontainer.json` — VS Code-specific settings (extensions, forwarded ports, `postCreateCommand`). When you use plain Docker Compose, this file is ignored.
-- `postCreateCommand.sh` — One-time setup: create the Python venv, install InvenTree and plugin dependencies, set up the dev database, install plugin frontend dependencies with `npm ci`, and install Playwright browsers.
+- `postCreateCommand.sh` — One-time setup: create the Python venv, install InvenTree and plugin dependencies, set up the dev database, load the InvenTree demo dataset from a branch matching the pinned InvenTree version, install plugin frontend dependencies with `npm ci`, and install Playwright browsers.
 
 ## CLI-only quick start
 
@@ -73,3 +73,4 @@ Commit the generated `docker-compose.frontend-volumes.yml` and `frontend-node-mo
 - The `toolkit` service uses `command: sleep infinity` so `docker compose up -d` keeps it alive for `docker exec`. VS Code sets `overrideCommand: true`, so this does not affect VS Code usage.
 - Port `8001` is mapped `8001:8001` so `localhost:8001` is the same URL inside and outside the container.
 - For VS Code usage, see `../SETUP.md`.
+- The demo dataset branch is derived from `INVENTREE_SW_VERSION` in `reference/inventree-source`. When you bump the InvenTree submodule to a new major/minor version, update the derivation in `postCreateCommand.sh` (or pin to a known commit) and verify `invoke dev.setup-test -i` still loads cleanly.
