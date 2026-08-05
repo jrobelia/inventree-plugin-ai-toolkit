@@ -63,6 +63,57 @@ set +e
 invoke dev.setup-dev
 set -e
 
+# Load a known-good demo dataset so integration and E2E tests have data.
+# The demo-dataset branch must match the InvenTree release line. When
+# reference/inventree-source is bumped to a new major/minor version, update
+# the derivation below or pin to a known commit for that release.
+echo "Deriving demo-dataset branch from InvenTree version..."
+inventree_version=$(grep -E "^INVENTREE_SW_VERSION[[:space:]]*=[[:space:]]*'[^']+'" "$INVENTREE_HOME/src/backend/InvenTree/InvenTree/version.py" | sed -E "s/.*'([^']+)'.*/\1/") || inventree_version="1.4.2"
+inventree_major=$(echo "$inventree_version" | cut -d. -f1)
+inventree_minor=$(echo "$inventree_version" | cut -d. -f2)
+demo_branch="${inventree_major}.${inventree_minor}.x"
+echo "Loading demo dataset for InvenTree $inventree_version (branch: $demo_branch)..."
+invoke dev.setup-test -i -b "$demo_branch" -p /inventree-data/demo-dataset
+
+# Ensure the dev test user exists and has the expected password. The E2E tests
+# read the same credentials from /workspace/config/servers.json, so use that
+# file as the source of truth. Fall back to admin/admin if the file is missing.
+SERVER_CONFIG="${SERVER_CONFIG:-/workspace/config/servers.json}"
+echo "Configuring dev test user from $SERVER_CONFIG (with admin/admin fallback)..."
+SERVER_CONFIG="$SERVER_CONFIG" python - <<'PY'
+import json, os, sys
+from pathlib import Path
+
+sys.path.insert(0, os.path.join(os.environ['INVENTREE_HOME'], 'src', 'backend', 'InvenTree'))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'InvenTree.settings')
+import django
+django.setup()
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+config_path = Path(os.environ.get('SERVER_CONFIG', '/workspace/config/servers.json'))
+
+try:
+    cfg = json.loads(config_path.read_text(encoding='utf-8'))
+    dev = cfg.get('servers', {}).get('dev', {})
+    username = dev.get('username') or 'admin'
+    password = dev.get('password') or 'admin'
+except (FileNotFoundError, json.JSONDecodeError):
+    username, password = 'admin', 'admin'
+
+u, _ = User.objects.get_or_create(
+    username=username,
+    defaults={'email': f'{username}@demo.inventree.org', 'is_superuser': True, 'is_staff': True, 'is_active': True}
+)
+# The dev test user needs staff/superuser rights so E2E tests can navigate parts.
+u.is_superuser = True
+u.is_staff = True
+u.is_active = True
+u.set_password(password)
+u.save()
+print(f'Dev test user configured: {username}')
+PY
+
 # Install required frontend packages.
 invoke int.frontend-install
 
@@ -92,14 +143,14 @@ for package_json in /workspace/plugins/*/frontend/package.json; do
         # source of truth for future `npm ci` runs.
         npm install
     fi
+    # Install Playwright browsers and system dependencies for this plugin's
+    # version of @playwright/test. Browsers live in the vscode user cache.
+    if [ -d node_modules/@playwright/test ] || [ -d node_modules/playwright ]; then
+        npx playwright install chromium webkit
+        sudo npx playwright install-deps chromium webkit
+    fi
     cd - >/dev/null
 done
-
-# Install Playwright browsers and system dependencies for E2E tests.
-# Browsers live in the vscode user cache and are shared across plugin frontends.
-echo "Installing Playwright browsers and system dependencies..."
-npx playwright install chromium webkit
-sudo npx playwright install-deps chromium webkit
 
 echo ""
 echo "=========================================="
