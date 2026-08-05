@@ -36,7 +36,7 @@ AI-assisted workflows live in `.devin/skills/` (Devin skills) and `.agents/skill
 - `.devin/skills/build-inventree-plugin/` — build a plugin wheel and frontend bundle inside the devcontainer
 - `.devin/skills/deploy-inventree-plugin/` — deploy a built wheel to staging or production
 - `.devin/skills/test-inventree-plugin/` — run the deterministic test chain
-- `.agents/skills/new-inventree-plugin/` — scaffold a new plugin via `plugin-creator`
+- `.devin/skills/new-inventree-plugin/` — scaffold a new plugin via `plugin-creator`
 - `.agents/skills/improve-inventree-plugin/` — verify a change with the deterministic test command
 - `.agents/skills/setup-matt-pocock-skills/` — configure issue tracker, triage labels, and domain docs
 - `.agents/agent/test-agent.md` — legacy Cascade agent configuration (kept for reference)
@@ -51,7 +51,6 @@ All scripts assume you run them from the toolkit root.
 |---|---|
 | `run-test-all.sh` (toolkit root) | Discovers or starts the InvenTree server, then runs the plugin's `test-all.sh` in the devcontainer |
 | `test-all.sh` (per plugin) | Deterministic chain called by `run-test-all.sh`: preflight check → unit → integration → Playwright |
-| `New-Plugin.ps1` | Host-only helper that wraps `plugin-creator` (legacy; prefer `create-inventree-plugin` or `python -m plugin_creator.cli` in the devcontainer) |
 | `build-plugin.sh` | Devcontainer build script: bump version, run pre-commit, build frontend, and create the `.whl` package |
 | `Deploy-Plugin.ps1` | Windows host script that calls `build-plugin.sh` if needed and deploys a built `.whl` to a server from `config/servers.json` via SSH/SCP |
 | `Setup-InvenTreeDev.ps1` | **Removed** — replaced by `.devcontainer/` |

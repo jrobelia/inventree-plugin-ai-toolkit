@@ -614,7 +614,7 @@ For `production`, the script asks for typed `yes` confirmation and requires stag
 **The toolkit supports this workflow:**
 
 ### Planning Phase
-- `.agents/skills/new-inventree-plugin/skill.md` - New plugin scaffolding workflow
+- `.devin/skills/new-inventree-plugin/SKILL.md` - New plugin scaffolding workflow
 - `.agents/skills/improve-inventree-plugin/skill.md` - Improve existing plugin workflow
 - `docs/reference/SESSION-ONBOARDING.md` - Daily dev/test loop in the devcontainer
 

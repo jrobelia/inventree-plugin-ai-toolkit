@@ -414,7 +414,7 @@ npm run lint
 The toolkit includes structured development workflows in `.agents/skills/`:
 
 **Creating a new plugin:**
-- See `.agents/skills/new-inventree-plugin/skill.md`
+- See `.devin/skills/new-inventree-plugin/SKILL.md`
 - Covers plugin-creator usage, configuration, and initial setup
 - Includes verification checklist
 
