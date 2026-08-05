@@ -141,8 +141,8 @@ try {
         Write-Host ""
         Write-Info "Next steps:"
         Write-Host "  1. Edit your plugin code in VS Code"
-        Write-Host "  2. Build: .\scripts\Build-Plugin.ps1 -Plugin '$($NewestPlugin.Name)'"
-        Write-Host "  3. Deploy: .\scripts\Deploy-Plugin.ps1 -Plugin '$($NewestPlugin.Name)' -Server staging"
+        Write-Host "  2. Build inside the devcontainer: bash scripts/build-plugin.sh /workspace/plugins/$($NewestPlugin.Name)"
+        Write-Host "  3. Deploy from Windows host: .\scripts\Deploy-Plugin.ps1 -Plugin '$($NewestPlugin.Name)' -Server staging"
         Write-Host ""
     }
 } finally {

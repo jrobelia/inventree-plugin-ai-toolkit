@@ -149,7 +149,7 @@ The v2.0 architecture is now reflected in `docs/architecture.md`:
 - Playwright tests are located in each plugin's `frontend/e2e/`.
 - `test-all.sh` is the per-plugin deterministic test command (run inside the devcontainer).
 - `Setup-InvenTreeDev.ps1` and `Link-PluginToDev.ps1` are removed.
-- `Build-Plugin.ps1` / `Deploy-Plugin.ps1` are the remote-only deployment path, not the local dev loop.
+- `scripts/build-plugin.sh` (devcontainer) builds the package; `scripts/Deploy-Plugin.ps1` (Windows host) deploys the built `.whl` to a remote server.
 
 ---
 

@@ -1,7 +1,7 @@
 # Toolkit Architecture
 
 **Purpose:** Module map for the InvenTree Plugin Development Toolkit  
-**Last Updated:** July 23, 2026
+**Last Updated:** 2026-08-05
 
 ---
 
@@ -10,7 +10,8 @@
 ```
 inventree-plugin-ai-toolkit/
 +-- .devcontainer/              Docker Compose + Dockerfile dev environment (see `.devcontainer/README.md` for CLI usage)
-+-- .agents/                     AI agent workflows and skills
++-- .devin/                      Devin-specific skills
++-- .agents/                     Shared/legacy AI agent skills
 +-- config/                     Server connection settings
 +-- docs/                       Living documents and references
 +-- reference/                  Reference submodules
@@ -28,10 +29,13 @@ inventree-plugin-ai-toolkit/
 
 ---
 
-## The `.agents/` System
+## The Agent Skill System
 
-AI-assisted workflows live in `.agents/skills/`. Devin's entry point for this repo is the root `AGENTS.md`.
+AI-assisted workflows live in `.devin/skills/` (Devin skills) and `.agents/skills/` (shared/legacy skills). Devin's entry point for this repo is the root `AGENTS.md`.
 
+- `.devin/skills/build-inventree-plugin/` — build a plugin wheel and frontend bundle inside the devcontainer
+- `.devin/skills/deploy-inventree-plugin/` — deploy a built wheel to staging or production
+- `.devin/skills/test-inventree-plugin/` — run the deterministic test chain
 - `.agents/skills/new-inventree-plugin/` — scaffold a new plugin via `plugin-creator`
 - `.agents/skills/improve-inventree-plugin/` — verify a change with the deterministic test command
 - `.agents/skills/setup-matt-pocock-skills/` — configure issue tracker, triage labels, and domain docs
@@ -47,8 +51,8 @@ All scripts assume you run them from the toolkit root.
 |---|---|
 | `test-all.sh` (per plugin) | Deterministic chain: preflight check → unit → integration → Playwright (run inside the devcontainer) |
 | `New-Plugin.ps1` | Host-only helper that wraps `plugin-creator` (legacy; prefer `create-inventree-plugin` or `python -m plugin_creator.cli` in the devcontainer) |
-| `Build-Plugin.ps1` | Host-only helper to build the `.whl` + frontend bundle before remote deployment |
-| `Deploy-Plugin.ps1` | Deploy a built `.whl` to a selectable remote server from `config/servers.json` via SSH/SCP |
+| `build-plugin.sh` | Devcontainer build script: bump version, run pre-commit, build frontend, and create the `.whl` package |
+| `Deploy-Plugin.ps1` | Windows host script that calls `build-plugin.sh` if needed and deploys a built `.whl` to a server from `config/servers.json` via SSH/SCP |
 | `Setup-InvenTreeDev.ps1` | **Removed** — replaced by `.devcontainer/` |
 | `Link-PluginToDev.ps1` | **Removed** — replaced by `.devcontainer/` |
 
@@ -103,11 +107,14 @@ plugins/YourPlugin/
      -> `python -m pytest tests/unit`
      -> `python -m pytest tests/integration`
      -> `npm run test:e2e` (Playwright against the devcontainer frontend)
-3. Build for remote deployment:
-   - Inside the devcontainer: `python -m build` (and `npm run build` for frontend)
-   - On a Windows host: `scripts/Build-Plugin.ps1 -Plugin YourPlugin`
-4. Deploy to a selectable remote server:
-   - `scripts/Deploy-Plugin.ps1 -Plugin YourPlugin -Server staging`
+3. Build for remote deployment inside the devcontainer:
+   ```bash
+   bash scripts/build-plugin.sh /workspace/plugins/YourPlugin
+   ```
+4. Deploy to a selectable remote server from the Windows host:
+   ```powershell
+   .\scripts\Deploy-Plugin.ps1 -Plugin "YourPlugin" -Server staging
+   ```
    - Uses `config/servers.json` to choose `staging` or `production`
 5. Test on the remote staging server
 6. Deploy to production when verified
