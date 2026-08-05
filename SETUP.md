@@ -1,6 +1,6 @@
 # InvenTree Plugin Toolkit - Setup Guide
 
-**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2026-08-04
+**Audience:** Users | **Category:** Installation Guide | **Purpose:** Initial setup and configuration instructions | **Last Updated:** 2026-08-05
 
 ---
 
