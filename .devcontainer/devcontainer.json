@@ -2,7 +2,10 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.241.1/containers/python-3
 {
   "name": "InvenTree Plugin AI Toolkit",
-  "dockerComposeFile": "docker-compose.yml",
+  "dockerComposeFile": [
+    "docker-compose.yml",
+    "docker-compose.frontend-volumes.yml"
+  ],
   "service": "toolkit",
   "overrideCommand": true,
   "workspaceFolder": "/workspace",

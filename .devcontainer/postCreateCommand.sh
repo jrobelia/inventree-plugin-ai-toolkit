@@ -66,10 +66,34 @@ set -e
 # Install required frontend packages.
 invoke int.frontend-install
 
-# Set up plugin development configuration for FlatBOMGenerator.
-echo "Setting up plugin development configuration..."
-cd /workspace/plugins/inventree-flat-bom-generator/frontend
-npm install
+# Install frontend dependencies for every plugin that has a frontend package.
+# Each plugin's frontend/node_modules is a named Docker volume mounted over the
+# workspace bind mount, so packages live on a real Linux filesystem and stay
+# owned by the vscode user.
+echo "Installing plugin frontend dependencies..."
+for package_json in /workspace/plugins/*/frontend/package.json; do
+    [ -f "$package_json" ] || continue
+    frontend_dir=$(dirname "$package_json")
+    plugin_name=$(basename "$(dirname "$frontend_dir")")
+    echo "Installing frontend dependencies for $plugin_name..."
+    cd "$frontend_dir"
+    # The named volume for this node_modules is mounted over the workspace bind
+    # mount and may initially be owned by root. Ensure it is owned by the
+    # container user before npm writes into it.
+    mkdir -p node_modules
+    sudo chown -R "$(id -u):$(id -g)" node_modules
+    # Vite build output lands in a sibling package's static/ directory, which is
+    # on the workspace bind mount and may also be root-owned. Make it writable.
+    find "$(dirname "$frontend_dir")" -maxdepth 2 -type d -name static -not -path "$frontend_dir/*" -exec sudo chown -R "$(id -u):$(id -g)" {} +
+    if [ -f package-lock.json ]; then
+        npm ci
+    else
+        # No lock file yet; create it once and then it can be tracked as the
+        # source of truth for future `npm ci` runs.
+        npm install
+    fi
+    cd - >/dev/null
+done
 
 # Install Playwright browsers and system dependencies for E2E tests.
 # Browsers live in the vscode user cache and are shared across plugin frontends.

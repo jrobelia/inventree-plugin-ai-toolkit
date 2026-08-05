@@ -57,6 +57,13 @@ RUN yarn config set httpTimeout 600000 --home
 # is initialised with writeable permissions.
 RUN mkdir -p /inventree-data && chown -R vscode:vscode /inventree-data
 
-WORKDIR /workspace
+# Plugin frontend node_modules live on named Docker volumes (not the 9p bind mount).
+# Pre-create the mount point directories as the vscode user so the named volumes
+# are initialised with the right ownership, avoiding root-owned EACCES failures.
+RUN mkdir -p /workspace && chown vscode:vscode /workspace
+COPY --chown=vscode:vscode .devcontainer/frontend-node-modules-mounts.txt /tmp/frontend-node-modules-mounts.txt
 USER vscode
+RUN while read -r path; do mkdir -p "$path"; done < /tmp/frontend-node-modules-mounts.txt
+
+WORKDIR /workspace
 CMD ["sleep", "infinity"]

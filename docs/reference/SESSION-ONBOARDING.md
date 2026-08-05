@@ -17,7 +17,7 @@ This document provides the exact, reproducible process for InvenTree plugin deve
 For AI-assisted development, commands can be executed inside the devcontainer from the host using Docker Compose:
 
 ```bash
-docker compose -f .devcontainer/docker-compose.yml exec -u vscode toolkit bash -c "cd /workspace && command"
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "cd /workspace && command"
 ```
 
 If you are using the VS Code-managed container with the older `inventree-plugin-ai-toolkit_devcontainer-toolkit-1` name, the equivalent is:
@@ -53,10 +53,10 @@ In VS Code:
 
 ```bash
 cd inventree-plugin-ai-toolkit
-docker compose -f .devcontainer/docker-compose.yml up -d
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml up -d
 
 # First-time setup only
-docker compose -f .devcontainer/docker-compose.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
 ```
 
 ### Step 2: Start InvenTree Server
