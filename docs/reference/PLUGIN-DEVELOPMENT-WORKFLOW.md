@@ -620,7 +620,8 @@ For `production`, the script asks for typed `yes` confirmation and requires stag
 
 ### Development Phase
 - `create-inventree-plugin` (run from `/workspace/plugins`) - Create skeleton
-- `./test-all.sh` (inside the plugin directory) - Run the deterministic test chain
+- `bash scripts/run-test-all.sh /workspace/plugins/your-plugin-name` (toolkit root or devcontainer) - Run the deterministic test chain; starts the server only if needed
+- `.devin/skills/test-inventree-plugin/SKILL.md` - Agent entry point for running plugin tests
 - `scripts/build-plugin.sh` (inside the devcontainer) - Compile plugin into a `.whl`
 - `scripts/Deploy-Plugin.ps1` (from the Windows host) - Deploy a built `.whl` to staging/production
 

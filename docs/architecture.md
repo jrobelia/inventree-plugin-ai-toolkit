@@ -49,7 +49,8 @@ All scripts assume you run them from the toolkit root.
 
 | Script | Purpose |
 |---|---|
-| `test-all.sh` (per plugin) | Deterministic chain: preflight check → unit → integration → Playwright (run inside the devcontainer) |
+| `run-test-all.sh` (toolkit root) | Discovers or starts the InvenTree server, then runs the plugin's `test-all.sh` in the devcontainer |
+| `test-all.sh` (per plugin) | Deterministic chain called by `run-test-all.sh`: preflight check → unit → integration → Playwright |
 | `New-Plugin.ps1` | Host-only helper that wraps `plugin-creator` (legacy; prefer `create-inventree-plugin` or `python -m plugin_creator.cli` in the devcontainer) |
 | `build-plugin.sh` | Devcontainer build script: bump version, run pre-commit, build frontend, and create the `.whl` package |
 | `Deploy-Plugin.ps1` | Windows host script that calls `build-plugin.sh` if needed and deploys a built `.whl` to a server from `config/servers.json` via SSH/SCP |
@@ -102,11 +103,13 @@ plugins/YourPlugin/
 ```
 1. Edit code in `plugins/YourPlugin/`
 2. Verify locally in the devcontainer:
-   Run `./test-all.sh` in the plugin directory
-     -> preflight check (devcontainer, dataset, plugin link)
-     -> `python -m pytest tests/unit`
-     -> `python -m pytest tests/integration`
-     -> `npm run test:e2e` (Playwright against the devcontainer frontend)
+   Run `bash scripts/run-test-all.sh /workspace/plugins/YourPlugin`
+     -> checks for a healthy InvenTree server and starts one if needed
+     -> runs the plugin's `test-all.sh`:
+        - preflight check (devcontainer, dataset, plugin link)
+        - `python -m pytest tests/unit`
+        - `python -m pytest tests/integration`
+        - `npm run test:e2e` (Playwright against the devcontainer frontend)
 3. Build for remote deployment inside the devcontainer:
    ```bash
    bash scripts/build-plugin.sh /workspace/plugins/YourPlugin

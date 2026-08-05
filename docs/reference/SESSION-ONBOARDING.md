@@ -1,6 +1,6 @@
 # Plugin Development Session Onboarding
 
-**Audience:** Developers | **Category:** Workflow Guide | **Purpose:** Step-by-step plugin development process | **Last Updated:** 2026-08-04
+**Audience:** Developers | **Category:** Workflow Guide | **Purpose:** Step-by-step plugin development process | **Last Updated:** 2026-08-05
 
 ---
 
@@ -154,11 +154,13 @@ npm install
 Run E2E as part of the full deterministic chain:
 
 ```bash
-cd /workspace/plugins/your-plugin-name
-./test-all.sh
+# From the toolkit root, inside or outside the devcontainer
+bash scripts/run-test-all.sh /workspace/plugins/your-plugin-name
 ```
 
-Or run E2E alone in the devcontainer:
+`run-test-all.sh` checks for an existing InvenTree server and reuses it; it only starts a new one if `http://localhost:8001/api/system/health/` is not healthy.
+
+Or run the plugin's `test-all.sh` directly in the devcontainer:
 
 ```bash
 cd /workspace/plugins/your-plugin-name/frontend
@@ -201,10 +203,20 @@ invoke dev.server -a 0.0.0.0:8001
 The devcontainer forwards the InvenTree server to http://localhost:8001 on your host machine.
 
 **All tests (deterministic chain):**
+
+```bash
+# From the toolkit root, inside or outside the devcontainer
+bash scripts/run-test-all.sh /workspace/plugins/your-plugin-name
+```
+
+Or, if you are already in the devcontainer inside the plugin directory:
+
 ```bash
 cd /workspace/plugins/your-plugin-name
 ./test-all.sh
 ```
+
+For AI-assisted runs, see the `.devin/skills/test-inventree-plugin/SKILL.md` skill.
 
 ### Code Quality
 
