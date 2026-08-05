@@ -270,6 +270,6 @@ Once setup is complete:
 
 2. **Use AI-assisted development skills**
    - See `.devin/skills/new-inventree-plugin/` to scaffold a new plugin
-   - See `.agents/skills/improve-inventree-plugin/` to verify changes to an existing plugin
+   - See `.devin/skills/improve-inventree-plugin/` to verify changes to an existing plugin
 
 Happy plugin development!

@@ -615,7 +615,7 @@ For `production`, the script asks for typed `yes` confirmation and requires stag
 
 ### Planning Phase
 - `.devin/skills/new-inventree-plugin/SKILL.md` - New plugin scaffolding workflow
-- `.agents/skills/improve-inventree-plugin/skill.md` - Improve existing plugin workflow
+- `.devin/skills/improve-inventree-plugin/SKILL.md` - Improve existing plugin workflow
 - `docs/reference/SESSION-ONBOARDING.md` - Daily dev/test loop in the devcontainer
 
 ### Development Phase

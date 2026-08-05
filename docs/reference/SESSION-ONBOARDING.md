@@ -419,7 +419,7 @@ The toolkit includes structured development workflows in `.agents/skills/`:
 - Includes verification checklist
 
 **Improving existing plugins:**
-- See `.agents/skills/improve-inventree-plugin/skill.md`
+- See `.devin/skills/improve-inventree-plugin/SKILL.md`
 - Provides change verification loop
 - Ensures proper testing before committing
 

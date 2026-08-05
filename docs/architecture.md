@@ -37,7 +37,7 @@ AI-assisted workflows live in `.devin/skills/` (Devin skills) and `.agents/skill
 - `.devin/skills/deploy-inventree-plugin/` — deploy a built wheel to staging or production
 - `.devin/skills/test-inventree-plugin/` — run the deterministic test chain
 - `.devin/skills/new-inventree-plugin/` — scaffold a new plugin via `plugin-creator`
-- `.agents/skills/improve-inventree-plugin/` — verify a change with the deterministic test command
+- `.devin/skills/improve-inventree-plugin/` — verify a change with the deterministic test command
 - `.agents/skills/setup-matt-pocock-skills/` — configure issue tracker, triage labels, and domain docs
 - `.agents/agent/test-agent.md` — legacy Cascade agent configuration (kept for reference)
 
