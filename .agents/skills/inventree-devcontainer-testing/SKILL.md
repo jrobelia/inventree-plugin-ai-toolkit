@@ -17,6 +17,7 @@ Use this skill when asked to validate the devcontainer setup or run a plugin's `
 - Docker Desktop service may be stopped at session start; start `com.docker.service` before any `docker` commands.
 - Repo is at `C:\Users\Administrator\repos\inventree-plugin-ai-toolkit` (also `/workspace` in the container).
 - Submodules and plugin clones under `plugins/` should already be populated.
+- On Windows, files may be checked out with CRLF. Set `core.autocrlf false` / `core.eol lf` and normalize `*.sh` and plugin `frontend/src/**/*.{ts,tsx}` before running bash scripts.
 
 ## Quick start
 
@@ -30,24 +31,29 @@ Use this skill when asked to validate the devcontainer setup or run a plugin's `
    docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml up -d --build
    ```
 
-3. Run the post-create setup inside the toolkit container:
+3. Normalize line endings (run inside the container after submodules/plugin repos are populated):
+   ```powershell
+   docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "git config --global core.autocrlf false && git config --global core.eol lf && find /workspace -path '*/.git' -prune -o -path '*/node_modules' -prune -o -name '*.sh' -print0 | xargs -0 -r sed -i 's/\\r$//' && find /workspace/plugins -path '*/node_modules' -prune -o -path '*/frontend/src*' -name '*.ts' -print0 | xargs -0 -r sed -i 's/\\r$//' && find /workspace/plugins -path '*/node_modules' -prune -o -path '*/frontend/src*' -name '*.tsx' -print0 | xargs -0 -r sed -i 's/\\r$//'"
+   ```
+
+4. Run the post-create setup inside the toolkit container:
    ```powershell
    docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "cd /workspace && bash .devcontainer/postCreateCommand.sh"
    ```
 
-4. Start the InvenTree dev server in the background:
+5. Start the InvenTree dev server in the background:
    ```powershell
    docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "cd /workspace/reference/inventree-source && nohup invoke dev.server -a 0.0.0.0:8001 > /tmp/inventree-server.log 2>&1 &"
    ```
 
-5. Wait for health:
+6. Wait for health:
    ```powershell
    docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "for i in {1..60}; do curl -s -o /dev/null -w '%{http_code}' http://localhost:8001/api/system/health/ | grep -q 200 && break; sleep 2; done"
    ```
 
-6. Run the full test suite for the flat-bom plugin:
+7. Run the full test suite for the flat-bom plugin:
    ```powershell
-   docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "cd /workspace/plugins/inventree-flat-bom-generator && bash test-all.sh"
+   docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode toolkit bash -c "cd /workspace && bash scripts/run-test-all.sh plugins/inventree-flat-bom-generator"
    ```
 
 ## Common blockers and workarounds
