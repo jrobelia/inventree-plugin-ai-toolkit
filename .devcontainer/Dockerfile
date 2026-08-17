@@ -3,7 +3,8 @@
 # In contrast with the "production" image (which is based on an Alpine image)
 # we use a Debian-based image for the devcontainer
 
-FROM mcr.microsoft.com/devcontainers/python:3.11-bookworm@sha256:e754c29c4e3ffcf6c794c1020e36a0812341d88ec9569a34704b975fa89e8848
+ARG PYTHON_VERSION=3.12
+FROM mcr.microsoft.com/devcontainers/python:${PYTHON_VERSION}-bookworm
 
 # Toolkit workspace
 ENV WORKSPACE="/workspace"
@@ -32,7 +33,6 @@ ENV LIBGL_ALWAYS_INDIRECT=1
 
 # Install required base packages
 RUN apt update && apt install -y \
-   python3.11-dev python3.11-venv \
    postgresql-client \
    libldap2-dev libsasl2-dev \
    libpango1.0-0 libcairo2 \

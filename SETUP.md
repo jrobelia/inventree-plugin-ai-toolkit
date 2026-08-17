@@ -50,7 +50,7 @@ In VS Code:
 3. Wait for the container to build (first build takes 5-10 minutes)
 
 The devcontainer automatically:
-- Installs Python 3.11, Node.js, and required dependencies
+- Installs Python 3.12, Node.js, and required dependencies
 - Sets up InvenTree development environment
 - Configures PostgreSQL and Redis databases
 - Installs plugin frontend dependencies
