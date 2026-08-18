@@ -15,14 +15,13 @@ INVENTREE_STATIC_ROOT="${INVENTREE_STATIC_ROOT:-$INVENTREE_DATA_DIR/static}"
 INVENTREE_MEDIA_ROOT="${INVENTREE_MEDIA_ROOT:-$INVENTREE_DATA_DIR/media}"
 INVENTREE_BACKUP_DIR="${INVENTREE_BACKUP_DIR:-$INVENTREE_DATA_DIR/backup}"
 
+# Remove any pre-existing gitconfig first; otherwise the safe.directory entries
+# we add below would be written to a file that is immediately deleted.
+rm -f /home/vscode/.gitconfig
+
 # Avoiding Dubious Ownership in Dev Containers for setup commands that use git
 git config --global --add safe.directory /workspace
 git config --global --add safe.directory /workspace/reference/inventree-source
-
-# Remove existing gitconfig created by "Avoiding Dubious Ownership" step
-# so that it gets copied from host to the container to have your global
-# git config in container
-rm -f /home/vscode/.gitconfig
 
 # Create required directory structure under the data volume (not the bind mount).
 mkdir -p "$INVENTREE_DATA_DIR" "$INVENTREE_STATIC_ROOT" "$INVENTREE_MEDIA_ROOT" "$INVENTREE_BACKUP_DIR"
@@ -42,18 +41,33 @@ python3 -m venv "$INVENTREE_PY_ENV"
 # Activate the new venv
 . "$INVENTREE_PY_ENV/bin/activate"
 
+# Retry transient PyPI failures (e.g. 502 from files.pythonhosted.org).
+pip_install_with_retry() {
+  local attempts=3
+  local delay=5
+  for i in $(seq 1 $attempts); do
+    if python -m pip install "$@"; then
+      return 0
+    fi
+    echo "pip install failed (attempt $i/$attempts), retrying in ${delay}s..." >&2
+    sleep $delay
+  done
+  echo "pip install failed after $attempts attempts" >&2
+  return 1
+}
+
 # Upgrade the venv's core packaging tools explicitly before installing anything else.
-python -m pip install --upgrade pip setuptools wheel
+pip_install_with_retry --upgrade pip setuptools wheel
 
 # Ensure the correct invoke is available for the InvenTree task runner.
-python -m pip install invoke Pillow
+pip_install_with_retry invoke Pillow
 
 # Install lint/test tooling needed by the plugin test-all.sh scripts.
-python -m pip install ruff
+pip_install_with_retry ruff
 
 # Install base level packages from InvenTree reference.
 cd "$INVENTREE_HOME"
-python -m pip install -Ur contrib/container/requirements.txt --require-hashes
+pip_install_with_retry -Ur contrib/container/requirements.txt --require-hashes
 
 # Run initial InvenTree server setup (migrations, static files, etc.).
 invoke update -s
