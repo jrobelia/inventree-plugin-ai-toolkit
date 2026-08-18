@@ -112,6 +112,29 @@ Open `http://localhost:8001` and capture a screenshot. Expected result: the Inve
 
 ---
 
+## Windows host / PYTHON_VERSION override notes
+
+When testing a Python version bump, derive `PYTHON_VERSION` from the InvenTree submodule and export it before building:
+
+```powershell
+$env:PYTHON_VERSION = (python scripts/derive-python-version.py)
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml down -v
+docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml up -d --build
+```
+
+- To force the image to rebuild with the resolved `PYTHON_VERSION` (proving the build arg reached the base image), build the toolkit service directly:
+  ```powershell
+  docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml build --no-cache toolkit
+  ```
+- `postCreateCommand.sh` downloads packages from PyPI. On flaky networks it can fail with `ResponseError('too many 502 error responses')`. Re-run it with extra pip retries:
+  ```powershell
+  docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.frontend-volumes.yml exec -u vscode -d toolkit bash -c 'export PIP_RETRIES=10; export PIP_TIMEOUT=120; cd /workspace && bash .devcontainer/postCreateCommand.sh > /tmp/postCreateCommand.log 2>&1; echo $? > /tmp/postCreateCommand.exit'
+  ```
+- On Windows, `curl.exe` may not be available or may not return the health endpoint reliably. Use the Python one-liner from the host:
+  ```powershell
+  python -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:8001/api/system/health/').read().decode())"
+  ```
+
 ## Devin Secrets Needed
 
 None for local devcontainer verification. A `GITHUB_TOKEN` is required only if the test also interacts with the GitHub PR or issues.
