@@ -29,7 +29,7 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        PYTHON_VERSION: "3.12"
+        PYTHON_VERSION: "${PYTHON_VERSION:-3.12}"
     volumes:
       - ../:/workspace:z
       - inventree-data:/inventree-data
